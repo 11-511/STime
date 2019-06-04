@@ -21,7 +21,7 @@ public class STimePicture extends BmobObject {
     private STimeUser pictureAuthor;
     private BmobDate pictureUploadDate;
     private Integer pictureAmountOfFavor;
-    private List<String> pictureType;
+    private List<Integer> pictureType;
     private BmobFile pictureContent;
 
 
@@ -66,11 +66,11 @@ public class STimePicture extends BmobObject {
         this.pictureAmountOfFavor = pictureAmountOfFavor;
     }
 
-    public List<String> getPictureType() {
+    public List<Integer> getPictureType() {
         return pictureType;
     }
 
-    public void setPictureType(List<String> pictureType) {
+    public void setPictureType(List<Integer> pictureType) {
         this.pictureType = pictureType;
     }
 

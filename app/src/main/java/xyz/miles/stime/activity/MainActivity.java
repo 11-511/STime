@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
+import cn.bmob.v3.Bmob;
 import xyz.miles.stime.R;
 
 public class MainActivity extends AppCompatActivity

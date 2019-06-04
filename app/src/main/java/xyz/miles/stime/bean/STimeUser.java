@@ -21,15 +21,6 @@ public class STimeUser extends BmobUser {
     private String userIntro;
     private STimePicture userPortrait;
     private BmobRelation favoriteUser;
-    private STimeFavoritePicture favoritePicture;
-
-    public STimeFavoritePicture getFavoritePicture() {
-        return favoritePicture;
-    }
-
-    public void setFavoritePicture(STimeFavoritePicture favoritePicture) {
-        this.favoritePicture = favoritePicture;
-    }
 
     public BmobRelation getFavoriteUser() {
         return favoriteUser;
