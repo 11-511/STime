@@ -15,14 +15,14 @@
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:title="@string/menu_favorite" />
         <item
             android:id="@+id/nav_tools"
             android:icon="@drawable/ic_menu_manage"
-            android:title="@string/menu_tools" />
+            android:title="@string/menu_subscribe" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="账户">
         <menu>
             <item
                 android:id="@+id/nav_share"
