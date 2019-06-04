@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
+import cn.bmob.v3.Bmob;
 import xyz.miles.stime.R;
 
 public class MainActivity extends AppCompatActivity
@@ -86,15 +87,15 @@ public class MainActivity extends AppCompatActivity
 		
 		if (id == R.id.nav_home) {
 			// Handle the camera action
-		} else if (id == R.id.nav_gallery) {
+		} else if (id == R.id.nav_my_image) {
 		
-		} else if (id == R.id.nav_slideshow) {
+		} else if (id == R.id.nav_collections) {
 		
-		} else if (id == R.id.nav_tools) {
+		} else if (id == R.id.nav_subscribe) {
 		
-		} else if (id == R.id.nav_share) {
+		} else if (id == R.id.nav_logout) {
 		
-		} else if (id == R.id.nav_send) {
+		} else if (id == R.id.nav_exit) {
 		
 		}
 		

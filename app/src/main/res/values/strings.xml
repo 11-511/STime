@@ -2,8 +2,8 @@
     <string name="app_name">STime</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">用户名</string>
+    <string name="nav_header_subtitle">用户签名</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
@@ -11,6 +11,7 @@
     <string name="menu_gallery">我的作品</string>
     <string name="menu_favorite">收藏夹</string>
     <string name="menu_subscribe">我的关注</string>
-    <string name="menu_share">注销</string>
-    <string name="menu_send">退出</string>
+    <string name="menu_my_info">我的账户</string>
+    <string name="menu_logout">注销</string>
+    <string name="menu_exit">退出</string>
 </resources>
