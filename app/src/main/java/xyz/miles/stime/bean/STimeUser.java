@@ -2,6 +2,7 @@ package xyz.miles.stime.bean;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobDate;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobRelation;
 
 
@@ -19,7 +20,7 @@ public class STimeUser extends BmobUser {
     private Boolean userGender;
     private BmobDate userBirthday;
     private String userIntro;
-    private STimePicture userPortrait;
+    private BmobFile userPortrait;
     private BmobRelation favoriteUser;
 
     public BmobRelation getFavoriteUser() {
@@ -30,11 +31,11 @@ public class STimeUser extends BmobUser {
         this.favoriteUser = favoriteUser;
     }
 
-    public STimePicture getUserPortrait() {
+    public BmobFile getUserPortrait() {
         return userPortrait;
     }
 
-    public void setUserPortrait(STimePicture userPortrait) {
+    public void setUserPortrait(BmobFile userPortrait) {
         this.userPortrait = userPortrait;
     }
 

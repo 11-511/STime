@@ -1,5 +1,20 @@
 package xyz.miles.stime.util;
 
+
+/*
+*
+* 图片类型的常量类，
+* 0->家具 1->旅行
+* 2->阅读 3->生活
+* 4->艺术 5->美人
+* 6->车 7->卡通
+* 8->时尚 9->美食
+* 10->宠物
+* 11->影视
+*
+* @author Miles Tong
+* @date 2019-6-5
+* */
 public final class   PictureType {
     public final static Integer FURNITURE=0;
     public final static Integer TRAVEL=1;
