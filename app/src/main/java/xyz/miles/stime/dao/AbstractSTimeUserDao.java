@@ -18,15 +18,18 @@ public abstract class AbstractSTimeUserDao implements UserDao {
 
 
     /*
+     *当注册提交后，完成注册（无论是否成功注册）后会回调这个方法
      *
-     * @param savedUser
+     * @param savedUser 登陆的用户的User对象，其中包含用户的各种信息
+     * @param e 当用户不正常注册时会返回异常，其中包括异常码与异常信息，如果注册正常则为null
      * @author Miles Tong
      * @date 2019-6-5
      * @version V1.0
      * */
     protected abstract void signUpDone(STimeUser savedUser, BmobException e);
-
     protected abstract void loginDone(STimeUser savedUser, BmobException e);
+
+
 
     @Override
     public void signUp(String username,
@@ -69,4 +72,6 @@ public abstract class AbstractSTimeUserDao implements UserDao {
             }
         });
     }
+
+
 }
