@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp">
             <TextView
-                android:text="🍻"
+                android:text="🐴"
                 android:textSize="60dp"
                 android:textColor="@color/colorPrimary"
                 android:gravity="center"
@@ -20,7 +20,7 @@
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="60dp"
             android:layout_marginTop="48dp">
             <ImageView
                 android:layout_width="32dp"
@@ -29,22 +29,22 @@
                 android:layout_alignParentBottom="true"
                 android:src="@drawable/ic_person_outline_black_24dp" />
             <EditText
-                android:id="@+id/et_account_o"
+                android:id="@+id/et_account_su"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:layout_alignParentBottom="true"
-                android:gravity="center"
                 android:inputType="text"
                 android:textSize="15dp"
-                android:hint="Email/Account"
+                android:hint="账号"
                 android:layout_marginStart="48dp"
                 android:layout_marginEnd="48dp"
                 android:maxLines="1"/>
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="60dp"
             android:layout_marginTop="16dp"
             >
             <ImageView
@@ -54,22 +54,21 @@
                 android:layout_alignParentBottom="true"
                 android:src="@drawable/ic_lock_outline_black_24dp" />
             <EditText
-                android:id="@+id/et_pwd_o"
+                android:id="@+id/et_pwd_su"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:layout_alignParentBottom="true"
                 android:inputType="textPassword"
                 android:textSize="15dp"
-                android:hint="Password"
+                android:hint="密码"
                 android:layout_marginStart="48dp"
                 android:layout_marginEnd="48dp"
                 android:maxLines="1"/>
-            />
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="60dp"
             android:layout_marginTop="16dp"
             >
             <ImageView
@@ -79,18 +78,97 @@
                 android:layout_alignParentBottom="true"
                 android:src="@drawable/ic_lock_outline_black_24dp" />
             <EditText
-                android:id="@+id/et_pwd_s"
+                android:id="@+id/et_pwd_su_s"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:layout_alignParentBottom="true"
                 android:inputType="textPassword"
                 android:textSize="15dp"
-                android:hint="Reconfirm Password"
+                android:hint="确认密码"
                 android:layout_marginStart="48dp"
                 android:layout_marginEnd="48dp"
-                android:maxLines="1"/>
+                android:maxLines="1"/>m
         </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        >
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="4dp"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/ic_email_black_24dp" />
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_alignParentBottom="true"
+            android:textSize="15dp"
+            android:hint="电子邮箱"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
+            android:maxLines="1"/>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        >
+        <TextView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="4dp"
+            android:layout_alignParentBottom="true"
+            android:text="♂♀"
+            android:textStyle="bold"
+            android:textSize="24dp"
+             />
+
+            <RadioGroup
+                android:id="@+id/rg_gender"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <RadioButton
+                    android:id="@+id/rb_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="32dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="64dp"
+                    android:text="男"
+                    />
+                <RadioButton
+                    android:id="@+id/rb_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="32dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="48dp"
+                    android:text="女"
+                    />
+            </RadioGroup>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        >
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="4dp"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/ic_date_24dp" />
+        <include
+            layout="@layout/date_get"/>
+    </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="80dp">
@@ -98,12 +176,11 @@
                 android:id="@+id/bt_sign_up"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sign up"
+                android:text="注册"
                 android:textColor="@android:color/white"
                 android:background="@color/colorPrimary"
                 android:layout_marginTop="32dp"
                 android:layout_alignParentTop="true"
                 />
-
         </RelativeLayout>
     </LinearLayout>

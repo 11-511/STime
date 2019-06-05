@@ -1,11 +1,17 @@
 package xyz.miles.stime.activity;
 
+import android.app.DatePickerDialog;
+import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,65 +32,29 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         Bmob.initialize(this, "782ebc87bf1c101e8c607d7e6bf17a31");
-
-        EditText editText_name = findViewById(R.id.et_account_o);
-        EditText editText_pwd = findViewById(R.id.et_pwd_o);
-        EditText editText_nick = findViewById(R.id.et_pwd_s);
-
-        final String name = editText_name.getText().toString();
-        final String pwd = editText_pwd.getText().toString();
-        final String nick = editText_nick.getText().toString();
-
+        
+        //页面组件
+		EditText editTextAcc=findViewById(R.id.et_account_su);//账号
+		EditText editTextPwd=findViewById(R.id.et_pwd_su);//密码
+		EditText editTextPwds=findViewById(R.id.et_pwd_su_s);//确认密码
+		EditText editTextEmail=findViewById(R.id.et_email);//电子邮箱
+		/*RadioButton radioButtonMale=findViewById(R.id.rb_male);
+		RadioButton radioButtonFemale=findViewById(R.id.rb_male);*/
+		RadioGroup radioGroup=findViewById(R.id.rg_gender);//性别
+		EditText editTextYear=findViewById(R.id.et_birth_year);//年
+		EditText editText=findViewById(R.id.et_birth_month);//月
+		EditText editText1=findViewById(R.id.et_birth_day);//日
+        
+		
+		
+        
+		
         Button bt = findViewById(R.id.bt_sign_up);
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//				STimeUser user=new STimeUser();
-//				user.setNickname("2");
-//				user.setUsername("2");
-//				user.setPassword("2");
-//				user.signUp(new SaveListener<STimeUser>() {
-//
-//					@Override
-//					public void done(STimeUser o, BmobException e) {
-//						if (e == null) {
-//							Toast.makeText(SignUpActivity.this,"注册成功",Toast.LENGTH_LONG);
-//						} else {
-//							Toast.makeText(SignUpActivity.this,"注册失败",Toast.LENGTH_LONG);
-//						}
-//					}
-//				});
-
-//				STimeComment comment=new STimeComment();
-//				comment.setCommentContent("asfsaf");
-//				comment.save(new SaveListener<String>() {
-//					@Override
-//					public void done(String objectId,BmobException e) {
-//						if(e==null){
-//							Toast.makeText(SignUpActivity.this,"注册成功",Toast.LENGTH_LONG).show();
-//						}else{
-//							Toast.makeText(SignUpActivity.this,"注册失败",Toast.LENGTH_LONG).show();
-//						}
-//					}
-//				});
-
-
-                STimePicture user = new STimePicture();
-                user.setPictureTitle("title");
-                user.setPictureBrief("brief");
-                user.save(new SaveListener<String>() {
-
-                    @Override
-					public void done(String objectId,BmobException e) {
-						if(e==null){
-							Toast.makeText(SignUpActivity.this,"注册成功",Toast.LENGTH_LONG).show();
-						}else{
-							Toast.makeText(SignUpActivity.this,"注册失败",Toast.LENGTH_LONG).show();
-						}
-					}
-                });
-
-            }
+            
+			}
         });
 
     }
