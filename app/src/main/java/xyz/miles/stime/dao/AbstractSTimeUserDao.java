@@ -33,6 +33,19 @@ public abstract class AbstractSTimeUserDao implements UserDao {
     protected abstract void updateDone(BmobException e);
 
 
+    /*
+    * 该字段用于保存当前登陆用户的对象，便于之后使用
+    * 由于该字段为类拥有，所以在注销用户时一定要将其设置为null
+    * */
+    private static STimeUser userHolder=null;
+
+    public static STimeUser getUserHolder() {
+        return userHolder;
+    }
+
+    public static void setUserHolder(STimeUser userHolder) {
+        AbstractSTimeUserDao.userHolder = userHolder;
+    }
 
     @Override
     public void signUp(STimeUser signUpUser) {
