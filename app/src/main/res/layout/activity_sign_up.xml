@@ -9,10 +9,10 @@
         tools:context=".activity.SignUpActivity">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="50dp">
             <TextView
                 android:text="🐴"
-                android:textSize="60dp"
+                android:textSize="40dp"
                 android:textColor="@color/colorPrimary"
                 android:gravity="center"
                 android:layout_width="match_parent"
@@ -21,7 +21,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="48dp">
+            android:layout_marginTop="32dp">
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
@@ -165,7 +165,7 @@
             android:layout_height="32dp"
             android:layout_marginBottom="4dp"
             android:layout_alignParentBottom="true"
-            android:src="@drawable/ic_date_24dp" />
+            android:src="@drawable/ic_cake_black_24dp" />
         <include
             layout="@layout/date_get"/>
     </RelativeLayout>
