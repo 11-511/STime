@@ -1,6 +1,7 @@
 package xyz.miles.stime.activity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -44,16 +45,19 @@ public class SignUpActivity extends AppCompatActivity {
 		EditText editTextYear=findViewById(R.id.et_birth_year);//年
 		EditText editText=findViewById(R.id.et_birth_month);//月
 		EditText editText1=findViewById(R.id.et_birth_day);//日
-        
+		Button buttonSignup = findViewById(R.id.bt_sign_up);
 		
-		
-        
-		
-        Button bt = findViewById(R.id.bt_sign_up);
-        bt.setOnClickListener(new View.OnClickListener() {
+		//注册：
+        buttonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            
+            //注册操作：
+				
+				
+				
+            //成功跳转
+				Intent intent=new Intent(SignUpActivity.this,LoginActivity.class);
+				startActivity(intent);
 			}
         });
 

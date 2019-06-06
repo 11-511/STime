@@ -70,12 +70,11 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:id="@+id/Iv_pwd_switch"
+            android:id="@+id/iv_pwd_switch"
             android:layout_marginBottom="6dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:src="@drawable/ic_visibility_off_black_24dp"
-
             />
     </RelativeLayout>
     <RelativeLayout
