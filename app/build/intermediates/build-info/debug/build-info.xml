@@ -5,31 +5,23 @@
     build-mode="COLD"
     density="420dpi"
     format="10"
-    ir-eligibility="COMPATIBLE"
     plugin-version="3.4.1"
-    timestamp="1559876713913"
+    timestamp="1559884598778"
     token="-7792679403142102021"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="1391" />
+        duration="0" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="45" />
+        duration="0" />
     <task
         name="verifier"
-        duration="17" />
-
-    <artifact
-        location="D:\code\Android_Code\course_design\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
-        type="SPLIT" />
-    <artifact
-        location="D:\code\Android_Code\course_design\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
-        type="SPLIT" />
+        duration="0" />
 
     <build
         build-mode="FULL"
@@ -79,14 +71,24 @@
     <build
         build-mode="COLD"
         ir-eligibility="COMPATIBLE"
-        timestamp="1559876713913"
+        timestamp="1559883780704"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="D:\code\Android_Code\course_design\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
             type="SPLIT" />
+    </build>
+    <build
+        build-mode="COLD"
+        ir-eligibility="COMPATIBLE"
+        timestamp="1559884516209"
+        verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="D:\code\Android_Code\course_design\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
             type="SPLIT" />
     </build>
+    <build
+        build-mode="COLD"
+        timestamp="1559884598778"
+        verifier="COLD_SWAP_REQUESTED" />
 
 </instant-run>

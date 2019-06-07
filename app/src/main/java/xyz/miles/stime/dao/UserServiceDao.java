@@ -24,7 +24,12 @@ public class UserServiceDao extends AbstractSTimeUserDao {
 
     @Override
     protected void loginDone(STimeUser savedUser, BmobException e) {
-
+        if (e != null) {
+            Log.d("sign in error:", e.toString());
+        }
+        else {
+            Log.d("sign in success:", "Hello " + savedUser.getUsername());
+        }
     }
 
     @Override

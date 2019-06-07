@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,20 +16,27 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import cn.bmob.v3.Bmob;
 import xyz.miles.stime.R;
+import xyz.miles.stime.dao.UserDao;
+import xyz.miles.stime.dao.UserServiceDao;
+import xyz.miles.stime.util.DaoHolder;
 
 public class LoginActivity extends AppCompatActivity {
 	
 	private Boolean bPwdSwitch=false;
+	private EditText editTextAcc;
+	private EditText editTextPwd;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		Bmob.initialize(this, "782ebc87bf1c101e8c607d7e6bf17a31");
 		
 		//页面组件
-		final EditText editTextAcc=findViewById(R.id.et_account);
-		final EditText editTextPwd=findViewById(R.id.et_pwd);
+		editTextAcc=findViewById(R.id.et_account);
+		editTextPwd=findViewById(R.id.et_pwd);
 		Button buttonLogin=findViewById(R.id.bt_login);
 		final CheckBox checkBoxRemPwd=findViewById(R.id.cb_remember_pwd);
 		TextView textViewSignUp=findViewById(R.id.tv_sign_up);
@@ -108,10 +116,9 @@ public class LoginActivity extends AppCompatActivity {
 				}
 				
 				//登录操作：
-				
-				
-				
-				
+				DaoHolder.setUserDao(new UserServiceDao());
+				UserDao userDao = DaoHolder.getUserDao();
+				userDao.signIn(editTextAcc.getText().toString(), editTextPwd.getText().toString());
 			}
 		});
 		

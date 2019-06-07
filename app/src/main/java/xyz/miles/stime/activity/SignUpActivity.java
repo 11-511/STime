@@ -39,8 +39,6 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
-        Bmob.initialize(this, "782ebc87bf1c101e8c607d7e6bf17a31");
         
         //页面组件
 		final EditText editTextAcc=findViewById(R.id.et_account_su);//账号
@@ -87,7 +85,7 @@ public class SignUpActivity extends AppCompatActivity {
                     UserDao userDao = DaoHolder.getUserDao();
                     userDao.signUp(user);
 
-					//成功跳转
+					// 成功跳转--待处理
 					Intent intent=new Intent(SignUpActivity.this,LoginActivity.class);
 					startActivity(intent);
 				}
