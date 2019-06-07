@@ -17,7 +17,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import java.util.List;
+
+import java.util.Calendar;
+
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.datatype.BmobDate;
@@ -34,6 +38,9 @@ import xyz.miles.stime.util.DaoHolder;
 
 public class SignUpActivity extends AppCompatActivity {
 
+	private int year;
+	private int month;
+	private int day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +54,38 @@ public class SignUpActivity extends AppCompatActivity {
 		final EditText editTextEmail=findViewById(R.id.et_email);//电子邮箱
 		/*RadioButton radioButtonMale=findViewById(R.id.rb_male);
 		RadioButton radioButtonFemale=findViewById(R.id.rb_male);*/
+
 		final RadioGroup radioGroup=findViewById(R.id.rg_gender);//性别
-		final EditText editTextYear=findViewById(R.id.et_birth_year);//年
-		final EditText editText=findViewById(R.id.et_birth_month);//月
-		final EditText editText1=findViewById(R.id.et_birth_day);//日
+		final TextView textViewDate=findViewById(R.id.tv_date);
+
 		Button buttonSignup = findViewById(R.id.bt_sign_up);
+		Button buttonChooseDate=findViewById(R.id.bt_choose_date);//日期选择
+	
+
+		//日期选择
+		Calendar calendar=Calendar.getInstance();
+		year=calendar.get(Calendar.YEAR);
+		month=calendar.get(Calendar.MONTH);
+		day=calendar.get(Calendar.DAY_OF_MONTH);
+		textViewDate.setText(String.format("%d 年%d 月%d 日",year,month,day));
 		
+		buttonChooseDate.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				
+				DatePickerDialog datePickerDialog=new DatePickerDialog(SignUpActivity.this, new DatePickerDialog.OnDateSetListener() {
+					@Override
+					public void onDateSet(DatePicker view, int dYear, int dMonth, int dDayOfMonth) {
+						year=dYear;
+						month=dMonth;
+						day=dDayOfMonth;
+						textViewDate.setText(String.format("%d 年%d 月%d 日",year,month,day));
+					}
+				},year,month,day);
+				datePickerDialog.show();
+			}
+		});
+
 		//注册：
         buttonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,14 +103,15 @@ public class SignUpActivity extends AppCompatActivity {
 
 					RadioButton sexChecked = findViewById(radioGroup.getCheckedRadioButtonId());
 					boolean sex = sexChecked.getText().toString().equals("男") ? true : false;
-
 					user.setUserGender(sex);
-					String birthday = editTextYear.getText().toString() + "-"
-							+ editText.getText().toString() + "-"
-							+ editText1.getText().toString();
+
+					String birthday = String.valueOf(year);
+					String monthstr = month < 10 ? "0" + String.valueOf(month) : String.valueOf(month);
+					String daystr = day < 10 ? "0" + String.valueOf(day) : String.valueOf(day);
+					birthday += "-" + monthstr + "-" + daystr;
 					Log.d("birthday", birthday);
 
-					BmobDate bmobBirthDay = BmobDate.createBmobDate("yyyy-mm-dd", birthday);
+					BmobDate bmobBirthDay = BmobDate.createBmobDate("yyyy-MM-dd", birthday);
 					user.setUserBirthday(bmobBirthDay);
 
 					// 提交信息

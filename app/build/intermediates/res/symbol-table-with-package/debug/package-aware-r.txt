@@ -1119,6 +1119,7 @@ id bmob_update_id_ok
 id bmob_update_wifi_indicator
 id bottom
 id bt
+id bt_choose_date
 id bt_login
 id bt_sign_up
 id buttonPanel
@@ -1160,9 +1161,6 @@ id et_
 id et__
 id et_account
 id et_account_su
-id et_birth_day
-id et_birth_month
-id et_birth_year
 id et_email
 id et_pwd
 id et_pwd_su
@@ -1308,6 +1306,7 @@ id transition_layout_save
 id transition_position
 id transition_scene_layoutid_cache
 id transition_transform
+id tv_date
 id tv_sign_up
 id tv_user_intro
 id tv_user_nickname
