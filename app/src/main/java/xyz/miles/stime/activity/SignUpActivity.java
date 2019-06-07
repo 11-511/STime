@@ -28,6 +28,9 @@ import xyz.miles.stime.bean.STimeComment;
 import xyz.miles.stime.bean.STimePicture;
 import xyz.miles.stime.bean.STimeUser;
 import xyz.miles.stime.dao.AbstractSTimeUserDao;
+import xyz.miles.stime.dao.UserDao;
+import xyz.miles.stime.dao.UserServiceDao;
+import xyz.miles.stime.util.DaoHolder;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -59,30 +62,39 @@ public class SignUpActivity extends AppCompatActivity {
             //注册操作：
 				String pwd = editTextPwd.getText().toString();
 				String pwdSure = editTextPwds.getText().toString();
+				// 检测密码是否一致
 				if (pwd.equals(pwdSure)) {
+				    // 设置信息
 					STimeUser user = new STimeUser();
 					user.setUsername(editTextAcc.getText().toString());
 					user.setPassword(pwd);
 					user.setEmail(editTextEmail.getText().toString());
 
 					RadioButton sexChecked = findViewById(radioGroup.getCheckedRadioButtonId());
-					user.setUserGender(sexChecked.getText().toString().equals("男") ? true : false);
+					boolean sex = sexChecked.getText().toString().equals("男") ? true : false;
+
+					user.setUserGender(sex);
 					String birthday = editTextYear.getText().toString() + "-"
 							+ editText.getText().toString() + "-"
 							+ editText1.getText().toString();
-					Log.d(birthday, birthday);
+					Log.d("birthday", birthday);
 
 					BmobDate bmobBirthDay = BmobDate.createBmobDate("yyyy-mm-dd", birthday);
 					user.setUserBirthday(bmobBirthDay);
+
+					// 提交信息
+                    DaoHolder.setUserDao(new UserServiceDao());
+                    UserDao userDao = DaoHolder.getUserDao();
+                    userDao.signUp(user);
+
+					//成功跳转
+					Intent intent=new Intent(SignUpActivity.this,LoginActivity.class);
+					startActivity(intent);
 				}
 				else {
 					Toast.makeText(getApplicationContext(), "两次输入的密码不一致",
 							Toast.LENGTH_SHORT).show();
 				}
-				
-            //成功跳转
-				Intent intent=new Intent(SignUpActivity.this,LoginActivity.class);
-				startActivity(intent);
 			}
         });
 
