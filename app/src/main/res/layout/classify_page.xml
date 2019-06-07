@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:background="@android:color/white">
+        <LinearLayout
+            android:id="@+id/ll_tag_new"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_tag_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:text="最新⚡"/>
+        </LinearLayout>
+        <View
+            android:layout_width="1px"
+            android:layout_height="fill_parent"
+            android:background="@android:color/darker_gray"/>
+        <LinearLayout
+            android:id="@+id/ll_tag_hot"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_tag_hot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:text="最热🔥"/>
+        </LinearLayout>
+        <View
+            android:layout_width="1px"
+            android:layout_height="fill_parent"
+            android:background="@android:color/darker_gray"/>
+        <LinearLayout
+            android:id="@+id/ll_tag_classify"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_tag_classify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:text="分类🏷"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

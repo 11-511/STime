@@ -1,5 +1,6 @@
 package xyz.miles.stime.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import cn.bmob.v3.Bmob;
 import xyz.miles.stime.R;
@@ -27,7 +30,7 @@ public class MainActivity extends AppCompatActivity
 
 		Bmob.initialize(this, "782ebc87bf1c101e8c607d7e6bf17a31");
 
-
+		//界面初始化
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
@@ -38,6 +41,56 @@ public class MainActivity extends AppCompatActivity
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
 		navigationView.setNavigationItemSelectedListener(this);
+		//页面组件
+		//分类页：
+		LinearLayout layoutNew=findViewById(R.id.ll_tag_new);
+		LinearLayout layoutHot=findViewById(R.id.ll_tag_hot);
+		LinearLayout layoutClassify=findViewById(R.id.ll_tag_classify);
+		final TextView textViewTagNew=findViewById(R.id.tv_tag_new);
+		final TextView textViewTagHot=findViewById(R.id.tv_tag_hot);
+		final TextView textViewTagClassify=findViewById(R.id.tv_tag_classify);
+		
+		
+		
+		//分类页跳转
+		//最新
+		layoutNew.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//选中变色
+				textViewTagNew.setTextColor(getResources().getColor(R.color.colorPrimary));
+				textViewTagHot.setTextColor(getResources().getColor(R.color.colorBlack));
+				textViewTagClassify.setTextColor(getResources().getColor(R.color.colorBlack));
+				
+			}
+		});
+		//最热
+		layoutHot.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//选中变色
+				textViewTagNew.setTextColor(getResources().getColor(R.color.colorBlack));
+				textViewTagHot.setTextColor(getResources().getColor(R.color.colorPrimary));
+				textViewTagClassify.setTextColor(getResources().getColor(R.color.colorBlack));
+			
+			}
+		});
+		//分类
+		layoutClassify.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//选中变色
+				textViewTagNew.setTextColor(getResources().getColor(R.color.colorBlack));
+				textViewTagHot.setTextColor(getResources().getColor(R.color.colorBlack));
+				textViewTagClassify.setTextColor(getResources().getColor(R.color.colorPrimary));
+				
+				
+			}
+			
+		});
+		
+		
+		
 	}
 
 	@Override
