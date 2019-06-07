@@ -16,6 +16,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
@@ -26,6 +28,9 @@ import xyz.miles.stime.bean.STimeUser;
 
 public class SignUpActivity extends AppCompatActivity {
 
+	private int year;
+	private int month;
+	private int day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +47,40 @@ public class SignUpActivity extends AppCompatActivity {
 		/*RadioButton radioButtonMale=findViewById(R.id.rb_male);
 		RadioButton radioButtonFemale=findViewById(R.id.rb_male);*/
 		RadioGroup radioGroup=findViewById(R.id.rg_gender);//性别
-		EditText editTextYear=findViewById(R.id.et_birth_year);//年
-		EditText editText=findViewById(R.id.et_birth_month);//月
-		EditText editText1=findViewById(R.id.et_birth_day);//日
+		final TextView textViewDate=findViewById(R.id.tv_date);
 		Button buttonSignup = findViewById(R.id.bt_sign_up);
+		Button buttonChooseDate=findViewById(R.id.bt_choose_date);//日期选择
+	
+
+		//日期选择
+		Calendar calendar=Calendar.getInstance();
+		year=calendar.get(Calendar.YEAR);
+		month=calendar.get(Calendar.MONTH);
+		day=calendar.get(Calendar.DAY_OF_MONTH);
+		textViewDate.setText(String.format("%d 年%d 月%d 日",year,month,day));
+		
+		buttonChooseDate.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				
+				DatePickerDialog datePickerDialog=new DatePickerDialog(SignUpActivity.this, new DatePickerDialog.OnDateSetListener() {
+					@Override
+					public void onDateSet(DatePicker view, int dYear, int dMonth, int dDayOfMonth) {
+						year=dYear;
+						month=dMonth;
+						day=dDayOfMonth;
+						textViewDate.setText(String.format("%d 年%d 月%d 日",year,month,day));
+					}
+				},year,month,day);
+				datePickerDialog.show();
+			}
+		});
+		
+		
+		
+		
+		
+		
 		
 		//注册：
         buttonSignup.setOnClickListener(new View.OnClickListener() {

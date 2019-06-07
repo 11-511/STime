@@ -140,7 +140,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="32dp"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="64dp"
+                    android:layout_marginLeft="96dp"
                     android:text="男"
                     />
                 <RadioButton
@@ -149,7 +149,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="32dp"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="48dp"
+                    android:layout_marginLeft="96dp"
                     android:text="女"
                     />
             </RadioGroup>

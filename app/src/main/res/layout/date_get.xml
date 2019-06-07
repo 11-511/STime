@@ -4,7 +4,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
         >
-        <EditText
+  <!--<EditText
             android:id="@+id/et_birth_year"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
@@ -56,5 +56,24 @@
         android:textSize="15dp"
         android:text="日"
         android:layout_width="90dp"
+        android:layout_height="wrap_content" />-->
+  <TextView
+      android:id="@+id/tv_date"
+      android:text="xxxx年xx月xx日"
+      android:textSize="20dp"
+      android:layout_marginBottom="8dp"
+      android:layout_alignParentBottom="true"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="72dp"
+      />
+    <Button
+        android:id="@+id/bt_choose_date"
+        android:layout_toEndOf="@id/tv_date"
+        android:layout_alignParentBottom="true"
+        android:text="选择生日"
+        android:layout_marginLeft="48dp"
+        android:layout_width="90dp"
         android:layout_height="wrap_content" />
+
     </RelativeLayout>
