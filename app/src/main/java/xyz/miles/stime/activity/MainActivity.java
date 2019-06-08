@@ -28,8 +28,6 @@ public class MainActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		Bmob.initialize(this, "782ebc87bf1c101e8c607d7e6bf17a31");
-
 		//界面初始化
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -89,7 +87,8 @@ public class MainActivity extends AppCompatActivity
 			
 		});
 		
-		
+		// 设置用户名显示
+
 		
 	}
 

@@ -220,16 +220,16 @@
         "source": "D:\\code\\Android_Code\\course_design\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher_round.png"
     },
     {
-        "merged": "D:\\code\\Android_Code\\course_design\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_scrubber_track_mtrl_alpha.9.png.flat",
-        "source": "C:\\Users\\Erakodo\\.gradle\\caches\\transforms-2\\files-2.1\\720a104c61f930346adbc53c8eddb852\\res\\drawable-mdpi-v4\\abc_scrubber_track_mtrl_alpha.9.png"
+        "merged": "D:\\code\\Android_Code\\course_design\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_ic_star_black_16dp.png.flat",
+        "source": "C:\\Users\\Erakodo\\.gradle\\caches\\transforms-2\\files-2.1\\720a104c61f930346adbc53c8eddb852\\res\\drawable-xhdpi-v4\\abc_ic_star_black_16dp.png"
     },
     {
         "merged": "D:\\code\\Android_Code\\course_design\\app\\build\\intermediates\\res\\merged\\debug\\anim_abc_shrink_fade_out_from_bottom.xml.flat",
         "source": "C:\\Users\\Erakodo\\.gradle\\caches\\transforms-2\\files-2.1\\720a104c61f930346adbc53c8eddb852\\res\\anim\\abc_shrink_fade_out_from_bottom.xml"
     },
     {
-        "merged": "D:\\code\\Android_Code\\course_design\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_ic_star_black_16dp.png.flat",
-        "source": "C:\\Users\\Erakodo\\.gradle\\caches\\transforms-2\\files-2.1\\720a104c61f930346adbc53c8eddb852\\res\\drawable-xhdpi-v4\\abc_ic_star_black_16dp.png"
+        "merged": "D:\\code\\Android_Code\\course_design\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_scrubber_track_mtrl_alpha.9.png.flat",
+        "source": "C:\\Users\\Erakodo\\.gradle\\caches\\transforms-2\\files-2.1\\720a104c61f930346adbc53c8eddb852\\res\\drawable-mdpi-v4\\abc_scrubber_track_mtrl_alpha.9.png"
     },
     {
         "merged": "D:\\code\\Android_Code\\course_design\\app\\build\\intermediates\\res\\merged\\debug\\layout_abc_action_menu_item_layout.xml.flat",
@@ -730,6 +730,10 @@
     {
         "merged": "D:\\code\\Android_Code\\course_design\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_btn_radio_to_on_mtrl_000.png.flat",
         "source": "C:\\Users\\Erakodo\\.gradle\\caches\\transforms-2\\files-2.1\\720a104c61f930346adbc53c8eddb852\\res\\drawable-xhdpi-v4\\abc_btn_radio_to_on_mtrl_000.png"
+    },
+    {
+        "merged": "D:\\code\\Android_Code\\course_design\\app\\build\\intermediates\\res\\merged\\debug\\layout_classify_page.xml.flat",
+        "source": "D:\\code\\Android_Code\\course_design\\app\\src\\main\\res\\layout\\classify_page.xml"
     },
     {
         "merged": "D:\\code\\Android_Code\\course_design\\app\\build\\intermediates\\res\\merged\\debug\\animator_mtrl_fab_hide_motion_spec.xml.flat",

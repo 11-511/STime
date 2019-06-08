@@ -606,6 +606,7 @@ color cardview_light_background
 color cardview_shadow_end_color
 color cardview_shadow_start_color
 color colorAccent
+color colorBlack
 color colorPrimary
 color colorPrimaryDark
 color design_bottom_navigation_shadow_color
@@ -1197,6 +1198,9 @@ id line1
 id line3
 id listMode
 id list_item
+id ll_tag_classify
+id ll_tag_hot
+id ll_tag_new
 id masked
 id media_actions
 id message
@@ -1308,6 +1312,9 @@ id transition_scene_layoutid_cache
 id transition_transform
 id tv_date
 id tv_sign_up
+id tv_tag_classify
+id tv_tag_hot
+id tv_tag_new
 id tv_user_intro
 id tv_user_nickname
 id uniform
@@ -1372,6 +1379,7 @@ layout activity_main
 layout activity_sign_up
 layout app_bar_main
 layout bmob_update_dialog
+layout classify_page
 layout content_main
 layout date_get
 layout design_bottom_navigation_item
