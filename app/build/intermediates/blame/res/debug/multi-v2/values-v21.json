@@ -1,29 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\Program\\STime\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v21\\values-v21.xml",
+            "outputFile": "D:\\code\\Android_Code\\course_design\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v21\\values-v21.xml",
             "map": [
                 {
-                    "source": "E:\\Program\\STime\\app\\src\\main\\res\\values-v21\\styles.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "19",
-                        "endLines": "6",
-                        "endColumns": "12",
-                        "endOffsets": "246"
-                    },
-                    "to": {
-                        "startLines": "6",
-                        "startColumns": "4",
-                        "startOffsets": "354",
-                        "endLines": "10",
-                        "endColumns": "12",
-                        "endOffsets": "577"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\9cff057bcd41e050887d4e81a907c7e1\\res\\values-v21\\values-v21.xml",
+                    "source": "C:\\Users\\Erakodo\\.gradle\\caches\\transforms-2\\files-2.1\\2af7a06ffbffcb4943b7e7f539023d16\\res\\values-v21\\values-v21.xml",
                     "from": {
                         "startLines": "2,5,8,11",
                         "startColumns": "4,4,4,4",
@@ -42,7 +23,26 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\values-v21\\values-v21.xml",
+                    "source": "D:\\code\\Android_Code\\course_design\\app\\src\\main\\res\\values-v21\\styles.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "19",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "246"
+                    },
+                    "to": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "354",
+                        "endLines": "10",
+                        "endColumns": "12",
+                        "endOffsets": "577"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Erakodo\\.gradle\\caches\\transforms-2\\files-2.1\\720a104c61f930346adbc53c8eddb852\\res\\values-v21\\values-v21.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,17,19,20,21,22,24,26,27,28,29,30,32,34,36,38,40,42,43,48,50,52,53,54,56,58,59,60,61,62,63,107,110,154,157,160,162,164,166,169,171,174,175,176,179,180,181,182,183,184,187,188,190,192,194,196,200,202,203,204,205,207,211,213,215,216,217,218,219,221,222,223,233,234,235,247",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -61,26 +61,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\1b71b216487772c14c11bd1f23933f44\\res\\values-v21\\values-v21.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,13",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,159,223,290,354,470,596,722,850,1022",
-                        "endLines": "2,3,4,5,6,7,8,9,12,17",
-                        "endColumns": "103,63,66,63,115,125,125,127,12,12",
-                        "endOffsets": "154,218,285,349,465,591,717,845,1017,1355"
-                    },
-                    "to": {
-                        "startLines": "2,3,4,5,268,269,276,280,316,319",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,159,223,290,19490,19606,20063,20357,22365,22537",
-                        "endLines": "2,3,4,5,268,269,276,280,318,323",
-                        "endColumns": "103,63,66,63,115,125,125,127,12,12",
-                        "endOffsets": "154,218,285,349,19601,19727,20184,20480,22532,22870"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\7b631687521757491f302bc8dff0a552\\res\\values-v21\\values-v21.xml",
+                    "source": "C:\\Users\\Erakodo\\.gradle\\caches\\transforms-2\\files-2.1\\04a5885d4d45311e80f9047467e9ab02\\res\\values-v21\\values-v21.xml",
                     "from": {
                         "startLines": "2,10,18,26",
                         "startColumns": "4,4,4,4",
@@ -96,6 +77,25 @@
                         "endLines": "291,299,307,315",
                         "endColumns": "10,10,10,10",
                         "endOffsets": "21076,21502,21925,22360"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Erakodo\\.gradle\\caches\\transforms-2\\files-2.1\\8ef3d113ea9089c9b2d4bfbca0cb8929\\res\\values-v21\\values-v21.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,13",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,159,223,290,354,470,596,722,850,1022",
+                        "endLines": "2,3,4,5,6,7,8,9,12,17",
+                        "endColumns": "103,63,66,63,115,125,125,127,12,12",
+                        "endOffsets": "154,218,285,349,465,591,717,845,1017,1355"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,268,269,276,280,316,319",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,159,223,290,19490,19606,20063,20357,22365,22537",
+                        "endLines": "2,3,4,5,268,269,276,280,318,323",
+                        "endColumns": "103,63,66,63,115,125,125,127,12,12",
+                        "endOffsets": "154,218,285,349,19601,19727,20184,20480,22532,22870"
                     }
                 }
             ]

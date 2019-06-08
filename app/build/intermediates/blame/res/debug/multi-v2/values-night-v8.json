@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\Program\\STime\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
+            "outputFile": "D:\\code\\Android_Code\\course_design\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\values-night-v8\\values-night-v8.xml",
+                    "source": "C:\\Users\\Erakodo\\.gradle\\caches\\transforms-2\\files-2.1\\720a104c61f930346adbc53c8eddb852\\res\\values-night-v8\\values-night-v8.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8",
                         "startColumns": "4,4,4,4,4,4,4",
