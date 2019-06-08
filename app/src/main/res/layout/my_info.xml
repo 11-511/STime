@@ -1,6 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    tools:context=".activity.MainActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_marginTop="16dp"
+    >
+    <ImageView
+        android:id="@+id/iv_head_image_change"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="4dp"
+        android:layout_alignParentBottom="true"
+        android:src="@mipmap/ic_launcher" />
+    <TextView
+        android:id="@+id/tv_username_change"
+        android:textSize="32dp"
+        android:text="用户名"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginLeft="12dp"
+        android:layout_toRightOf="@+id/iv_head_image_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_sub_text"
+            android:text="💗"
+            android:textSize="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_below="@+id/tv_username_change"
+            android:layout_toRightOf="@+id/iv_head_image_change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_sub_num"
+            android:text="0"
+            android:textSize="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_below="@+id/tv_username_change"
+            android:layout_toRightOf="@+id/tv_sub_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+</RelativeLayout>
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_marginTop="16dp"
+    >
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="4dp"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/ic_person_outline_black_24dp" />
+    <EditText
+        android:id="@+id/et_nickname_change"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_alignParentBottom="true"
+        android:textSize="15dp"
+        android:hint="昵称"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:maxLines="1"/>
+</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        >
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="4dp"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/ic_person_outline_black_24dp" />
+        <EditText
+            android:id="@+id/et_intro_change"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_alignParentBottom="true"
+            android:textSize="15dp"
+            android:hint="个性签名"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
+            android:maxLines="1"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        >
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="4dp"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/ic_email_black_24dp" />
+        <EditText
+            android:id="@+id/et_email_change"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_alignParentBottom="true"
+            android:textSize="15dp"
+            android:hint="电子邮箱"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
+            android:maxLines="1"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        >
+        <TextView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="4dp"
+            android:layout_alignParentBottom="true"
+            android:text="♂♀"
+            android:textStyle="bold"
+            android:textSize="24dp"
+            />
+
+        <RadioGroup
+            android:id="@+id/rg_gender_change"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RadioButton
+                android:id="@+id/rb_male_change"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="32dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="96dp"
+                android:text="男"
+                />
+            <RadioButton
+                android:id="@+id/rb_female_change"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="32dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="96dp"
+                android:text="女"
+                />
+        </RadioGroup>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        >
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="4dp"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/ic_cake_black_24dp" />
+        <include
+            layout="@layout/date_get"/>
+    </RelativeLayout>
+<RelativeLayout
+android:layout_width="match_parent"
+android:layout_height="80dp">
+<Button
+    android:id="@+id/bt_change_info"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="修改当前信息"
+    android:textColor="@android:color/white"
+    android:background="@color/colorPrimary"
+    android:layout_marginTop="32dp"
+    android:layout_alignParentTop="true"
+    />
+</RelativeLayout>
+</LinearLayout>
