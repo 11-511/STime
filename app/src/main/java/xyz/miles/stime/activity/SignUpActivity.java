@@ -34,7 +34,7 @@ import xyz.miles.stime.bean.STimeUser;
 import xyz.miles.stime.dao.AbstractSTimeUserDao;
 import xyz.miles.stime.dao.UserDao;
 import xyz.miles.stime.dao.UserServiceDao;
-import xyz.miles.stime.util.DaoHolder;
+import xyz.miles.stime.util.ElementHolder;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -115,14 +115,9 @@ public class SignUpActivity extends AppCompatActivity {
                     user.setUserBirthday(bmobBirthDay);
 
                     // 提交信息
-                    DaoHolder.setUserDao(new UserServiceDao());
-                    UserDao userDao = DaoHolder.getUserDao();
-                    userDao.signUp(user);
-
-                    // 成功跳转--待处理
-                    Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                } else {
+                    signUp(user);
+                }
+                else {
                     Toast.makeText(getApplicationContext(), "两次输入的密码不一致",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -144,14 +139,31 @@ public class SignUpActivity extends AppCompatActivity {
      * @param signUpUser
      * 需要注册的用户的对象
      * */
-    public void signUp(STimeUser signUpUser) {
+    public void signUp(final STimeUser signUpUser) {
 
         signUpUser.signUp(new SaveListener<STimeUser>() {
             @Override
             public void done(STimeUser sTimeUser, BmobException e) {
+                if (e != null) {
+                    Log.d("sign up error", e.toString());
+                    final int errorCode = e.getErrorCode();
+                    switch (errorCode) {
+                        case 202:   // 用户已存在
+                            Toast.makeText(getApplicationContext(), "用户名已存在",
+                                    Toast.LENGTH_SHORT).show();
+                            break;
 
-
-
+                        default:    // 其他错误
+                            Toast.makeText(getApplicationContext(), "未知错误，请联系开发人员",
+                                    Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }
+                else {
+                    ElementHolder.setUser(sTimeUser);
+                    Intent toIndex = new Intent(SignUpActivity.this, MainActivity.class);
+                    startActivity(toIndex);
+                }
             }
         });
     }

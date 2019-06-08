@@ -8,17 +8,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import cn.bmob.v3.Bmob;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import xyz.miles.stime.R;
 import xyz.miles.stime.bean.STimeUser;
+import xyz.miles.stime.util.ElementHolder;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -28,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        // 初始化Bmob Appkey
+        Bmob.initialize(this, "782ebc87bf1c101e8c607d7e6bf17a31");
 
         //页面组件
         final EditText editTextAcc = findViewById(R.id.et_account);
@@ -106,8 +112,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 //登录操作：
-
-
+                STimeUser loginUser = new STimeUser();
+                loginUser.setUsername(editTextAcc.getText().toString());
+                loginUser.setPassword(editTextPwd.getText().toString());
+                signIn(loginUser);
             }
         });
 
@@ -131,6 +139,26 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void done(STimeUser sTimeUser, BmobException e) {
                 //GOTO		数据处理方法
+                if (e != null) {
+                    Log.d("login error", e.toString());
+                    final int errorCode = e.getErrorCode();
+                    switch (errorCode) {
+                        case 101:   // 用户名或密码错误
+                            Toast.makeText(getApplicationContext(), "用户名或密码错误",
+                                    Toast.LENGTH_SHORT).show();
+                            break;
+
+                        default:    // 其他错误
+                            Toast.makeText(getApplicationContext(), "未知错误，请联系开发人员",
+                                    Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }
+                else {
+                    ElementHolder.setUser(sTimeUser);
+                    Intent toIndex = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(toIndex);
+                }
             }
         });
     }
