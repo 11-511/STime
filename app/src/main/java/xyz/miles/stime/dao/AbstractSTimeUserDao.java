@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.LinkedList;
 import java.util.List;
 
+import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
@@ -39,38 +40,49 @@ public abstract class AbstractSTimeUserDao implements UserDao {
     * 该字段用于保存当前登陆用户的对象，便于之后使用
     * 由于该字段为类拥有，所以在注销用户时一定要将其设置为null
     * */
-    private static STimeUser userHolder=null;
+    private  STimeUser userHolder=null;
 
-    public static STimeUser getUserHolder() {
+    public STimeUser getUserHolder() {
         return userHolder;
     }
 
-    public static void setUserHolder(STimeUser userHolder) {
-        AbstractSTimeUserDao.userHolder = userHolder;
+    public void setUserHolder(STimeUser userHolder) {
+        this.userHolder = userHolder;
     }
 
+    private final int[] exceptionCode=new int[1];
+
     @Override
-    public void signUp(STimeUser signUpUser) {
+    public int signUp(STimeUser signUpUser) {
 
         signUpUser.signUp(new SaveListener<STimeUser>() {
             @Override
             public void done(STimeUser sTimeUser, BmobException e) {
+                if (e!=null)
+                    exceptionCode[0]=e.getErrorCode();
+                else {
+                    exceptionCode[0] = -1;
+                }
                 signUpDone(sTimeUser, e);
             }
         });
+        return exceptionCode[0];
     }
 
     @Override
-    public void signIn(String username, String password) {
-        STimeUser signUpUser = new STimeUser();
-        signUpUser.setUsername(username);
-        signUpUser.setPassword(password);
-        signUpUser.login(new SaveListener<STimeUser>() {
+    public int signIn(STimeUser loginUser) {
+        loginUser.login(new SaveListener<STimeUser>() {
             @Override
             public void done(STimeUser sTimeUser, BmobException e) {
+                if (e!=null)
+                    exceptionCode[0]=e.getErrorCode();
+                else {
+                    exceptionCode[0]=-1;
+                }
                 loginDone(sTimeUser, e);
             }
         });
+        return exceptionCode[0];
     }
 
 
@@ -85,7 +97,7 @@ public abstract class AbstractSTimeUserDao implements UserDao {
     *
     * */
     @Override
-    public void querySTimeUser(String idOrUsername, final List<STimeUser> queryUsers) {
+    public BmobException querySTimeUser(String idOrUsername, final List<STimeUser> queryUsers) {
         final BmobQuery<STimeUser> query=new BmobQuery<>();
         if (idOrUsername==null||idOrUsername.equals("")) {
             query.addWhereEqualTo("objectId",idOrUsername);
@@ -104,6 +116,7 @@ public abstract class AbstractSTimeUserDao implements UserDao {
                 }
             });
         }
+        return null;
     }
 
 
@@ -114,14 +127,16 @@ public abstract class AbstractSTimeUserDao implements UserDao {
     * @throws IllegalArgumentException 当入参的objectId为null或者为空将抛出异常
     * */
     @Override
-    public void updateSTimeUser(STimeUser user) throws IllegalArgumentException{
+    public BmobException updateSTimeUser(STimeUser user) throws IllegalArgumentException{
         if (user.getObjectId()==null|| user.getObjectId().equals(""))
             throw new IllegalArgumentException("要被更新的用户必须拥有objectId值");
         user.update(user.getObjectId(), new UpdateListener() {
+
             @Override
             public void done(BmobException e) {
                 updateDone(e);
             }
         });
+        return null ;
     }
 }

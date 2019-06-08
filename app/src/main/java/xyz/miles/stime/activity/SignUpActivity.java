@@ -38,99 +38,122 @@ import xyz.miles.stime.util.DaoHolder;
 
 public class SignUpActivity extends AppCompatActivity {
 
-	private int year;
-	private int month;
-	private int day;
+    private int year;
+    private int month;
+    private int day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        
+
         //页面组件
-		final EditText editTextAcc=findViewById(R.id.et_account_su);//账号
-		final EditText editTextPwd=findViewById(R.id.et_pwd_su);//密码
-		final EditText editTextPwds=findViewById(R.id.et_pwd_su_s);//确认密码
-		final EditText editTextEmail=findViewById(R.id.et_email);//电子邮箱
+        final EditText editTextAcc = findViewById(R.id.et_account_su);//账号
+        final EditText editTextPwd = findViewById(R.id.et_pwd_su);//密码
+        final EditText editTextPwds = findViewById(R.id.et_pwd_su_s);//确认密码
+        final EditText editTextEmail = findViewById(R.id.et_email);//电子邮箱
 		/*RadioButton radioButtonMale=findViewById(R.id.rb_male);
 		RadioButton radioButtonFemale=findViewById(R.id.rb_male);*/
 
-		final RadioGroup radioGroup=findViewById(R.id.rg_gender);//性别
-		final TextView textViewDate=findViewById(R.id.tv_date);
+        final RadioGroup radioGroup = findViewById(R.id.rg_gender);//性别
+        final TextView textViewDate = findViewById(R.id.tv_date);
 
-		Button buttonSignup = findViewById(R.id.bt_sign_up);
-		Button buttonChooseDate=findViewById(R.id.bt_choose_date);//日期选择
-	
+        Button buttonSignup = findViewById(R.id.bt_sign_up);
+        Button buttonChooseDate = findViewById(R.id.bt_choose_date);//日期选择
 
-		//日期选择
-		Calendar calendar=Calendar.getInstance();
-		year=calendar.get(Calendar.YEAR);
-		month=calendar.get(Calendar.MONTH);
-		day=calendar.get(Calendar.DAY_OF_MONTH);
-		textViewDate.setText(String.format("%d 年%d 月%d 日",year,month,day));
-		
-		buttonChooseDate.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				
-				DatePickerDialog datePickerDialog=new DatePickerDialog(SignUpActivity.this, new DatePickerDialog.OnDateSetListener() {
-					@Override
-					public void onDateSet(DatePicker view, int dYear, int dMonth, int dDayOfMonth) {
-						year=dYear;
-						month=dMonth;
-						day=dDayOfMonth;
-						textViewDate.setText(String.format("%d 年%d 月%d 日",year,month,day));
-					}
-				},year,month,day);
-				datePickerDialog.show();
-			}
-		});
 
-		//注册：
+        //日期选择
+        Calendar calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        textViewDate.setText(String.format("%d 年%d 月%d 日", year, month, day));
+
+        buttonChooseDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(SignUpActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int dYear, int dMonth, int dDayOfMonth) {
+                        year = dYear;
+                        month = dMonth;
+                        day = dDayOfMonth;
+                        textViewDate.setText(String.format("%d 年%d 月%d 日", year, month, day));
+                    }
+                }, year, month, day);
+                datePickerDialog.show();
+            }
+        });
+
+        //注册：
         buttonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            //注册操作：
-				String pwd = editTextPwd.getText().toString();
-				String pwdSure = editTextPwds.getText().toString();
-				// 检测密码是否一致
-				if (pwd.equals(pwdSure)) {
-				    // 设置信息
-					STimeUser user = new STimeUser();
-					user.setUsername(editTextAcc.getText().toString());
-					user.setPassword(pwd);
-					user.setEmail(editTextEmail.getText().toString());
+                //注册操作：
+                String pwd = editTextPwd.getText().toString();
+                String pwdSure = editTextPwds.getText().toString();
+                // 检测密码是否一致
+                if (pwd.equals(pwdSure)) {
+                    // 设置信息
+                    STimeUser user = new STimeUser();
+                    user.setUsername(editTextAcc.getText().toString());
+                    user.setPassword(pwd);
+                    user.setEmail(editTextEmail.getText().toString());
 
-					RadioButton sexChecked = findViewById(radioGroup.getCheckedRadioButtonId());
-					boolean sex = sexChecked.getText().toString().equals("男") ? true : false;
-					user.setUserGender(sex);
+                    RadioButton sexChecked = findViewById(radioGroup.getCheckedRadioButtonId());
+                    boolean sex = sexChecked.getText().toString().equals("男") ? true : false;
+                    user.setUserGender(sex);
 
-					String birthday = String.valueOf(year);
-					String monthstr = month < 10 ? "0" + String.valueOf(month) : String.valueOf(month);
-					String daystr = day < 10 ? "0" + String.valueOf(day) : String.valueOf(day);
-					birthday += "-" + monthstr + "-" + daystr;
-					Log.d("birthday", birthday);
+                    String birthday = String.valueOf(year);
+                    String monthstr = month < 10 ? "0" + String.valueOf(month) : String.valueOf(month);
+                    String daystr = day < 10 ? "0" + String.valueOf(day) : String.valueOf(day);
+                    birthday += "-" + monthstr + "-" + daystr;
+                    Log.d("birthday", birthday);
 
-					BmobDate bmobBirthDay = BmobDate.createBmobDate("yyyy-MM-dd", birthday);
-					user.setUserBirthday(bmobBirthDay);
+                    BmobDate bmobBirthDay = BmobDate.createBmobDate("yyyy-MM-dd", birthday);
+                    user.setUserBirthday(bmobBirthDay);
 
-					// 提交信息
+                    // 提交信息
                     DaoHolder.setUserDao(new UserServiceDao());
                     UserDao userDao = DaoHolder.getUserDao();
                     userDao.signUp(user);
 
-					// 成功跳转--待处理
-					Intent intent=new Intent(SignUpActivity.this,LoginActivity.class);
-					startActivity(intent);
-				}
-				else {
-					Toast.makeText(getApplicationContext(), "两次输入的密码不一致",
-							Toast.LENGTH_SHORT).show();
-				}
-			}
+                    // 成功跳转--待处理
+                    Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "两次输入的密码不一致",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
         });
 
     }
 
+
+    /**********************************************************************
+     *						分割线
+     * 	以下方法为dao方法
+     *
+     ***********************************************************************/
+
+    /*
+     * 注册方法，调用该方法来注册用户
+     *
+     * @param signUpUser
+     * 需要注册的用户的对象
+     * */
+    public void signUp(STimeUser signUpUser) {
+
+        signUpUser.signUp(new SaveListener<STimeUser>() {
+            @Override
+            public void done(STimeUser sTimeUser, BmobException e) {
+
+
+
+            }
+        });
+    }
 
 }

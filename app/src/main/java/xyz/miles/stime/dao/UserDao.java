@@ -2,18 +2,16 @@ package xyz.miles.stime.dao;
 
 import java.util.List;
 
-import cn.bmob.v3.Bmob;
-import cn.bmob.v3.datatype.BmobDate;
-import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
 import xyz.miles.stime.bean.STimeUser;
 
 public interface UserDao {
 
-    void signUp(STimeUser signUpUser);
+    int signUp(STimeUser signUpUser);
 
-    void signIn(String username,String password);
+    int signIn(STimeUser loginUser);
 
-    void querySTimeUser(String idOrUsername, List<STimeUser> queryUsers);
+    BmobException querySTimeUser(String idOrUsername, List<STimeUser> queryUsers);
 
-    void updateSTimeUser(STimeUser user);
+    BmobException updateSTimeUser(STimeUser user);
 }

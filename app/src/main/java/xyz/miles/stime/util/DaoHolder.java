@@ -2,7 +2,7 @@ package xyz.miles.stime.util;
 
 import xyz.miles.stime.dao.UserDao;
 
-public class DaoHolder {
+public class ElementHolder {
 
     private static UserDao userDao;
 
@@ -12,6 +12,6 @@ public class DaoHolder {
     }
 
     public static void setUserDao(UserDao userDao) {
-        DaoHolder.userDao = userDao;
+        ElementHolder.userDao = userDao;
     }
 }
