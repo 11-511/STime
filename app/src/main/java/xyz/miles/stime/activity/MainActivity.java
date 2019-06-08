@@ -2,13 +2,18 @@ package xyz.miles.stime.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -23,11 +28,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 import cn.bmob.v3.Bmob;
 import xyz.miles.stime.R;
@@ -40,6 +49,10 @@ public class MainActivity extends AppCompatActivity
 	private static String [] PERMISSIONS_STORAGE = {
 			Manifest.permission.READ_EXTERNAL_STORAGE,
 			Manifest.permission.WRITE_EXTERNAL_STORAGE};
+	//修改个人信息
+	private int year;
+	private int month;
+	private int day;
 		
 		@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +156,14 @@ public class MainActivity extends AppCompatActivity
 		});
 		
 		//图片列表
+		ImageView imageViewImage=findViewById(R.id.iv_image);//list图片
+		ImageView imageViewFavoriteCorner=findViewById(R.id.iv_favorite_corner);//图片右下角快速收藏
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -160,10 +181,42 @@ public class MainActivity extends AppCompatActivity
 			imageViewHeadC.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-				
+					
+					//打开本地相册
+					Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+					//设定结果返回
+					startActivityForResult(i, 1);
+					
 				}
 			});
-		
+		////修改生日
+			
+			
+			
+			//日期选择
+			Button buttonChooseDate = findViewById(R.id.bt_choose_date);//日期选择
+			final TextView textViewDate = findViewById(R.id.tv_date);
+			Calendar calendar = Calendar.getInstance();
+			year = calendar.get(Calendar.YEAR);
+			month = calendar.get(Calendar.MONTH);
+			day = calendar.get(Calendar.DAY_OF_MONTH);
+			textViewDate.setText(String.format("%d 年%d 月%d 日", year, month+1, day));
+			buttonChooseDate.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, AlertDialog.THEME_HOLO_LIGHT,new DatePickerDialog.OnDateSetListener() {
+						@Override
+						public void onDateSet(DatePicker view, int dYear, int dMonth, int dDayOfMonth) {
+							year = dYear;
+							month = dMonth;
+							day = dDayOfMonth;
+							textViewDate.setText(String.format("%d 年%d 月%d 日", year, month+1, day));
+							System.out.println(String.format("%d 年%d 月%d 日", year, month+1, day));
+						}
+					}, year, month, day);
+					datePickerDialog.show();
+				}
+			});
 		
 		
 		
@@ -209,13 +262,17 @@ public class MainActivity extends AppCompatActivity
 	public boolean onNavigationItemSelected(MenuItem item) {
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
-
+		View viewClassify=findViewById(R.id.classify_view);
+		View viewMyInfo=findViewById(R.id.my_info_view);
+		View viewImage=findViewById(R.id.image_view);
+		
 		if (id == R.id.nav_home) {
-			View viewClassify=findViewById(R.id.classify_view);
-			View viewMyInfo=findViewById(R.id.my_info_view);
 			viewClassify.setVisibility(View.VISIBLE);
+			viewImage.setVisibility(View.VISIBLE);
 			viewMyInfo.setVisibility(View.GONE);
-			System.out.println(id);
+			
+			
+			
 		} else if (id == R.id.nav_my_image) {
 
 		} else if (id == R.id.nav_collections) {
@@ -223,9 +280,8 @@ public class MainActivity extends AppCompatActivity
 		} else if (id == R.id.nav_subscribe) {
 
 		}else if(id==R.id.nav_my_info){
-			View viewClassify=findViewById(R.id.classify_view);
-			View viewMyInfo=findViewById(R.id.my_info_view);
 			viewClassify.setVisibility(View.GONE);
+			viewImage.setVisibility(View.GONE);
 			viewMyInfo.setVisibility(View.VISIBLE);
 
 		}else if (id == R.id.nav_logout) {
@@ -272,4 +328,31 @@ public class MainActivity extends AppCompatActivity
 		drawer.closeDrawer(GravityCompat.START);
 		return true;
 	}
+	
+	@Override
+ 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+			super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == 1 && resultCode == RESULT_OK && null != data) {
+		//获取返回的数据，这里是android自定义的Uri地址
+		Uri selectedImage = data.getData();
+		String[] filePathColumn = { MediaStore.Images.Media.DATA };
+		System.out.println(selectedImage.getPath());
+		//获取选择照片的数据视图
+		Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+		cursor.moveToFirst();
+		//从数据视图中获取已选择图片的路径
+		int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+		String picturePath = cursor.getString(columnIndex);
+		System.out.println(picturePath);
+		cursor.close();
+		//TODO picturePath,图片上传
+		
+		
+		//将图片显示到界面上(上传成功)
+		ImageView imageView =findViewById(R.id.iv_head_image_change);
+		imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+		
+}
+
+}
 }

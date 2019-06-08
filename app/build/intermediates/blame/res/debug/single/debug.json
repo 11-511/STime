@@ -48,20 +48,20 @@
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-xxhdpi-v4\\abc_list_selector_disabled_holo_light.9.png"
     },
     {
-        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_ic_star_half_black_36dp.png.flat",
-        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-mdpi-v4\\abc_ic_star_half_black_36dp.png"
-    },
-    {
-        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\animator_mtrl_btn_state_list_anim.xml.flat",
-        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\7b631687521757491f302bc8dff0a552\\res\\animator\\mtrl_btn_state_list_anim.xml"
+        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_tab_indicator_mtrl_alpha.9.png.flat",
+        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-mdpi-v4\\abc_tab_indicator_mtrl_alpha.9.png"
     },
     {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable_bmob_update_button_ok_bg_selector.xml.flat",
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\c9be42eddabb201b4acf98f14ddde791\\res\\drawable\\bmob_update_button_ok_bg_selector.xml"
     },
     {
-        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_tab_indicator_mtrl_alpha.9.png.flat",
-        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-mdpi-v4\\abc_tab_indicator_mtrl_alpha.9.png"
+        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\animator_mtrl_btn_state_list_anim.xml.flat",
+        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\7b631687521757491f302bc8dff0a552\\res\\animator\\mtrl_btn_state_list_anim.xml"
+    },
+    {
+        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_ic_star_half_black_36dp.png.flat",
+        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-mdpi-v4\\abc_ic_star_half_black_36dp.png"
     },
     {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_btn_radio_to_on_mtrl_000.png.flat",
@@ -132,12 +132,12 @@
         "source": "E:\\Program\\STime\\app\\src\\main\\res\\drawable\\ic_collections_black_24dp.xml"
     },
     {
-        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_list_selector_disabled_holo_dark.9.png.flat",
-        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-hdpi-v4\\abc_list_selector_disabled_holo_dark.9.png"
-    },
-    {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\color-v23_abc_tint_btn_checkable.xml.flat",
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\color-v23\\abc_tint_btn_checkable.xml"
+    },
+    {
+        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_list_selector_disabled_holo_dark.9.png.flat",
+        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-hdpi-v4\\abc_list_selector_disabled_holo_dark.9.png"
     },
     {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_visibility_black_24dp.xml.flat",
@@ -340,12 +340,12 @@
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-xhdpi-v4\\abc_text_select_handle_right_mtrl_light.png"
     },
     {
-        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\layout_design_bottom_navigation_item.xml.flat",
-        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\7b631687521757491f302bc8dff0a552\\res\\layout\\design_bottom_navigation_item.xml"
-    },
-    {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_list_focused_holo.9.png.flat",
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-hdpi-v4\\abc_list_focused_holo.9.png"
+    },
+    {
+        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\layout_design_bottom_navigation_item.xml.flat",
+        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\7b631687521757491f302bc8dff0a552\\res\\layout\\design_bottom_navigation_item.xml"
     },
     {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21_design_password_eye.xml.flat",
@@ -388,28 +388,28 @@
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-xxhdpi-v4\\abc_text_select_handle_left_mtrl_dark.png"
     },
     {
-        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable_abc_list_selector_holo_dark.xml.flat",
-        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable\\abc_list_selector_holo_dark.xml"
-    },
-    {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_list_selector_disabled_holo_light.9.png.flat",
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-xhdpi-v4\\abc_list_selector_disabled_holo_light.9.png"
+    },
+    {
+        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable_abc_list_selector_holo_dark.xml.flat",
+        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable\\abc_list_selector_holo_dark.xml"
     },
     {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\layout_abc_action_mode_bar.xml.flat",
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\layout\\abc_action_mode_bar.xml"
     },
     {
-        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_btn_switch_to_on_mtrl_00001.9.png.flat",
-        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-mdpi-v4\\abc_btn_switch_to_on_mtrl_00001.9.png"
+        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_ic_menu_share_mtrl_alpha.png.flat",
+        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-xxhdpi-v4\\abc_ic_menu_share_mtrl_alpha.png"
     },
     {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\color-v23_abc_color_highlight_material.xml.flat",
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\color-v23\\abc_color_highlight_material.xml"
     },
     {
-        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_ic_menu_share_mtrl_alpha.png.flat",
-        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-xxhdpi-v4\\abc_ic_menu_share_mtrl_alpha.png"
+        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_btn_switch_to_on_mtrl_00001.9.png.flat",
+        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-mdpi-v4\\abc_btn_switch_to_on_mtrl_00001.9.png"
     },
     {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\layout_abc_screen_simple_overlay_action_mode.xml.flat",
@@ -456,12 +456,12 @@
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-xhdpi-v4\\abc_text_select_handle_middle_mtrl_light.png"
     },
     {
-        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_lock_outline_black_24dp.xml.flat",
-        "source": "E:\\Program\\STime\\app\\src\\main\\res\\drawable\\ic_lock_outline_black_24dp.xml"
-    },
-    {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_ic_menu_selectall_mtrl_alpha.png.flat",
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-hdpi-v4\\abc_ic_menu_selectall_mtrl_alpha.png"
+    },
+    {
+        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_lock_outline_black_24dp.xml.flat",
+        "source": "E:\\Program\\STime\\app\\src\\main\\res\\drawable\\ic_lock_outline_black_24dp.xml"
     },
     {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\color_mtrl_fab_ripple_color.xml.flat",
@@ -484,40 +484,40 @@
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\7b631687521757491f302bc8dff0a552\\res\\color\\mtrl_tabs_icon_color_selector_colored.xml"
     },
     {
-        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_ic_star_half_black_36dp.png.flat",
-        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-xhdpi-v4\\abc_ic_star_half_black_36dp.png"
-    },
-    {
-        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_scrubber_primary_mtrl_alpha.9.png.flat",
-        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-xhdpi-v4\\abc_scrubber_primary_mtrl_alpha.9.png"
+        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\anim_abc_slide_out_bottom.xml.flat",
+        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\anim\\abc_slide_out_bottom.xml"
     },
     {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\anim_design_snackbar_out.xml.flat",
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\7b631687521757491f302bc8dff0a552\\res\\anim\\design_snackbar_out.xml"
     },
     {
-        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\anim_abc_slide_out_bottom.xml.flat",
-        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\anim\\abc_slide_out_bottom.xml"
+        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_scrubber_primary_mtrl_alpha.9.png.flat",
+        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-xhdpi-v4\\abc_scrubber_primary_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_ic_star_half_black_36dp.png.flat",
+        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-xhdpi-v4\\abc_ic_star_half_black_36dp.png"
     },
     {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4_abc_ic_star_half_black_48dp.png.flat",
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-xxxhdpi-v4\\abc_ic_star_half_black_48dp.png"
     },
     {
-        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_switch_track_mtrl_alpha.9.png.flat",
-        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-hdpi-v4\\abc_switch_track_mtrl_alpha.9.png"
-    },
-    {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable_bmob_update_wifi_disable.png.flat",
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\c9be42eddabb201b4acf98f14ddde791\\res\\drawable\\bmob_update_wifi_disable.png"
     },
     {
-        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable_design_fab_background.xml.flat",
-        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\7b631687521757491f302bc8dff0a552\\res\\drawable\\design_fab_background.xml"
+        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_switch_track_mtrl_alpha.9.png.flat",
+        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-hdpi-v4\\abc_switch_track_mtrl_alpha.9.png"
     },
     {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4_abc_btn_radio_to_on_mtrl_000.png.flat",
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-xhdpi-v4\\abc_btn_radio_to_on_mtrl_000.png"
+    },
+    {
+        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable_design_fab_background.xml.flat",
+        "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\7b631687521757491f302bc8dff0a552\\res\\drawable\\design_fab_background.xml"
     },
     {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\layout_design_navigation_menu_item.xml.flat",
@@ -1122,6 +1122,10 @@
     {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_textfield_activated_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-hdpi-v4\\abc_textfield_activated_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\layout_filedialogitem.xml.flat",
+        "source": "E:\\Program\\STime\\app\\src\\main\\res\\layout\\filedialogitem.xml"
     },
     {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4_abc_ic_star_black_16dp.png.flat",

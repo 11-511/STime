@@ -1170,6 +1170,9 @@ id et_pwd_su_s
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
+id filedialogitem_img
+id filedialogitem_name
+id filedialogitem_path
 id fill
 id fill_horizontal
 id fill_vertical
@@ -1203,6 +1206,7 @@ id list_item
 id ll_tag_classify
 id ll_tag_hot
 id ll_tag_new
+id ll_tag_sub
 id masked
 id media_actions
 id message
@@ -1323,6 +1327,7 @@ id tv_sub_text
 id tv_tag_classify
 id tv_tag_hot
 id tv_tag_new
+id tv_tag_sub
 id tv_user_intro
 id tv_user_nickname
 id tv_username_change
@@ -1333,6 +1338,7 @@ id useLogo
 id view_main
 id view_offset_helper
 id visible
+id vw1
 id withText
 id wrap
 id wrap_content
@@ -1405,6 +1411,7 @@ layout design_navigation_item_subheader
 layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_password_icon
+layout filedialogitem
 layout mtrl_layout_snackbar
 layout mtrl_layout_snackbar_include
 layout my_info

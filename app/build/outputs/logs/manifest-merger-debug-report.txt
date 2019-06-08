@@ -80,8 +80,12 @@ uses-permission#android.permission.READ_PHONE_STATE
 ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:11:5-75
 	android:name
 		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:11:22-72
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:12:5-80
+	android:name
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:12:22-77
 application
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:13:5-39:19
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:14:5-39:19
 MERGED from [cn.bmob.android:bmob-sdk:3.7.3-rc1] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\c9be42eddabb201b4acf98f14ddde791\AndroidManifest.xml:11:5-14:19
 MERGED from [cn.bmob.android:bmob-sdk:3.7.3-rc1] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\c9be42eddabb201b4acf98f14ddde791\AndroidManifest.xml:11:5-14:19
 MERGED from [com.android.support:design:28.0.0] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\7b631687521757491f302bc8dff0a552\AndroidManifest.xml:22:5-20
@@ -95,45 +99,49 @@ MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\lsh\.gradl
 	android:appComponentFactory
 		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\1b71b216487772c14c11bd1f23933f44\AndroidManifest.xml:22:18-91
 	android:supportsRtl
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:19:9-35
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:20:9-35
 	android:label
 		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:17:9-41
 	android:roundIcon
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:18:9-54
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:19:9-54
 	android:icon
 		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:16:9-43
 	android:allowBackup
 		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:15:9-35
 	android:theme
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:20:9-40
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:21:9-40
 	android:networkSecurityConfig
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:14:9-69
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:18:9-69
+activity#xyz.miles.stime.activity.ImageActivity
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:22:9-69
+	android:name
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:22:19-57
 activity#xyz.miles.stime.activity.LoginActivity
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:21:9-27:20
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:23:9-29:20
 	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:21:19-57
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:23:19-57
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:22:13-26:29
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:24:13-28:29
 action#android.intent.action.MAIN
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:23:17-69
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:25:17-69
 	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:23:25-66
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:25:25-66
 category#android.intent.category.LAUNCHER
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:25:17-77
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:27:17-77
 	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:25:27-74
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:27:27-74
 activity#xyz.miles.stime.activity.SignUpActivity
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:28:9-61
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:30:9-61
 	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:28:19-58
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:30:19-58
 activity#xyz.miles.stime.activity.MainActivity
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:29:9-34:16
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:31:9-34:68
 	android:label
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:31:9-41
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:33:13-45
 	android:theme
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:32:9-52
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:34:13-56
 	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:30:9-46
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:32:13-50
 provider#cn.bmob.v3.util.BmobContentProvider
 ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:36:9-38:73
 	android:authorities
