@@ -1,5 +1,6 @@
 package xyz.miles.stime.activity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.provider.MediaStore;
@@ -67,19 +68,20 @@ public class SignUpActivity extends AppCompatActivity {
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
-        textViewDate.setText(String.format("%d 年%d 月%d 日", year, month, day));
+        textViewDate.setText(String.format("%d 年%d 月%d 日", year, month+1, day));
 
         buttonChooseDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(SignUpActivity.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(SignUpActivity.this, AlertDialog.THEME_HOLO_LIGHT,new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int dYear, int dMonth, int dDayOfMonth) {
                         year = dYear;
                         month = dMonth;
                         day = dDayOfMonth;
-                        textViewDate.setText(String.format("%d 年%d 月%d 日", year, month, day));
+                        textViewDate.setText(String.format("%d 年%d 月%d 日", year, month+1, day));
+                        System.out.println(String.format("%d 年%d 月%d 日", year, month+1, day));
                     }
                 }, year, month, day);
                 datePickerDialog.show();

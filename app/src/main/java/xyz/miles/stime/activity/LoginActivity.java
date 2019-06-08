@@ -158,6 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                     ElementHolder.setUser(sTimeUser);
                     Intent toIndex = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(toIndex);
+                    LoginActivity.this.finish();
                 }
             }
         });
