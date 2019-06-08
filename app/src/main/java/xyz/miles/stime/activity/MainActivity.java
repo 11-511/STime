@@ -1,5 +1,6 @@
 package xyz.miles.stime.activity;
 
+import android.content.ClipData;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -42,6 +44,13 @@ public class MainActivity extends AppCompatActivity
 		toggle.syncState();
 		navigationView.setNavigationItemSelectedListener(this);
 		//页面组件
+		ImageView imageViewHeadImage=findViewById(R.id.iv_head_image);
+		TextView textViewUserNickName=findViewById(R.id.tv_user_nickname);
+		TextView textViewIntro=findViewById(R.id.tv_user_intro);
+		//侧边栏
+		
+		
+		
 		//分类页：
 		LinearLayout layoutNew=findViewById(R.id.ll_tag_new);
 		LinearLayout layoutHot=findViewById(R.id.ll_tag_hot);
@@ -99,7 +108,8 @@ public class MainActivity extends AppCompatActivity
 		if (drawer.isDrawerOpen(GravityCompat.START)) {
 			drawer.closeDrawer(GravityCompat.START);
 		} else {
-			super.onBackPressed();
+			moveTaskToBack(false);
+			//super.onBackPressed();
 		}
 	}
 
@@ -132,7 +142,7 @@ public class MainActivity extends AppCompatActivity
 		int id = item.getItemId();
 
 		if (id == R.id.nav_home) {
-			// Handle the camera action
+		
 		} else if (id == R.id.nav_my_image) {
 
 		} else if (id == R.id.nav_collections) {
