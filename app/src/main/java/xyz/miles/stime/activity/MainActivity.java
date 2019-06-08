@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import cn.bmob.v3.Bmob;
 import xyz.miles.stime.R;
+import xyz.miles.stime.bean.STimeUser;
+import xyz.miles.stime.util.ElementHolder;
 
 public class MainActivity extends AppCompatActivity
 		implements NavigationView.OnNavigationItemSelectedListener {
@@ -88,7 +90,6 @@ public class MainActivity extends AppCompatActivity
 		});
 		
 		// 设置用户名显示
-
 		
 	}
 
