@@ -84,6 +84,10 @@
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-mdpi-v4\\abc_ic_star_black_36dp.png"
     },
     {
+        "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\layout_my_info.xml.flat",
+        "source": "E:\\Program\\STime\\app\\src\\main\\res\\layout\\my_info.xml"
+    },
+    {
         "merged": "E:\\Program\\STime\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_abc_ic_star_half_black_48dp.png.flat",
         "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\drawable-mdpi-v4\\abc_ic_star_half_black_48dp.png"
     },
