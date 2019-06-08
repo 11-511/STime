@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\code\\Android_Code\\course_design\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-hr\\values-hr.xml",
+            "outputFile": "E:\\Program\\STime\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-hr\\values-hr.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Erakodo\\.gradle\\caches\\transforms-2\\files-2.1\\720a104c61f930346adbc53c8eddb852\\res\\values-hr\\values-hr.xml",
+                    "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\26f8c677cace00d471d85bc1789d02e6\\res\\values-hr\\values-hr.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Erakodo\\.gradle\\caches\\transforms-2\\files-2.1\\8ef3d113ea9089c9b2d4bfbca0cb8929\\res\\values-hr\\values-hr.xml",
+                    "source": "C:\\Users\\lsh\\.gradle\\caches\\transforms-2\\files-2.1\\1b71b216487772c14c11bd1f23933f44\\res\\values-hr\\values-hr.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
