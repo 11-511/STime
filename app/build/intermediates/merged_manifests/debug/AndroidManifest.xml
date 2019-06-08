@@ -25,7 +25,6 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:testOnly="true"
         android:theme="@style/AppTheme" >
         <activity android:name="xyz.miles.stime.activity.LoginActivity" >
             <intent-filter>
@@ -44,10 +43,6 @@
         <provider
             android:name="cn.bmob.v3.util.BmobContentProvider"
             android:authorities="xyz.miles.stime.BmobContentProvider" />
-        <provider
-            android:name="com.android.tools.ir.server.InstantRunContentProvider"
-            android:authorities="xyz.miles.stime.com.android.tools.ir.server.InstantRunContentProvider"
-            android:multiprocess="true" />
     </application>
 
 </manifest>
