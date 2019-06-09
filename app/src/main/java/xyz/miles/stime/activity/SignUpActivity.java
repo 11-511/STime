@@ -195,8 +195,9 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 else {
                     ElementHolder.setUser(sTimeUser);
-                    Intent toIndex = new Intent(SignUpActivity.this, MainActivity.class);
-                    startActivity(toIndex);
+                    Intent toLogin = new Intent(SignUpActivity.this, LoginActivity.class);
+                    startActivity(toLogin);
+                    SignUpActivity.this.finish();
                 }
             }
         });

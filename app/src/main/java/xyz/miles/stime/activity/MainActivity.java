@@ -201,7 +201,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-        ////修改生日
 
         /*------------------------------------用户原有信息显示--------------------------------------*/
         final STimeUser curUserInfo = ElementHolder.getUser();  // 获取登录用户信息
@@ -215,7 +214,7 @@ public class MainActivity extends AppCompatActivity
         Log.d("birthday", year + "-" + month + "-" + day);
 
 
-        // TODO ->lsh need to do 显示原有出生年月日以及新日期选择
+        // TODO ->lsh need to do 显示原有出生年月日以及选择新日期后修改
         Button buttonChooseDate = findViewById(R.id.bt_choose_date);//日期选择
         final TextView textViewDate = findViewById(R.id.tv_date);
         Calendar calendar = Calendar.getInstance();
@@ -271,8 +270,6 @@ public class MainActivity extends AppCompatActivity
                     birthDay += "-" + monthStr + "-" + dayStr;
                     BmobDate bmobBirthDay = BmobDate.createBmobDate("yyyy-MM-dd", birthDay);
                     upUserInfo.setUserBirthday(bmobBirthDay);
-
-                    // TODO 修改头像
 
                     // 修改性别
                     RadioButton sexChecked = findViewById(radioGroup.getCheckedRadioButtonId());

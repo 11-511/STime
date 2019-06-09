@@ -48,6 +48,12 @@ public class LoginActivity extends AppCompatActivity {
         String rememberPasswordKey = getResources().getString(R.string.login_remember_password);
         SharedPreferences spFile = getSharedPreferences(spFileName, Context.MODE_PRIVATE);
 
+        // 如果是注册成功跳转到该页面，填充注册成功的用户名
+        STimeUser signUpSucUser = ElementHolder.getUser();
+        if (signUpSucUser != null) {
+            editTextAcc.setText(signUpSucUser.getUsername());
+        }
+
         //跳转至注册
         textViewSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
