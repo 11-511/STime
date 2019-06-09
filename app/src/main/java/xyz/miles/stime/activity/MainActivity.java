@@ -28,11 +28,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,11 +44,13 @@ import java.util.List;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
 import xyz.miles.stime.R;
 import xyz.miles.stime.bean.STimeUser;
+import xyz.miles.stime.util.ElementHolder;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -179,6 +184,7 @@ public class MainActivity extends AppCompatActivity
         EditText editTextNickNameC = findViewById(R.id.et_nickname_change);//昵称修改
         EditText editTextIntroC = findViewById(R.id.et_intro_change);//个性签名
         EditText editTextEmailC = findViewById(R.id.et_email_change);//修改邮箱
+        final RadioGroup radioGroup = findViewById(R.id.rg_gender_change);//性别
         ////修改头像
         imageViewHeadC.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,7 +225,48 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        /* --------------------------------修改逻辑处理-------------------------------------------- */
+        STimeUser updateUser = ElementHolder.getUser(); // 获取登录用户信息
+        // 设置原有信息显示
+        editTextNickNameC.setText(updateUser.getNickname());
+        editTextIntroC.setText(updateUser.getUserIntro());
+        editTextEmailC.setText(updateUser.getEmail());
 
+        // 修改昵称
+        String nickName = editTextNickNameC.getText().toString();
+        if (nickName.length() == 0) {   // 昵称为空，提示错误
+            Toast.makeText(getApplicationContext(), "昵称不能为空",
+                    Toast.LENGTH_SHORT).show();
+        }
+        else {  // 昵称不为空，更改昵称
+            updateUser.setNickname(nickName);
+
+            // 修改个性签名
+            String intro = editTextIntroC.getText().toString();
+            updateUser.setUserIntro(intro);
+
+            // 修改邮箱
+            String email = editTextEmailC.getText().toString();
+            updateUser.setEmail(email);
+
+            // 修改出生年月日
+            String birthDay = String.valueOf(year);
+            String monthStr = month < 10 ? "0" + String.valueOf(month) : String.valueOf(month);
+            String dayStr = day < 10 ? "0" + String.valueOf(day) : String.valueOf(day);
+            birthDay += "-" + monthStr + "-" + dayStr;
+            BmobDate bmobBirthDay = BmobDate.createBmobDate("yyyy-MM-dd", birthDay);
+            updateUser.setUserBirthday(bmobBirthDay);
+
+            // TODO 修改头像
+
+            // 修改性别
+            RadioButton sexChecked = findViewById(radioGroup.getCheckedRadioButtonId());
+            boolean sex = sexChecked.getText().toString().equals("男") ? true : false;
+            updateUser.setUserGender(sex);
+
+            // 提交修改
+            updateSTimeUser(updateUser);
+        }
     }
 
     @Override
@@ -372,9 +419,24 @@ public class MainActivity extends AppCompatActivity
         user.update(user.getObjectId(), new UpdateListener() {
             @Override
             public void done(BmobException e) {
-                //TODO 跟新操作完成后的后续操作
+                final int errorCode = e.getErrorCode();
+                switch (errorCode) {
+                    case 203:   // 邮箱已存在
+                        Toast.makeText(getApplicationContext(), "邮箱已存在",
+                                Toast.LENGTH_SHORT).show();
+                        break;
 
+                    case 204:   // 邮箱格式错误
+                    case 301:
+                        Toast.makeText(getApplicationContext(), "邮箱格式错误",
+                                Toast.LENGTH_SHORT).show();
+                        break;
 
+                    default:    // 其他错误
+                        Toast.makeText(getApplicationContext(), "未知错误，请联系开发人员",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
             }
         });
         return null;

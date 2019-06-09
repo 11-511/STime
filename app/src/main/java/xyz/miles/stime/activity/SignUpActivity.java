@@ -122,6 +122,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 // 设置信息
                                 STimeUser user = new STimeUser();
                                 user.setUsername(editTextAcc.getText().toString());
+                                user.setNickname(editTextAcc.getText().toString()); // 初始默认昵称为用户名
                                 user.setPassword(pwd);
                                 user.setEmail(editTextEmail.getText().toString().trim());
 
@@ -129,11 +130,11 @@ public class SignUpActivity extends AppCompatActivity {
                                 boolean sex = sexChecked.getText().toString().equals("男") ? true : false;
                                 user.setUserGender(sex);
 
-                                String birthday = String.valueOf(year);
-                                String monthstr = month < 10 ? "0" + String.valueOf(month) : String.valueOf(month);
-                                String daystr = day < 10 ? "0" + String.valueOf(day) : String.valueOf(day);
-                                birthday += "-" + monthstr + "-" + daystr;
-                                BmobDate bmobBirthDay = BmobDate.createBmobDate("yyyy-MM-dd", birthday);
+                                String birthDay = String.valueOf(year);
+                                String monthStr = month < 10 ? "0" + String.valueOf(month) : String.valueOf(month);
+                                String dayStr = day < 10 ? "0" + String.valueOf(day) : String.valueOf(day);
+                                birthDay += "-" + monthStr + "-" + dayStr;
+                                BmobDate bmobBirthDay = BmobDate.createBmobDate("yyyy-MM-dd", birthDay);
                                 user.setUserBirthday(bmobBirthDay);
 
                                 // 提交信息
