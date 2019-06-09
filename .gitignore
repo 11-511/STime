@@ -12,3 +12,6 @@
 /captures
 .externalNativeBuild
 /app/build/
+/app/build/outputs/logs/
+
+
