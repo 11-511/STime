@@ -92,37 +92,58 @@ public class SignUpActivity extends AppCompatActivity {
         buttonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //注册操作：
-                String pwd = editTextPwd.getText().toString();
-                String pwdSure = editTextPwds.getText().toString();
-                // 检测密码是否一致
-                if (pwd.equals(pwdSure)) {
-                    // 设置信息
-                    STimeUser user = new STimeUser();
-                    user.setUsername(editTextAcc.getText().toString());
-                    user.setPassword(pwd);
-                    user.setEmail(editTextEmail.getText().toString());
-
-                    RadioButton sexChecked = findViewById(radioGroup.getCheckedRadioButtonId());
-                    boolean sex = sexChecked.getText().toString().equals("男") ? true : false;
-                    user.setUserGender(sex);
-
-                    String birthday = String.valueOf(year);
-                    String monthstr = month < 10 ? "0" + String.valueOf(month) : String.valueOf(month);
-                    String daystr = day < 10 ? "0" + String.valueOf(day) : String.valueOf(day);
-                    birthday += "-" + monthstr + "-" + daystr;
-                    Log.d("birthday", birthday);
-
-                    BmobDate bmobBirthDay = BmobDate.createBmobDate("yyyy-MM-dd", birthday);
-                    user.setUserBirthday(bmobBirthDay);
-
-                    // 提交信息
-                    signUp(user);
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "两次输入的密码不一致",
+                // 注册操作：
+                // 先检测用户名是否为空
+                if (editTextAcc.getText().length() == 0) {
+                    Toast.makeText(getApplicationContext(), "用户名不能为空",
                             Toast.LENGTH_SHORT).show();
                 }
+                else {
+                    // 再检测密码是否为空
+                    String pwd = editTextPwd.getText().toString();
+                    if (pwd.length() == 0) {   // 密码为空
+                        Toast.makeText(getApplicationContext(), "密码不能为空",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else {  // 密码不为空
+                        // 检测密码是否大于等于6位
+                        if (pwd.length() < 6) {
+                            Toast.makeText(getApplicationContext(), "密码必须大于等于6位",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            String pwdSure = editTextPwds.getText().toString();
+                            // 检测密码是否一致
+                            if (!pwd.equals(pwdSure)) {  // 密码不一致
+                                Toast.makeText(getApplicationContext(), "两次输入的密码不一致",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                            else {  // 密码一致
+                                // 设置信息
+                                STimeUser user = new STimeUser();
+                                user.setUsername(editTextAcc.getText().toString());
+                                user.setNickname(editTextAcc.getText().toString()); // 初始默认昵称为用户名
+                                user.setPassword(pwd);
+                                user.setEmail(editTextEmail.getText().toString().trim());
+
+                                RadioButton sexChecked = findViewById(radioGroup.getCheckedRadioButtonId());
+                                boolean sex = sexChecked.getText().toString().equals("男") ? true : false;
+                                user.setUserGender(sex);
+
+                                String birthDay = String.valueOf(year);
+                                String monthStr = month < 10 ? "0" + String.valueOf(month) : String.valueOf(month);
+                                String dayStr = day < 10 ? "0" + String.valueOf(day) : String.valueOf(day);
+                                birthDay += "-" + monthStr + "-" + dayStr;
+                                BmobDate bmobBirthDay = BmobDate.createBmobDate("yyyy-MM-dd", birthDay);
+                                user.setUserBirthday(bmobBirthDay);
+
+                                // 提交信息
+                                signUp(user);
+                            }
+                        }
+                    }
+                }
+
             }
         });
 
@@ -152,6 +173,17 @@ public class SignUpActivity extends AppCompatActivity {
                     switch (errorCode) {
                         case 202:   // 用户已存在
                             Toast.makeText(getApplicationContext(), "用户名已存在",
+                                    Toast.LENGTH_SHORT).show();
+                            break;
+
+                        case 203:   // 邮箱已存在
+                            Toast.makeText(getApplicationContext(), "邮箱已存在",
+                                    Toast.LENGTH_SHORT).show();
+                            break;
+
+                        case 204:   // 邮箱格式错误
+                        case 301:
+                            Toast.makeText(getApplicationContext(), "邮箱格式错误",
                                     Toast.LENGTH_SHORT).show();
                             break;
 
