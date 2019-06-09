@@ -1,6 +1,10 @@
 package xyz.miles.stime.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ClipData;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +22,7 @@ import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import cn.bmob.v3.Bmob;
 import xyz.miles.stime.R;
@@ -142,7 +147,7 @@ public class MainActivity extends AppCompatActivity
 		int id = item.getItemId();
 
 		if (id == R.id.nav_home) {
-		
+			Toast.makeText(getApplicationContext(),"click",Toast.LENGTH_SHORT).show();
 		} else if (id == R.id.nav_my_image) {
 
 		} else if (id == R.id.nav_collections) {
@@ -150,9 +155,43 @@ public class MainActivity extends AppCompatActivity
 		} else if (id == R.id.nav_subscribe) {
 
 		} else if (id == R.id.nav_logout) {
-
+			AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+			builder.setIcon(R.drawable.ic_logout_black_24dp);
+			builder.setTitle("注销");
+			builder.setMessage("您确定要注销返回至登录页吗？");
+			builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					Intent intent=new Intent(MainActivity.this,LoginActivity.class);
+					startActivity(intent);
+					MainActivity.this.finish();
+				}
+			});
+			builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+				
+				}
+			});
+			builder.show();
 		} else if (id == R.id.nav_exit) {
-
+			AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+			builder.setIcon(R.drawable.ic_exit_to_app_black_24dp);
+			builder.setTitle("退出");
+			builder.setMessage("您确定要退出吗？");
+			builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					MainActivity.this.finish();
+				}
+			});
+			builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+				
+				}
+			});
+			builder.show();
 		}
 
 		DrawerLayout drawer = findViewById(R.id.drawer_layout);

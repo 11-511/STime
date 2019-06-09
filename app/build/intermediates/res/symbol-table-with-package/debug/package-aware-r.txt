@@ -1398,6 +1398,7 @@ layout design_navigation_menu_item
 layout design_text_input_password_icon
 layout mtrl_layout_snackbar
 layout mtrl_layout_snackbar_include
+layout my_info
 layout nav_header_main
 layout notification_action
 layout notification_action_tombstone
