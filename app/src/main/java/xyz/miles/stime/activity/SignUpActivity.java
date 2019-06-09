@@ -69,11 +69,11 @@ public class SignUpActivity extends AppCompatActivity {
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
         textViewDate.setText(String.format("%d 年%d 月%d 日", year, month+1, day));
-
+    
         buttonChooseDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+            
                 DatePickerDialog datePickerDialog = new DatePickerDialog(SignUpActivity.this, AlertDialog.THEME_HOLO_LIGHT,new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int dYear, int dMonth, int dDayOfMonth) {

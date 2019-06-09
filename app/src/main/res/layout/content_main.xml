@@ -7,10 +7,31 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activity.MainActivity"
     tools:showIn="@layout/app_bar_main">
+    <LinearLayout
+        android:id="@+id/view_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!--图片显示页-->
+        <include
+            android:id="@+id/classify_view"
+            android:visibility="visible"
+            layout="@layout/classify_page" />
+        <include
+            android:id="@+id/image_view"
+            android:visibility="visible"
+            layout="@layout/image_list_item"/>
+       <!--我的账户-->
+        <include
+            android:id="@+id/my_info_view"
+            android:visibility="invisible"
+            layout="@layout/my_info" />
 
-    <include
-        layout="@layout/classify_page"
-        />
+
+
+
+    </LinearLayout>
+
 
 
 </android.support.constraint.ConstraintLayout>

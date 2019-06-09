@@ -20,15 +20,16 @@
             android:id="@+id/nav_subscribe"
             android:icon="@drawable/ic_my_sub_black_24dp"
             android:title="@string/menu_subscribe" />
+        <item
+            android:id="@+id/nav_my_info"
+            android:icon="@drawable/ic_account_black_24dp"
+            android:title="@string/menu_my_info"
+            />
     </group>
 
-    <item android:title="账户">
+    <item android:title="功能">
         <menu>
-            <item
-                android:id="@+id/nav_my_info"
-                android:icon="@drawable/ic_account_black_24dp"
-                android:title="@string/menu_my_info"
-                />
+
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_logout_black_24dp"
