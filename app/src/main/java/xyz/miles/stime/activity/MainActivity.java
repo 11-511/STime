@@ -50,6 +50,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
@@ -208,6 +209,28 @@ public class MainActivity extends AppCompatActivity
         editTextNickNameC.setText(curUserInfo.getNickname());   // 显示原有昵称
         editTextIntroC.setText(curUserInfo.getUserIntro());     // 显示原有个性签名
         editTextEmailC.setText(curUserInfo.getEmail());         // 显示原有email
+        // 如果存在原有头像则显示
+        if (curUserInfo.getUserPortrait() != null) {
+            final BmobFile pictureFile = new BmobFile();
+            pictureFile.download(new DownloadFileListener() {   // 先下载头像文件
+                @Override
+                public void done(String s, BmobException e) {
+                    if (e != null) {    // 下载失败
+
+                    }
+                    else {
+                        String fileName = pictureFile.getFilename();
+                        Bitmap bitmap = BitmapFactory.decodeFile(fileName);
+                        imageViewHeadC.setImageBitmap(bitmap);
+                    }
+                }
+
+                @Override
+                public void onProgress(Integer integer, long l) {
+
+                }
+            });
+        }
         String birthDay = curUserInfo.getUserBirthday().getDate();
         year = Integer.valueOf(birthDay.substring(0, 4)).intValue();    // 截取年
         month = Integer.valueOf(birthDay.substring(5, 7)).intValue();   // 截取月
@@ -440,17 +463,16 @@ public class MainActivity extends AppCompatActivity
                             public void done(BmobException e) {
                                 if (e == null) {
                                     //TODO 图片上传成功后，用户信息也修改成功的处理方式.
-                                    System.out.println("成功修改用户信息");
+                                    Log.d("upload portrait", "上传头像成功");
                                 } else {
                                     uploadFile.delete();//如果图片上传成功后，用户修改信息失败则将之前上传的图片删除;
-                                    System.out.println("失败修改用户信息");
+                                    Log.d("update user information", "信息修改失败");
                                 }
                             }
                         });
                     } else {
                         //TODO 如果图片上传失败的处理方式
-                        System.out.println("失败上传图片");
-                        System.out.println(e.getErrorCode() + " " + e.getMessage());
+                        Log.d("upload portrait", "上传头像失败_" + e.toString());
                     }
                 }
 
