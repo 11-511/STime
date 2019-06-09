@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -39,12 +41,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobDate;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
@@ -179,11 +183,11 @@ public class MainActivity extends AppCompatActivity
         /*--------------------------------------我的账户-------------------------------------------*/
         /*------------------------------------个人信息修改-----------------------------------------*/
         //页面组件
-        ImageView imageViewHeadC = findViewById(R.id.iv_head_image_change);//修改头像
+        final ImageView imageViewHeadC = findViewById(R.id.iv_head_image_change);//修改头像
         TextView textViewSubNumC = findViewById(R.id.tv_sub_num);//被关注数
-        EditText editTextNickNameC = findViewById(R.id.et_nickname_change);//昵称修改
-        EditText editTextIntroC = findViewById(R.id.et_intro_change);//个性签名
-        EditText editTextEmailC = findViewById(R.id.et_email_change);//修改邮箱
+        final EditText editTextNickNameC = findViewById(R.id.et_nickname_change);//昵称修改
+        final EditText editTextIntroC = findViewById(R.id.et_intro_change);//个性签名
+        final EditText editTextEmailC = findViewById(R.id.et_email_change);//修改邮箱
         final RadioGroup radioGroup = findViewById(R.id.rg_gender_change);//性别
         ////修改头像
         imageViewHeadC.setOnClickListener(new View.OnClickListener() {
@@ -199,8 +203,19 @@ public class MainActivity extends AppCompatActivity
         });
         ////修改生日
 
+        /*------------------------------------用户原有信息显示--------------------------------------*/
+        final STimeUser curUserInfo = ElementHolder.getUser();  // 获取登录用户信息
+        editTextNickNameC.setText(curUserInfo.getNickname());   // 显示原有昵称
+        editTextIntroC.setText(curUserInfo.getUserIntro());     // 显示原有个性签名
+        editTextEmailC.setText(curUserInfo.getEmail());         // 显示原有email
+        String birthDay = curUserInfo.getUserBirthday().getDate();
+        year = Integer.valueOf(birthDay.substring(0, 4)).intValue();    // 截取年
+        month = Integer.valueOf(birthDay.substring(5, 7)).intValue();   // 截取月
+        day = Integer.valueOf(birthDay.substring(8, 10)).intValue();     // 截取日
+        Log.d("birthday", year + "-" + month + "-" + day);
 
-        //日期选择
+
+        // TODO ->lsh need to do 显示原有出生年月日以及新日期选择
         Button buttonChooseDate = findViewById(R.id.bt_choose_date);//日期选择
         final TextView textViewDate = findViewById(R.id.tv_date);
         Calendar calendar = Calendar.getInstance();
@@ -226,47 +241,49 @@ public class MainActivity extends AppCompatActivity
         });
 
         /* --------------------------------修改逻辑处理-------------------------------------------- */
-        STimeUser updateUser = ElementHolder.getUser(); // 获取登录用户信息
-        // 设置原有信息显示
-        editTextNickNameC.setText(updateUser.getNickname());
-        editTextIntroC.setText(updateUser.getUserIntro());
-        editTextEmailC.setText(updateUser.getEmail());
+        // 点击按钮更新信息
+        Button buttonChange = findViewById(R.id.bt_change_info);
+        buttonChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                STimeUser upUserInfo = curUserInfo;
+                // 修改昵称
+                String nickName = editTextNickNameC.getText().toString();
+                if (nickName.length() == 0) {   // 昵称为空，提示错误
+                    Toast.makeText(getApplicationContext(), "昵称不能为空",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else {  // 昵称不为空，更改昵称
+                    upUserInfo.setNickname(nickName);
 
-        // 修改昵称
-        String nickName = editTextNickNameC.getText().toString();
-        if (nickName.length() == 0) {   // 昵称为空，提示错误
-            Toast.makeText(getApplicationContext(), "昵称不能为空",
-                    Toast.LENGTH_SHORT).show();
-        }
-        else {  // 昵称不为空，更改昵称
-            updateUser.setNickname(nickName);
+                    // 修改个性签名
+                    String intro = editTextIntroC.getText().toString();
+                    upUserInfo.setUserIntro(intro);
 
-            // 修改个性签名
-            String intro = editTextIntroC.getText().toString();
-            updateUser.setUserIntro(intro);
+                    // 修改邮箱
+                    String email = editTextEmailC.getText().toString();
+                    upUserInfo.setEmail(email);
 
-            // 修改邮箱
-            String email = editTextEmailC.getText().toString();
-            updateUser.setEmail(email);
+                    // 修改出生年月日
+                    String birthDay = String.valueOf(year);
+                    String monthStr = month < 10 ? "0" + String.valueOf(month) : String.valueOf(month);
+                    String dayStr = day < 10 ? "0" + String.valueOf(day) : String.valueOf(day);
+                    birthDay += "-" + monthStr + "-" + dayStr;
+                    BmobDate bmobBirthDay = BmobDate.createBmobDate("yyyy-MM-dd", birthDay);
+                    upUserInfo.setUserBirthday(bmobBirthDay);
 
-            // 修改出生年月日
-            String birthDay = String.valueOf(year);
-            String monthStr = month < 10 ? "0" + String.valueOf(month) : String.valueOf(month);
-            String dayStr = day < 10 ? "0" + String.valueOf(day) : String.valueOf(day);
-            birthDay += "-" + monthStr + "-" + dayStr;
-            BmobDate bmobBirthDay = BmobDate.createBmobDate("yyyy-MM-dd", birthDay);
-            updateUser.setUserBirthday(bmobBirthDay);
+                    // TODO 修改头像
 
-            // TODO 修改头像
+                    // 修改性别
+                    RadioButton sexChecked = findViewById(radioGroup.getCheckedRadioButtonId());
+                    boolean sex = sexChecked.getText().toString().equals("男") ? true : false;
+                    upUserInfo.setUserGender(sex);
 
-            // 修改性别
-            RadioButton sexChecked = findViewById(radioGroup.getCheckedRadioButtonId());
-            boolean sex = sexChecked.getText().toString().equals("男") ? true : false;
-            updateUser.setUserGender(sex);
-
-            // 提交修改
-            updateSTimeUser(updateUser);
-        }
+                    // 提交修改
+                    updateSTimeUser(upUserInfo);
+                }
+            }
+        });
     }
 
     @Override
@@ -390,7 +407,8 @@ public class MainActivity extends AppCompatActivity
             System.out.println(picturePath);
             cursor.close();
             //TODO picturePath,图片上传
-
+            STimeUser user = ElementHolder.getUser();
+            user.setUserPortrait(new BmobFile(new File(picturePath)));
 
             //将图片显示到界面上(上传成功)
             ImageView imageView = findViewById(R.id.iv_head_image_change);
@@ -419,23 +437,30 @@ public class MainActivity extends AppCompatActivity
         user.update(user.getObjectId(), new UpdateListener() {
             @Override
             public void done(BmobException e) {
-                final int errorCode = e.getErrorCode();
-                switch (errorCode) {
-                    case 203:   // 邮箱已存在
-                        Toast.makeText(getApplicationContext(), "邮箱已存在",
-                                Toast.LENGTH_SHORT).show();
-                        break;
+                if (e != null) {
+                    final int errorCode = e.getErrorCode();
+                    switch (errorCode) {
+                        case 203:   // 邮箱已存在
+                            Toast.makeText(getApplicationContext(), "邮箱已存在",
+                                    Toast.LENGTH_SHORT).show();
+                            break;
 
-                    case 204:   // 邮箱格式错误
-                    case 301:
-                        Toast.makeText(getApplicationContext(), "邮箱格式错误",
-                                Toast.LENGTH_SHORT).show();
-                        break;
+                        case 204:   // 邮箱格式错误
+                        case 301:
+                            Toast.makeText(getApplicationContext(), "邮箱格式错误",
+                                    Toast.LENGTH_SHORT).show();
+                            break;
 
-                    default:    // 其他错误
-                        Toast.makeText(getApplicationContext(), "未知错误，请联系开发人员",
-                                Toast.LENGTH_SHORT).show();
-                        break;
+                        default:    // 其他错误
+                            Toast.makeText(getApplicationContext(), "未知错误，请联系开发人员",
+                                    Toast.LENGTH_SHORT).show();
+                            Log.d("update error", e.getMessage());
+                            break;
+                    }
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "用户信息更新成功",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
