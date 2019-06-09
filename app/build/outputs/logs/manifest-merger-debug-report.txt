@@ -1,0 +1,234 @@
+-- Merging decision tree log ---
+manifest
+ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:2:1-41:12
+INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:2:1-41:12
+INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:2:1-41:12
+INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:2:1-41:12
+MERGED from [cn.bmob.android:bmob-sdk:3.7.3-rc1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\d884e12f4d1721ddf6a564f05fd91f59\AndroidManifest.xml:2:1-16:12
+MERGED from [io.reactivex.rxjava2:rxandroid:2.1.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\52c080acd672abcd9b0db99cd10b52ef\AndroidManifest.xml:15:1-20:12
+MERGED from [com.android.support:design:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\04a5885d4d45311e80f9047467e9ab02\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\720a104c61f930346adbc53c8eddb852\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\0de8f5cc8365e7cf6caa65721db435c1\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\4115ea16e43ee64c1a5a4b8f4fe97ab0\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\5990dd15563cc1e1de2aa27c675eea97\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\0ad5d3e3e8f0429325e57a9da0d60499\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:recyclerview-v7:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\57f428d11116b6e3562ab2847b5b8bd1\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\67b50138d46df94a2767490dcc467f68\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\ed71184c171a6ffd111282ac653745f2\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\1602c6b5b025a38e4a07700dd8640019\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\2af7a06ffbffcb4943b7e7f539023d16\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:transition:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\e7640885bd0ff5f1c10380588a5b1374\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\f108ced3aa5e38121796448a350ebaa6\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\3fe24618d7d9e9b3a8da405bb2bea4ed\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\3320b818e4c68f63a611a109ebe99fcc\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\68a01fe0f4c7dc31f5e47de1e0137eb8\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\628090496fb7da4992398f7d4151955c\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\89143141e057aa6b9e2eb6dcf460b8f1\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\a3df85c85c59b069e1a39286490a72e3\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\c6392d8c851a1a4b58ad7ad30adc5197\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\8ef3d113ea9089c9b2d4bfbca0cb8929\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\2ebbc175f70a48dd52c37a18a36705d0\AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\03e41b5fb5f10869055d352576cc223f\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:cardview-v7:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\3e951323ae31f9c6ac32a068f52000cd\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\76654eb64ea6f8a7d5919bb2420f9d90\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\880e18547d4bc491f40e0a4f0235dec8\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\10b5f025aeda778da750f0033aa48e62\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\0f4b832d02ef9322a20556c3c98674d3\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\d0d5475eb9a2d6832a42bfbe58e86f5c\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\ca0f0d5e0aaee98b059593ae0422b642\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\6ca2a9003ca1c5cf557727604070fb46\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\044958a37c3e4122d6bf8c25d3070ecc\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\fcfaa3af13f019d7e66ce5af274d6cb0\AndroidManifest.xml:17:1-22:12
+INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:2:1-41:12
+INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:2:1-41:12
+INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:2:1-41:12
+	package
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:3:5-30
+		INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml
+		INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:2:1-41:12
+		INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:2:1-41:12
+		INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:6:5-67
+	android:name
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:6:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:7:5-79
+	android:name
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:7:22-76
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:8:5-76
+	android:name
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:8:22-73
+uses-permission#android.permission.WAKE_LOCK
+ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:9:5-68
+	android:name
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:9:22-65
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:10:5-81
+	android:name
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:10:22-78
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:11:5-75
+	android:name
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:11:22-72
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:12:5-80
+	android:name
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:12:22-77
+application
+ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:14:5-39:19
+MERGED from [cn.bmob.android:bmob-sdk:3.7.3-rc1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\d884e12f4d1721ddf6a564f05fd91f59\AndroidManifest.xml:11:5-14:19
+MERGED from [cn.bmob.android:bmob-sdk:3.7.3-rc1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\d884e12f4d1721ddf6a564f05fd91f59\AndroidManifest.xml:11:5-14:19
+MERGED from [com.android.support:design:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\04a5885d4d45311e80f9047467e9ab02\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:design:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\04a5885d4d45311e80f9047467e9ab02\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\4115ea16e43ee64c1a5a4b8f4fe97ab0\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\4115ea16e43ee64c1a5a4b8f4fe97ab0\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\8ef3d113ea9089c9b2d4bfbca0cb8929\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\8ef3d113ea9089c9b2d4bfbca0cb8929\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\2ebbc175f70a48dd52c37a18a36705d0\AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\2ebbc175f70a48dd52c37a18a36705d0\AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\8ef3d113ea9089c9b2d4bfbca0cb8929\AndroidManifest.xml:22:18-91
+	android:supportsRtl
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:20:9-35
+	android:label
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:17:9-41
+	android:roundIcon
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:19:9-54
+	android:icon
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:16:9-43
+	android:allowBackup
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:15:9-35
+	android:theme
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:21:9-40
+	android:networkSecurityConfig
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:18:9-69
+activity#xyz.miles.stime.activity.ImageActivity
+ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:22:9-69
+	android:name
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:22:19-57
+activity#xyz.miles.stime.activity.LoginActivity
+ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:23:9-29:20
+	android:name
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:23:19-57
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:24:13-28:29
+action#android.intent.action.MAIN
+ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:25:17-69
+	android:name
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:25:25-66
+category#android.intent.category.LAUNCHER
+ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:27:17-77
+	android:name
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:27:27-74
+activity#xyz.miles.stime.activity.SignUpActivity
+ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:30:9-61
+	android:name
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:30:19-58
+activity#xyz.miles.stime.activity.MainActivity
+ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:31:9-34:68
+	android:label
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:33:13-45
+	android:theme
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:34:13-56
+	android:name
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:32:13-50
+provider#cn.bmob.v3.util.BmobContentProvider
+ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:36:9-38:73
+	android:authorities
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:38:13-70
+	android:name
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml:37:13-63
+uses-sdk
+INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml
+INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml
+MERGED from [cn.bmob.android:bmob-sdk:3.7.3-rc1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\d884e12f4d1721ddf6a564f05fd91f59\AndroidManifest.xml:7:5-9:41
+MERGED from [cn.bmob.android:bmob-sdk:3.7.3-rc1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\d884e12f4d1721ddf6a564f05fd91f59\AndroidManifest.xml:7:5-9:41
+MERGED from [io.reactivex.rxjava2:rxandroid:2.1.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\52c080acd672abcd9b0db99cd10b52ef\AndroidManifest.xml:18:5-43
+MERGED from [io.reactivex.rxjava2:rxandroid:2.1.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\52c080acd672abcd9b0db99cd10b52ef\AndroidManifest.xml:18:5-43
+MERGED from [com.android.support:design:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\04a5885d4d45311e80f9047467e9ab02\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\04a5885d4d45311e80f9047467e9ab02\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\720a104c61f930346adbc53c8eddb852\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\720a104c61f930346adbc53c8eddb852\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\0de8f5cc8365e7cf6caa65721db435c1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\0de8f5cc8365e7cf6caa65721db435c1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\4115ea16e43ee64c1a5a4b8f4fe97ab0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\4115ea16e43ee64c1a5a4b8f4fe97ab0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\5990dd15563cc1e1de2aa27c675eea97\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\5990dd15563cc1e1de2aa27c675eea97\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\0ad5d3e3e8f0429325e57a9da0d60499\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\0ad5d3e3e8f0429325e57a9da0d60499\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\57f428d11116b6e3562ab2847b5b8bd1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\57f428d11116b6e3562ab2847b5b8bd1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\67b50138d46df94a2767490dcc467f68\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\67b50138d46df94a2767490dcc467f68\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\ed71184c171a6ffd111282ac653745f2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\ed71184c171a6ffd111282ac653745f2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\1602c6b5b025a38e4a07700dd8640019\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\1602c6b5b025a38e4a07700dd8640019\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\2af7a06ffbffcb4943b7e7f539023d16\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\2af7a06ffbffcb4943b7e7f539023d16\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\e7640885bd0ff5f1c10380588a5b1374\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\e7640885bd0ff5f1c10380588a5b1374\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\f108ced3aa5e38121796448a350ebaa6\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\f108ced3aa5e38121796448a350ebaa6\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\3fe24618d7d9e9b3a8da405bb2bea4ed\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\3fe24618d7d9e9b3a8da405bb2bea4ed\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\3320b818e4c68f63a611a109ebe99fcc\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\3320b818e4c68f63a611a109ebe99fcc\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\68a01fe0f4c7dc31f5e47de1e0137eb8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\68a01fe0f4c7dc31f5e47de1e0137eb8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\628090496fb7da4992398f7d4151955c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\628090496fb7da4992398f7d4151955c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\89143141e057aa6b9e2eb6dcf460b8f1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\89143141e057aa6b9e2eb6dcf460b8f1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\a3df85c85c59b069e1a39286490a72e3\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\a3df85c85c59b069e1a39286490a72e3\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\c6392d8c851a1a4b58ad7ad30adc5197\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\c6392d8c851a1a4b58ad7ad30adc5197\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\8ef3d113ea9089c9b2d4bfbca0cb8929\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\8ef3d113ea9089c9b2d4bfbca0cb8929\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\2ebbc175f70a48dd52c37a18a36705d0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\2ebbc175f70a48dd52c37a18a36705d0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\03e41b5fb5f10869055d352576cc223f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\03e41b5fb5f10869055d352576cc223f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\3e951323ae31f9c6ac32a068f52000cd\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\3e951323ae31f9c6ac32a068f52000cd\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\76654eb64ea6f8a7d5919bb2420f9d90\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\76654eb64ea6f8a7d5919bb2420f9d90\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\880e18547d4bc491f40e0a4f0235dec8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\880e18547d4bc491f40e0a4f0235dec8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\10b5f025aeda778da750f0033aa48e62\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\10b5f025aeda778da750f0033aa48e62\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\0f4b832d02ef9322a20556c3c98674d3\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\0f4b832d02ef9322a20556c3c98674d3\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\d0d5475eb9a2d6832a42bfbe58e86f5c\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\d0d5475eb9a2d6832a42bfbe58e86f5c\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\ca0f0d5e0aaee98b059593ae0422b642\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\ca0f0d5e0aaee98b059593ae0422b642\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\6ca2a9003ca1c5cf557727604070fb46\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\6ca2a9003ca1c5cf557727604070fb46\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\044958a37c3e4122d6bf8c25d3070ecc\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\044958a37c3e4122d6bf8c25d3070ecc\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\fcfaa3af13f019d7e66ce5af274d6cb0\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\Erakodo\.gradle\caches\transforms-2\files-2.1\fcfaa3af13f019d7e66ce5af274d6cb0\AndroidManifest.xml:20:5-44
+INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml
+INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml
+		INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml
+		ADDED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml
+		INJECTED from D:\code\Android_Code\course_design\app\src\main\AndroidManifest.xml
