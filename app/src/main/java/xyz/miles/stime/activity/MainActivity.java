@@ -33,13 +33,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.List;
 
 import cn.bmob.v3.Bmob;
 import xyz.miles.stime.R;
+import xyz.miles.stime.util.PictureType;
 
 public class MainActivity extends AppCompatActivity
 		implements NavigationView.OnNavigationItemSelectedListener {
@@ -177,6 +180,9 @@ public class MainActivity extends AppCompatActivity
 		EditText editTextNickNameC=findViewById(R.id.et_nickname_change);//昵称修改
 		EditText editTextIntroC=findViewById(R.id.et_intro_change);//个性签名
 		EditText editTextEmailC=findViewById(R.id.et_email_change);//修改邮箱
+		final RadioGroup radioGroup = findViewById(R.id.rg_gender_change);//性别
+			Button buttonChange=findViewById(R.id.bt_change_info);
+		TextView textViewPwdC=findViewById(R.id.tv_pwd_change);//修改密码
 		////修改头像
 			imageViewHeadC.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -190,9 +196,6 @@ public class MainActivity extends AppCompatActivity
 				}
 			});
 		////修改生日
-			
-			
-			
 			//日期选择
 			Button buttonChooseDate = findViewById(R.id.bt_choose_date);//日期选择
 			final TextView textViewDate = findViewById(R.id.tv_date);
@@ -217,10 +220,47 @@ public class MainActivity extends AppCompatActivity
 					datePickerDialog.show();
 				}
 			});
+		////修改密码
+			textViewPwdC.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+					builder.setTitle("修改密码");
+					builder.setIcon(getResources().getDrawable(R.drawable.ic_lock_outline_black_24dp));
+					builder.setMessage("确定要修改密码吗？将发送修改密码邮件至您的绑定邮箱。");
+					builder.setPositiveButton("确定修改", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							//TODO 发送改密邮件
+							
+						}
+					});
+					builder.setNegativeButton("取消",new DialogInterface.OnClickListener()
+					{
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+						}
+					});
+				}
+			});
 		
-		
-		
-		
+		/*----------------------------------我的图片------------------------------*/
+		//上传按键
+			Button buttonUpload=findViewById(R.id.bt_enter_upload);
+			buttonUpload.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent=new Intent(MainActivity.this,UploadActivity.class);
+					startActivity(intent);
+				}
+			});
+			
+			
+			
+			
+			
+			
+			
 		
 	}
 
@@ -265,16 +305,22 @@ public class MainActivity extends AppCompatActivity
 		View viewClassify=findViewById(R.id.classify_view);
 		View viewMyInfo=findViewById(R.id.my_info_view);
 		View viewImage=findViewById(R.id.image_view);
+		View viewMyImage=findViewById(R.id.upload_view);
 		
 		if (id == R.id.nav_home) {
 			viewClassify.setVisibility(View.VISIBLE);
 			viewImage.setVisibility(View.VISIBLE);
 			viewMyInfo.setVisibility(View.GONE);
-			
+			viewMyImage.setVisibility(View.GONE);
 			
 			
 		} else if (id == R.id.nav_my_image) {
-
+			viewClassify.setVisibility(View.GONE);
+			viewImage.setVisibility(View.VISIBLE);
+			viewMyInfo.setVisibility(View.GONE);
+			viewMyImage.setVisibility(View.VISIBLE);
+			
+			
 		} else if (id == R.id.nav_collections) {
 
 		} else if (id == R.id.nav_subscribe) {
@@ -283,6 +329,7 @@ public class MainActivity extends AppCompatActivity
 			viewClassify.setVisibility(View.GONE);
 			viewImage.setVisibility(View.GONE);
 			viewMyInfo.setVisibility(View.VISIBLE);
+			viewMyImage.setVisibility(View.GONE);
 
 		}else if (id == R.id.nav_logout) {
 			AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
