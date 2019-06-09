@@ -28,7 +28,6 @@ public final class   PictureType {
     public final static Integer CATE=9;
     public final static Integer PET=10;
     public final static Integer FILM=11;
-
     private PictureType(){}
 
 }

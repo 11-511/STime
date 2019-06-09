@@ -52,7 +52,6 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
-import cn.bmob.v3.listener.UploadFileListener;
 import xyz.miles.stime.R;
 import xyz.miles.stime.bean.STimeUser;
 import xyz.miles.stime.util.ElementHolder;
@@ -253,7 +252,8 @@ public class MainActivity extends AppCompatActivity
                 if (nickName.length() == 0) {   // 昵称为空，提示错误
                     Toast.makeText(getApplicationContext(), "昵称不能为空",
                             Toast.LENGTH_SHORT).show();
-                } else {  // 昵称不为空，更改昵称
+                }
+                else {  // 昵称不为空，更改昵称
                     upUserInfo.setNickname(nickName);
 
                     // 修改个性签名
@@ -426,56 +426,45 @@ public class MainActivity extends AppCompatActivity
      ***********************************************************************/
 
     /*
-     * 更新操作方法调用
-     *
-     * @param user
-     * 传入需要跟新的对象，对象必须包含objectId，否则会抛出异常
-     * */
-    public void updateSTimeUser(final STimeUser user) {
-        final BmobFile uploadFile = user.getUserPortrait();
-        if (uploadFile != null) {//如果有图片上传则执行
-            uploadFile.upload(new UploadFileListener() {
-                @Override
-                public void done(BmobException e) {
-                    if (e == null) {//图片上传成功则更新用户接下来的数据
-                        user.update(new UpdateListener() {
-                            @Override
-                            public void done(BmobException e) {
-                                if (e == null) {
-                                    //TODO 图片上传成功后，用户信息也修改成功的处理方式.
-                                    System.out.println("成功修改用户信息");
-                                } else {
-                                    uploadFile.delete();//如果图片上传成功后，用户修改信息失败则将之前上传的图片删除;
-                                    System.out.println("失败修改用户信息");
-                                }
-                            }
-                        });
-                    } else {
-                        //TODO 如果图片上传失败的处理方式
-                        System.out.println("失败上传图片");
-                        System.out.println(e.getErrorCode() + " " + e.getMessage());
-                    }
-                }
+    * 更新操作方法调用
+    *
+    * @param user
+    * 传入需要跟新的对象，对象必须包含objectId，否则会抛出异常
+    * */
+    public BmobException updateSTimeUser(STimeUser user) {
+        if (user.getObjectId() == null || user.getObjectId().equals(""))
+            throw new IllegalArgumentException("要被更新的用户必须拥有objectId值");
+        user.update(user.getObjectId(), new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e != null) {
+                    final int errorCode = e.getErrorCode();
+                    switch (errorCode) {
+                        case 203:   // 邮箱已存在
+                            Toast.makeText(getApplicationContext(), "邮箱已存在",
+                                    Toast.LENGTH_SHORT).show();
+                            break;
 
-                @Override
-                public void onProgress(Integer value) {
-                    //value为当前上传的进度值 百分比
-                }
-            });
-        } else {
-            user.update(new UpdateListener() {
-                @Override
-                public void done(BmobException e) {
-                    if (e == null) {
-                        //TODO 图片上传成功后，用户信息也修改成功的处理方式.
-                        System.out.println("成功修改用户信息");
-                    } else {
-                        //TODO 上传失败
-                        System.out.println("失败修改用户信息");
+                        case 204:   // 邮箱格式错误
+                        case 301:
+                            Toast.makeText(getApplicationContext(), "邮箱格式错误",
+                                    Toast.LENGTH_SHORT).show();
+                            break;
+
+                        default:    // 其他错误
+                            Toast.makeText(getApplicationContext(), "未知错误，请联系开发人员",
+                                    Toast.LENGTH_SHORT).show();
+                            Log.d("update error", e.getMessage());
+                            break;
                     }
                 }
-            });
-        }
+                else {
+                    Toast.makeText(getApplicationContext(), "用户信息更新成功",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        return null;
     }
 
 
