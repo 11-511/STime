@@ -172,7 +172,16 @@ public class MainActivity extends AppCompatActivity
         ImageView imageViewFavoriteCorner = findViewById(R.id.iv_favorite_corner);//图片右下角快速收藏
 
 
-
+        /*----------------------------------上传图片BUTTON-----------------------------------------*/
+        Button buttonEnterUpload=findViewById(R.id.bt_enter_upload);
+        buttonEnterUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this,UploadActivity.class);
+                startActivity(intent);
+        
+            }
+        });
 
 
 
@@ -216,14 +225,10 @@ public class MainActivity extends AppCompatActivity
         Log.d("birthday", year + "-" + month + "-" + day);
 
 
-        // TODO ->lsh need to do 显示原有出生年月日以及新日期选择
+        
         Button buttonChooseDate = findViewById(R.id.bt_choose_date);//日期选择
         final TextView textViewDate = findViewById(R.id.tv_date);
-        Calendar calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-        textViewDate.setText(String.format("%d 年%d 月%d 日", year, month + 1, day));
+        textViewDate.setText(String.format("%d 年%d 月%d 日", year, month, day));
         buttonChooseDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -327,15 +332,18 @@ public class MainActivity extends AppCompatActivity
         View viewClassify = findViewById(R.id.classify_view);
         View viewMyInfo = findViewById(R.id.my_info_view);
         View viewImage = findViewById(R.id.image_view);
-
+		View viewMyImage=findViewById(R.id.upload_view);
         if (id == R.id.nav_home) {
             viewClassify.setVisibility(View.VISIBLE);
             viewImage.setVisibility(View.VISIBLE);
             viewMyInfo.setVisibility(View.GONE);
-
+			viewMyImage.setVisibility(View.GONE);
 
         } else if (id == R.id.nav_my_image) {
-
+			viewClassify.setVisibility(View.GONE);
+			viewImage.setVisibility(View.VISIBLE);
+			viewMyInfo.setVisibility(View.GONE);
+			viewMyImage.setVisibility(View.VISIBLE);
         } else if (id == R.id.nav_collections) {
 
         } else if (id == R.id.nav_subscribe) {
@@ -344,6 +352,7 @@ public class MainActivity extends AppCompatActivity
             viewClassify.setVisibility(View.GONE);
             viewImage.setVisibility(View.GONE);
             viewMyInfo.setVisibility(View.VISIBLE);
+			viewMyImage.setVisibility(View.GONE);
 
         } else if (id == R.id.nav_logout) {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
