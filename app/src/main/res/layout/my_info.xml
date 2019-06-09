@@ -49,6 +49,17 @@
             android:layout_toRightOf="@+id/tv_sub_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_pwd_change"
+            android:text="修改密码"
+            android:textSize="15dp"
+            android:textColor="@android:color/holo_green_dark"
+            android:layout_toRightOf="@+id/iv_head_image_change"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_below="@+id/tv_sub_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 </RelativeLayout>
     <RelativeLayout
     android:layout_width="match_parent"

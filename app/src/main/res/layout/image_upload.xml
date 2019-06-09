@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+         <ImageView
+             android:id="@+id/iv_image_upload"
+             android:src="@drawable/ic_cloud_upload_100dp"
+             android:layout_width="match_parent"
+             android:layout_height="960px" />
+            <RelativeLayout
+                android:id="@+id/rl_image_title"
+                android:layout_below="@+id/iv_image_upload"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="12dp">
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/ic_title_black_24dp" />
+                <EditText
+                    android:id="@+id/et_title_upload"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:layout_alignParentBottom="true"
+                    android:inputType="text"
+                    android:textSize="15dp"
+                    android:hint="图片标题"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginEnd="48dp"
+                    android:maxLines="1"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_image_intro"
+                android:layout_below="@+id/rl_image_title"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="12dp">
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/ic_subtitles_black_24dp" />
+                <EditText
+                    android:id="@+id/et_image_intro_upload"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:layout_alignParentBottom="true"
+                    android:inputType="text"
+                    android:textSize="15dp"
+                    android:hint="图片简介"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginEnd="48dp"
+                    android:maxLines="1"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_image_tag"
+                android:layout_below="@+id/rl_image_intro"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="12dp">
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/ic_style_black_24dp" />
+                <Button
+                    android:id="@+id/bt_choose_tag"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:layout_alignParentBottom="true"
+                    android:textSize="15dp"
+                    android:text="选择图片分类"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginEnd="2dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_show_upload_tag"
+                    android:textColor="@android:color/white"
+                    android:textSize="11dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@+id/bt_choose_tag"
+                    android:background="@android:color/darker_gray"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <Button
+                android:id="@+id/bt_upload_image"
+                android:layout_below="@id/rl_image_tag"
+                android:layout_marginTop="48dp"
+                android:background="@color/colorPrimary"
+                android:textColor="@android:color/white"
+                android:textSize="15dp"
+                android:text="上传图片"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>
