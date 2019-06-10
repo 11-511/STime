@@ -71,27 +71,28 @@ public class MainActivity extends AppCompatActivity
     private int month;
     private int day;
     //界面组件
-    private NavigationView navigationView = findViewById(R.id.nav_view);
-    private View headView = navigationView.getHeaderView(0);
-    private ImageView imageViewHeadImage = headView.findViewById(R.id.iv_head_image);
-    private TextView textViewUserNickName = headView.findViewById(R.id.tv_user_nickname);
-    private TextView textViewIntro = headView.findViewById(R.id.tv_user_intro);
+    private NavigationView navigationView;
+    private View headView;
+    private ImageView imageViewHeadImage;
+    private TextView textViewUserNickName;
+    private TextView textViewIntro;
     //个人信息修改组件
-    private ImageView imageViewHeadC = findViewById(R.id.iv_head_image_change);//修改头像
-    private TextView textViewSubNumC = findViewById(R.id.tv_sub_num);//被关注数
-    private EditText editTextNickNameC = findViewById(R.id.et_nickname_change);//昵称修改
-    private EditText editTextIntroC = findViewById(R.id.et_intro_change);//个性签名
-    private EditText editTextEmailC = findViewById(R.id.et_email_change);//修改邮箱
-    private RadioGroup radioGroup = findViewById(R.id.rg_gender_change);//性别
-    private TextView textViewUserNameC = findViewById(R.id.tv_username_change); // 用户名(修改)
-    
+    private ImageView imageViewHeadC;//修改头像
+    private TextView textViewSubNumC;//被关注数
+    private EditText editTextNickNameC;//昵称修改
+    private EditText editTextIntroC;//个性签名
+    private EditText editTextEmailC;//修改邮箱
+    private RadioGroup radioGroup;//性别
+    private TextView textViewUserNameC; // 用户名(修改)
+    private final STimeUser curUserInfo = ElementHolder.getUser();  // 获取登录用户信息
+    private final File userPortraitDir = new File("/storage/emulated/0/Pictures/"); // 头像文件夹
+    private File localUserPortraitFile = null;   // 需要上传的本地头像图片文件
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final STimeUser curUserInfo = ElementHolder.getUser();  // 获取登录用户信息
-        final File userPortraitDir = new File("/storage/emulated/0/Pictures/");
+
 
         /*---------------------------------------权限获取---------------------------------------------*/
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity
         imageViewHeadImage = headView.findViewById(R.id.iv_head_image);
         textViewUserNickName = headView.findViewById(R.id.tv_user_nickname);
         textViewIntro = headView.findViewById(R.id.tv_user_intro);
-        //获取信息
+        // 侧边栏显示用户原有信息
         // 如果存在设置的头像则显示设置的头像，否则显示默认头像
         final BmobFile curUserPortrait = curUserInfo.getUserPortrait();
         String portraitFullPath = null;
@@ -268,7 +269,6 @@ public class MainActivity extends AppCompatActivity
         /*------------------------------------用户原有信息显示--------------------------------------*/
         editTextNickNameC.setText(curUserInfo.getNickname());   // 显示原有昵称
         editTextIntroC.setText(curUserInfo.getUserIntro());     // 显示原有个性签名
-        editTextEmailC.setText(curUserInfo.getEmail());         // 显示原有email
         textViewUserNameC.setText(curUserInfo.getUsername());   // 显示原有用户名
         // 如果存在原有头像则显示
         if (portraitFullPath != null) {
@@ -286,7 +286,7 @@ public class MainActivity extends AppCompatActivity
 
         Button buttonChooseDate = findViewById(R.id.bt_choose_date);//日期选择
         final TextView textViewDate = findViewById(R.id.tv_date);
-        textViewDate.setText(String.format("%d 年%d 月%d 日", year, month+1, day));
+        textViewDate.setText(String.format("%d 年%d 月%d 日", year, month, day));
         buttonChooseDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -294,10 +294,10 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onDateSet(DatePicker view, int dYear, int dMonth, int dDayOfMonth) {
                         year = dYear;
-                        month = dMonth;
+                        month = dMonth + 1;
                         day = dDayOfMonth;
-                        textViewDate.setText(String.format("%d 年%d 月%d 日", year, month + 1, day));
-                        System.out.println(String.format("%d 年%d 月%d 日", year, month + 1, day));
+                        textViewDate.setText(String.format("%d 年%d 月%d 日", year, month, day));
+                        System.out.println(String.format("%d 年%d 月%d 日", year, month, day));
                     }
                 }, year, month, day);
                 datePickerDialog.show();
@@ -310,13 +310,15 @@ public class MainActivity extends AppCompatActivity
         buttonChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                STimeUser upUserInfo = curUserInfo;
+                STimeUser upUserInfo = curUserInfo; // TODO 深拷贝处理
+
                 // 修改昵称
                 String nickName = editTextNickNameC.getText().toString();
                 if (nickName.length() == 0) {   // 昵称为空，提示错误
                     Toast.makeText(getApplicationContext(), "昵称不能为空",
                             Toast.LENGTH_SHORT).show();
-                } else {  // 昵称不为空，更改昵称
+                }
+                else {  // 昵称不为空，更改昵称
                     upUserInfo.setNickname(nickName);
 
                     // 修改个性签名
@@ -325,6 +327,7 @@ public class MainActivity extends AppCompatActivity
 
                     // 修改邮箱
                     String email = editTextEmailC.getText().toString();
+                    String oldEmail=new String(curUserInfo.getEmail().toCharArray());
                     upUserInfo.setEmail(email);
 
                     // 修改出生年月日
@@ -341,7 +344,7 @@ public class MainActivity extends AppCompatActivity
                     upUserInfo.setUserGender(sex);
 
                     // 提交修改
-                    updateSTimeUser(upUserInfo);
+                    updateSTimeUser(upUserInfo, oldEmail);
                 }
             }
         });
@@ -405,6 +408,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_subscribe) {
 
         } else if (id == R.id.nav_my_info) {
+            editTextEmailC.setText(curUserInfo.getEmail());      // 显示原有email
             viewClassify.setVisibility(View.GONE);
             viewImage.setVisibility(View.GONE);
             viewMyInfo.setVisibility(View.VISIBLE);
@@ -471,9 +475,8 @@ public class MainActivity extends AppCompatActivity
             String picturePath = cursor.getString(columnIndex);
             System.out.println(picturePath);
             cursor.close();
-            // 设置头像
-            STimeUser user = ElementHolder.getUser();
-            user.setUserPortrait(new BmobFile(new File(picturePath)));
+            // 设置需要上传的本地头像图片路径
+            localUserPortraitFile = new File(picturePath);
 
             //将图片显示到界面上(上传成功)
             ImageView imageView = findViewById(R.id.iv_head_image_change);
@@ -494,30 +497,23 @@ public class MainActivity extends AppCompatActivity
      * 更新操作方法调用
      *
      * @param user
-     * 传入需要跟新的对象，对象必须包含objectId，否则会抛出异常
+     * 传入需要更新的对象，对象必须包含objectId，否则会抛出异常
      * */
-    public void updateSTimeUser(final STimeUser user) {
-        final BmobFile uploadFile = user.getUserPortrait();
-        if (uploadFile != null) {//如果有图片上传则执行
+    public void updateSTimeUser(final STimeUser user,final String oldEmail) {
+
+        if (localUserPortraitFile != null) {    // 用户需要上传头像
+            final BmobFile uploadFile = new BmobFile(localUserPortraitFile);
             uploadFile.upload(new UploadFileListener() {
                 @Override
                 public void done(BmobException e) {
-                    if (e == null) {//图片上传成功则更新用户接下来的数据
-                        user.update(new UpdateListener() {
-                            @Override
-                            public void done(BmobException e) {
-                                if (e == null) {
-                                    //TODO 图片上传成功后，用户信息也修改成功的处理方式.
-                                    Log.d("upload portrait", "上传头像成功");
-                                } else {
-                                    uploadFile.delete();//如果图片上传成功后，用户修改信息失败则将之前上传的图片删除;
-                                    Log.d("update user information", "信息修改失败");
-                                }
-                            }
-                        });
-                    } else {
-                        //TODO 如果图片上传失败的处理方式
-                        Log.d("upload portrait", "上传头像失败_" + e.toString());
+                    if (e == null) {    // 上传头像成功
+                        Log.d("upload portrait success", "头像上传成功");
+                        localUserPortraitFile = null;   // 重新将选择上传的头像图片置空，避免一次修改后再次进入会继续上传头像
+                        user.setUserPortrait(uploadFile);
+                    }
+                    else {  // 上传头像失败
+                        Toast.makeText(getApplicationContext(), "头像上传失败", Toast.LENGTH_SHORT).show();
+                        Log.d("upload portrait fail", e.toString());
                     }
                 }
 
@@ -526,20 +522,46 @@ public class MainActivity extends AppCompatActivity
                     //value为当前上传的进度值 百分比
                 }
             });
-        } else {
-            user.update(new UpdateListener() {
-                @Override
-                public void done(BmobException e) {
-                    if (e == null) {
-                        //TODO 图片上传成功后，用户信息也修改成功的处理方式.
-                        System.out.println("成功修改用户信息");
-                    } else {
-                        //TODO 上传失败
-                        System.out.println("失败修改用户信息");
+        }
+        user.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null) {    // 用户信息更新成功，侧边栏显示更新后的用户信息
+                    if (localUserPortraitFile != null) {    // 用户修改了头像
+                        Bitmap newUserPortrait = BitmapFactory.decodeFile(localUserPortraitFile.getPath());
+                        imageViewHeadImage.setImageBitmap(newUserPortrait);  // 更新侧边栏的头像显示
+                    }
+                    textViewUserNickName.setText(user.getNickname());   // 更新侧边栏用户昵称显示
+                    textViewIntro.setText(user.getUserIntro());         // 更新侧边栏用户个性签名
+                    Log.d("update success", "更新用户信息成功");
+                    Toast.makeText(getApplicationContext(), "更新用户信息成功", Toast.LENGTH_LONG).show();
+                }
+                else {    // 用户信息修改失败
+                    Log.d("update fail", e.toString());
+                    final int errorCode = e.getErrorCode();
+                    switch (errorCode) {
+                        case 203:   // 邮箱已存在
+                            Toast.makeText(getApplicationContext(), "修改信息失败--邮箱已存在",
+                                    Toast.LENGTH_SHORT).show();
+                            break;
+
+                        case 204:   // 邮箱格式错误
+                        case 301:
+                            Toast.makeText(getApplicationContext(), "修改信息失败--邮箱格式错误",
+                                    Toast.LENGTH_SHORT).show();
+                            STimeUser loginUser=ElementHolder.getUser();
+                            loginUser.setEmail(oldEmail);
+                            Log.d("curUserInfo", curUserInfo.getEmail());
+                            break;
+
+                        default:    // 其他错误
+                            Toast.makeText(getApplicationContext(), "修改信息失败--未知错误，请联系开发人员",
+                                    Toast.LENGTH_SHORT).show();
+                            break;
                     }
                 }
-            });
-        }
+            }
+        });
     }
 
 

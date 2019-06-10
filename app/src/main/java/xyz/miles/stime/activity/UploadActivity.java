@@ -55,8 +55,7 @@ public class UploadActivity extends AppCompatActivity {
 				});
 			}
 		});
-		
-		j
+
 		final String[] multiChoiceItems=new String[]{"家具",
 				"旅行",
 				"阅读",
