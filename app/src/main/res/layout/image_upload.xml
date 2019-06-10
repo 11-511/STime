@@ -104,7 +104,7 @@
             <Button
                 android:id="@+id/bt_upload_image"
                 android:layout_below="@id/rl_image_tag"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="32dp"
                 android:background="@color/colorPrimary"
                 android:textColor="@android:color/white"
                 android:textSize="15dp"

@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final STimeUser curUserInfo = ElementHolder.getUser();  // 获取登录用户信息
+        final File userPortraitDir = new File("/storage/emulated/0/Pictures/");
 
         /*---------------------------------------权限获取---------------------------------------------*/
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -104,12 +106,46 @@ public class MainActivity extends AppCompatActivity
 
         /*-------------------------------------侧边栏头--------------------------------------------*/
         //页面组件
-        ImageView imageViewHeadImage = findViewById(R.id.iv_head_image);
-        TextView textViewUserNickName = findViewById(R.id.tv_user_nickname);
-        TextView textViewIntro = findViewById(R.id.tv_user_intro);
+        View headView = navigationView.getHeaderView(0);
+        final ImageView imageViewHeadImage = headView.findViewById(R.id.iv_head_image);
+        TextView textViewUserNickName = headView.findViewById(R.id.tv_user_nickname);
+        TextView textViewIntro = headView.findViewById(R.id.tv_user_intro);
         //获取信息
+        // 如果存在设置的头像则显示设置的头像，否则显示默认头像
+        final BmobFile curUserPortrait = curUserInfo.getUserPortrait();
+        String portraitFullPath = null;
+        if (curUserInfo.getUserPortrait() != null) {
+            String fileName = curUserPortrait.getFilename();
+            final File portraitFile = new File(userPortraitDir + "/" + fileName); // 完整的图片路径
+            if (!portraitFile.exists()) {    // 如果头像文件不在本地缓存中就下载下来
+                curUserPortrait.download(portraitFile, new DownloadFileListener() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        if (e != null) {    // 下载失败
+                            Log.d("首页用户侧边栏 Portrait download", "下载用户头像失败_" + e.toString());
+                        }
+                        else {  // 下载成功
+                            Log.d("首页用户侧边栏 Portrait download", "成功下载用户头像");
+                            Log.d("portrait path", portraitFile.getPath());
+                        }
+                    }
 
+                    @Override
+                    public void onProgress(Integer integer, long l) {
 
+                    }
+                });
+            }
+            Log.d("portrait path", portraitFile.getPath());
+            Bitmap bitmap = BitmapFactory.decodeFile(portraitFile.getPath());
+            if (bitmap != null) {
+                imageViewHeadImage.setImageBitmap(bitmap);
+                portraitFullPath = portraitFile.getPath();
+            }
+        }
+        // 设置用户昵称、个性签名
+        textViewUserNickName.setText(curUserInfo.getNickname());
+        textViewIntro.setText(curUserInfo.getUserIntro());
 
 
         /*-----------------------------------图片页（主页)--------------------------------------*/
@@ -173,7 +209,16 @@ public class MainActivity extends AppCompatActivity
         ImageView imageViewFavoriteCorner = findViewById(R.id.iv_favorite_corner);//图片右下角快速收藏
 
 
-
+        /*----------------------------------上传图片BUTTON-----------------------------------------*/
+        Button buttonEnterUpload=findViewById(R.id.bt_enter_upload);
+        buttonEnterUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this,UploadActivity.class);
+                startActivity(intent);
+        
+            }
+        });
 
 
 
@@ -191,6 +236,7 @@ public class MainActivity extends AppCompatActivity
         final EditText editTextIntroC = findViewById(R.id.et_intro_change);//个性签名
         final EditText editTextEmailC = findViewById(R.id.et_email_change);//修改邮箱
         final RadioGroup radioGroup = findViewById(R.id.rg_gender_change);//性别
+        final TextView textViewUserNameC = findViewById(R.id.tv_username_change);   // 用户名
         ////修改头像
         imageViewHeadC.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,32 +251,16 @@ public class MainActivity extends AppCompatActivity
         });
 
         /*------------------------------------用户原有信息显示--------------------------------------*/
-        final STimeUser curUserInfo = ElementHolder.getUser();  // 获取登录用户信息
         editTextNickNameC.setText(curUserInfo.getNickname());   // 显示原有昵称
         editTextIntroC.setText(curUserInfo.getUserIntro());     // 显示原有个性签名
         editTextEmailC.setText(curUserInfo.getEmail());         // 显示原有email
+        textViewUserNameC.setText(curUserInfo.getUsername());   // 显示原有用户名
         // 如果存在原有头像则显示
-        if (curUserInfo.getUserPortrait() != null) {
-            final BmobFile pictureFile = new BmobFile();
-            pictureFile.download(new DownloadFileListener() {   // 先下载头像文件
-                @Override
-                public void done(String s, BmobException e) {
-                    if (e != null) {    // 下载失败
-
-                    }
-                    else {
-                        String fileName = pictureFile.getFilename();
-                        Bitmap bitmap = BitmapFactory.decodeFile(fileName);
-                        imageViewHeadC.setImageBitmap(bitmap);
-                    }
-                }
-
-                @Override
-                public void onProgress(Integer integer, long l) {
-
-                }
-            });
+        if (portraitFullPath != null) {
+            Bitmap bitmap = BitmapFactory.decodeFile(portraitFullPath);
+            imageViewHeadC.setImageBitmap(bitmap);
         }
+
         String birthDay = curUserInfo.getUserBirthday().getDate();
         year = Integer.valueOf(birthDay.substring(0, 4)).intValue();    // 截取年
         month = Integer.valueOf(birthDay.substring(5, 7)).intValue();   // 截取月
@@ -238,14 +268,10 @@ public class MainActivity extends AppCompatActivity
         Log.d("birthday", year + "-" + month + "-" + day);
 
 
-        // TODO ->lsh need to do 显示原有出生年月日以及选择新日期后修改
+
         Button buttonChooseDate = findViewById(R.id.bt_choose_date);//日期选择
         final TextView textViewDate = findViewById(R.id.tv_date);
-        Calendar calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-        textViewDate.setText(String.format("%d 年%d 月%d 日", year, month + 1, day));
+        textViewDate.setText(String.format("%d 年%d 月%d 日", year, month, day));
         buttonChooseDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -347,15 +373,18 @@ public class MainActivity extends AppCompatActivity
         View viewClassify = findViewById(R.id.classify_view);
         View viewMyInfo = findViewById(R.id.my_info_view);
         View viewImage = findViewById(R.id.image_view);
-
+		View viewMyImage=findViewById(R.id.upload_view);
         if (id == R.id.nav_home) {
             viewClassify.setVisibility(View.VISIBLE);
             viewImage.setVisibility(View.VISIBLE);
             viewMyInfo.setVisibility(View.GONE);
-
+			viewMyImage.setVisibility(View.GONE);
 
         } else if (id == R.id.nav_my_image) {
-
+			viewClassify.setVisibility(View.GONE);
+			viewImage.setVisibility(View.VISIBLE);
+			viewMyInfo.setVisibility(View.GONE);
+			viewMyImage.setVisibility(View.VISIBLE);
         } else if (id == R.id.nav_collections) {
 
         } else if (id == R.id.nav_subscribe) {
@@ -364,6 +393,7 @@ public class MainActivity extends AppCompatActivity
             viewClassify.setVisibility(View.GONE);
             viewImage.setVisibility(View.GONE);
             viewMyInfo.setVisibility(View.VISIBLE);
+			viewMyImage.setVisibility(View.GONE);
 
         } else if (id == R.id.nav_logout) {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -426,7 +456,7 @@ public class MainActivity extends AppCompatActivity
             String picturePath = cursor.getString(columnIndex);
             System.out.println(picturePath);
             cursor.close();
-            //TODO picturePath,图片上传
+            // 设置头像
             STimeUser user = ElementHolder.getUser();
             user.setUserPortrait(new BmobFile(new File(picturePath)));
 
