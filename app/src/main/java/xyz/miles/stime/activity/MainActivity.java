@@ -70,6 +70,21 @@ public class MainActivity extends AppCompatActivity
     private int year;
     private int month;
     private int day;
+    //界面组件
+    private NavigationView navigationView = findViewById(R.id.nav_view);
+    private View headView = navigationView.getHeaderView(0);
+    private ImageView imageViewHeadImage = headView.findViewById(R.id.iv_head_image);
+    private TextView textViewUserNickName = headView.findViewById(R.id.tv_user_nickname);
+    private TextView textViewIntro = headView.findViewById(R.id.tv_user_intro);
+    //个人信息修改组件
+    private ImageView imageViewHeadC = findViewById(R.id.iv_head_image_change);//修改头像
+    private TextView textViewSubNumC = findViewById(R.id.tv_sub_num);//被关注数
+    private EditText editTextNickNameC = findViewById(R.id.et_nickname_change);//昵称修改
+    private EditText editTextIntroC = findViewById(R.id.et_intro_change);//个性签名
+    private EditText editTextEmailC = findViewById(R.id.et_email_change);//修改邮箱
+    private RadioGroup radioGroup = findViewById(R.id.rg_gender_change);//性别
+    private TextView textViewUserNameC = findViewById(R.id.tv_username_change); // 用户名(修改)
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +109,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -106,10 +121,10 @@ public class MainActivity extends AppCompatActivity
 
         /*-------------------------------------侧边栏头--------------------------------------------*/
         //页面组件
-        View headView = navigationView.getHeaderView(0);
-        final ImageView imageViewHeadImage = headView.findViewById(R.id.iv_head_image);
-        TextView textViewUserNickName = headView.findViewById(R.id.tv_user_nickname);
-        TextView textViewIntro = headView.findViewById(R.id.tv_user_intro);
+        headView = navigationView.getHeaderView(0);
+        imageViewHeadImage = headView.findViewById(R.id.iv_head_image);
+        textViewUserNickName = headView.findViewById(R.id.tv_user_nickname);
+        textViewIntro = headView.findViewById(R.id.tv_user_intro);
         //获取信息
         // 如果存在设置的头像则显示设置的头像，否则显示默认头像
         final BmobFile curUserPortrait = curUserInfo.getUserPortrait();
@@ -230,13 +245,13 @@ public class MainActivity extends AppCompatActivity
         /*--------------------------------------我的账户-------------------------------------------*/
         /*------------------------------------个人信息修改-----------------------------------------*/
         //页面组件
-        final ImageView imageViewHeadC = findViewById(R.id.iv_head_image_change);//修改头像
-        TextView textViewSubNumC = findViewById(R.id.tv_sub_num);//被关注数
-        final EditText editTextNickNameC = findViewById(R.id.et_nickname_change);//昵称修改
-        final EditText editTextIntroC = findViewById(R.id.et_intro_change);//个性签名
-        final EditText editTextEmailC = findViewById(R.id.et_email_change);//修改邮箱
-        final RadioGroup radioGroup = findViewById(R.id.rg_gender_change);//性别
-        final TextView textViewUserNameC = findViewById(R.id.tv_username_change);   // 用户名
+        imageViewHeadC = findViewById(R.id.iv_head_image_change);//修改头像
+        textViewSubNumC = findViewById(R.id.tv_sub_num);//被关注数
+        editTextNickNameC = findViewById(R.id.et_nickname_change);//昵称修改
+        editTextIntroC = findViewById(R.id.et_intro_change);//个性签名
+        editTextEmailC = findViewById(R.id.et_email_change);//修改邮箱
+        radioGroup = findViewById(R.id.rg_gender_change);//性别
+        textViewUserNameC = findViewById(R.id.tv_username_change);   // 用户名
         ////修改头像
         imageViewHeadC.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -271,7 +286,7 @@ public class MainActivity extends AppCompatActivity
 
         Button buttonChooseDate = findViewById(R.id.bt_choose_date);//日期选择
         final TextView textViewDate = findViewById(R.id.tv_date);
-        textViewDate.setText(String.format("%d 年%d 月%d 日", year, month, day));
+        textViewDate.setText(String.format("%d 年%d 月%d 日", year, month+1, day));
         buttonChooseDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
