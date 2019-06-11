@@ -15,20 +15,110 @@
             android:id="@+id/iv_watch_image"
             android:scaleType="centerCrop"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="960px" />
 
             <TextView
                 android:id="@+id/tv_watch_title"
-                android:layout_toEndOf="@+id/iv_watch_image"
+                android:text="图片标题"
+                android:textSize="30dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_below="@+id/iv_watch_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_watch_image_intro"
-                android:layout_toEndOf="@+id/tv_watch_title"
+                android:text="图片简介"
+                android:textSize="20dp"
+                android:layout_below="@+id/tv_watch_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/iv_watch_image_collect"
+                android:layout_below="@+id/iv_watch_image"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_star_border_50dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <TextView
+                android:id="@+id/tv_watch_image_collect_num"
+                android:text="114"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/iv_watch_image_collect"
+                android:layout_width="50dp"
+                android:layout_height="20dp" />
+            <View
+                android:layout_below="@+id/tv_watch_image_intro"
+                android:layout_marginTop="12dp"
+                android:background="@android:color/darker_gray"
+                android:layout_width="match_parent"
+                android:layout_height="1px"/>
+            <!--收藏数-->
 
-        </RelativeLayout>
+            <!--作者-->
+                <ImageView
+                    android:id="@+id/iv_watch_author_head"
+                    android:layout_below="@+id/tv_watch_image_intro"
+                    android:layout_marginTop="24dp"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_launcher"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp" />
+                <TextView
+                    android:id="@+id/tv_watch_author_name"
+                    android:text="作者名"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_toRightOf="@+id/iv_watch_author_head"
+                    android:layout_below="@+id/tv_watch_image_intro"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="12dp"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_watch_author_sub_num"
+                    android:layout_below="@+id/tv_watch_author_name"
+                    android:layout_marginLeft="12dp"
+                    android:layout_toRightOf="@+id/iv_watch_author_head"
+                    android:text="被关注数:0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/iv_watch_author_sub"
+                    android:layout_marginTop="24dp"
+                    android:src="@drawable/ic_favorite_border_24dp"
+                    android:layout_below="@+id/tv_watch_image_intro"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp" />
+            <View
+                android:layout_below="@+id/iv_watch_author_head"
+                android:layout_marginTop="12dp"
+                android:background="@android:color/darker_gray"
+                android:layout_width="match_parent"
+                android:layout_height="1px"/>
+            <!--评论-->
+            <TextView
+                android:id="@+id/tv_watch_comment_num"
+                android:text="评论（0）"
+                android:layout_marginTop="24dp"
+                android:layout_below="@id/iv_watch_author_head"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rlv_comment"
+                android:layout_below="@+id/tv_watch_comment_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+
+            </RelativeLayout>
+
+
+
 
 
     </ScrollView>

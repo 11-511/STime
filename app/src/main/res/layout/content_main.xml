@@ -24,7 +24,7 @@
         <include
             android:id="@+id/image_view"
             android:visibility="visible"
-            layout="@layout/image_list_item"/>
+            layout="@layout/image_list_view"/>
        <!--我的账户-->
         <include
             android:id="@+id/my_info_view"
