@@ -43,18 +43,21 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import xyz.miles.stime.R;
+import xyz.miles.stime.bean.STimePicture;
 import xyz.miles.stime.bean.STimeUser;
 import xyz.miles.stime.util.ElementHolder;
 
@@ -88,10 +91,16 @@ public class MainActivity extends AppCompatActivity
     private final File userPortraitDir = new File("/storage/emulated/0/Pictures/"); // 头像文件夹
     private File localUserPortraitFile = null;   // 需要上传的本地头像图片文件
 
+    private List<STimePicture> ownPictures=new LinkedList<>();//用户本身上传的图片集合
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        queryPictureByUser(ElementHolder.getUser());
 
 
         /*---------------------------------------权限获取---------------------------------------------*/
@@ -587,8 +596,26 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    public void queryPictureByUser(STimeUser user){
+        BmobQuery<STimePicture> query=new BmobQuery<>();
+        query.addWhereEqualTo("pictureAuthor",new BmobPointer(user));
+        query.findObjects(new FindListener<STimePicture>() {
+            @Override
+            public void done(List<STimePicture> list, BmobException e) {
+                if (e==null){
+                    ownPictures=list;//查询成功后将图片保存到实例字段中
+                    for (STimePicture s:ownPictures){
+                        System.out.println(s.getPictureContent().getFileUrl());
+                    }
 
+                }else {
+                    //TODO 查询失败的处理操作
+                    System.out.println("查询失败："+e.getErrorCode()+" "+e.getMessage());
+                }
 
+            }
+        });
+    }
 
 
 
