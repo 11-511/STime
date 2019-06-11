@@ -7,8 +7,9 @@
     android:padding="8dp"
     app:cardCornerRadius="8dp">
     <RelativeLayout
+        android:id="@+id/rl_image_list"
         android:layout_width="match_parent"
-        android:layout_height="607.5px">
+        android:layout_height="540px">
         <ImageView
             android:id="@+id/iv_image"
             android:scaleType="centerCrop"
