@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,18 +18,30 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.crypto.spec.IvParameterSpec;
 
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import xyz.miles.stime.R;
 import xyz.miles.stime.bean.STimePicture;
+import xyz.miles.stime.bean.STimeUser;
+import xyz.miles.stime.util.ElementHolder;
 
 public class UploadActivity extends AppCompatActivity {
 
     private ListView lv;
+    private File uploadPictureFile = null;
+    private EditText editTextImageTitle;
+    private EditText editTextImageIntro;
+    private STimeUser curUser = ElementHolder.getUser();    // 当前登录用户
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +52,8 @@ public class UploadActivity extends AppCompatActivity {
 
         /*---------------------------------------上传图片---------------------------------------*/
         ////组件
-        EditText editTextImageTitle = findViewById(R.id.et_title_upload);//图片标题
-        EditText editTextImageIntro = findViewById(R.id.et_image_intro_upload);//图片简介
+        editTextImageTitle = findViewById(R.id.et_title_upload);//图片标题
+        editTextImageIntro = findViewById(R.id.et_image_intro_upload);//图片简介
         final ImageView imageViewUpload = findViewById(R.id.iv_image_upload);
         Button buttonChooseTag = findViewById(R.id.bt_choose_tag);
         final TextView textViewTag = findViewById(R.id.tv_show_upload_tag);
@@ -120,7 +133,41 @@ public class UploadActivity extends AppCompatActivity {
         buttonUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 上传图片
+                // 上传作品逻辑处理
+                if (uploadPictureFile != null) {
+                    String title = editTextImageTitle.getText().toString();
+                    String intro = editTextImageIntro.getText().toString();
+                    if (title.length() != 0) {
+                        STimePicture picture = new STimePicture();
+                        picture.setPictureAuthor(curUser);
+                        picture.setPictureTitle(title);
+                        picture.setPictureBrief(intro);
+                        picture.setPictureContent(new BmobFile(uploadPictureFile));
+                        // 设置获取的标签
+                        List<String> tags = new ArrayList<>();
+                        for (int i = 0; i < checked.length; ++i) {
+                            if (checked[i]) {
+                                tags.add(multiChoiceItems[i]);
+                            }
+                        }
+                        if (!tags.isEmpty()) {  // 至少选择了一个标签
+                            picture.setPictureType(tags);
+                            uploadPicture(picture);
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "请至少选择一个图片分类",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "图片标题不能为空",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "图片为空，请选择图片上传",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -143,8 +190,9 @@ public class UploadActivity extends AppCompatActivity {
             String picturePath = cursor.getString(columnIndex);
             System.out.println(picturePath);
             cursor.close();
-            //TODO picturePath,图片上传
-
+            // 保存需要上传的图片文件路径
+            uploadPictureFile = new File(picturePath);
+            Log.d("onActivityResult", uploadPictureFile.getPath());
 
             //将图片显示到界面上(上传成功)
             ImageView imageView = findViewById(R.id.iv_image_upload);
@@ -162,33 +210,35 @@ public class UploadActivity extends AppCompatActivity {
      ***********************************************************************/
 
     /*
-    * 上传图片本身
-    * */
-    public void uploadPictureContent(final STimePicture picture){
-
+     * 上传作品
+     */
+    public void uploadPicture(final STimePicture picture) {
+        // 先尝试上传图片文件
         picture.getPictureContent().upload(new UploadFileListener() {
             @Override
             public void done(BmobException e) {
-                if (e==null){
-                    //TODO 图片上传成功
-                }else {
-                    //TODO 如果图片上传失败的处理操作
+                if (e == null){   // 图片文件上传成功
+                    // 接着尝试上传图片的标题、简介、作者
+                    picture.save(new SaveListener<String>() {
+                        @Override
+                        public void done(String s, BmobException e) {
+                            if (e == null) {    // 图片标题、简介、作者上传成功
+                                Toast.makeText(UploadActivity.this, "图片上传成功!",
+                                        Toast.LENGTH_SHORT).show();
+                                uploadPictureFile = null;   // 上传完后置空图片路径，防止用户多次点击，上传同一张图片
+                                UploadActivity.this.finish();
+                            }
+                            else {  // 图片标题、简介、作者上传失败
+                                Toast.makeText(UploadActivity.this, "图片上传失败!",
+                                        Toast.LENGTH_SHORT).show();
+                                Log.d("upload picture content", e.toString());
+                            }
+                        }
+                    });
                 }
-            }
-        });
-    }
-
-    /*
-    * 上传图片文字内容，若STimePicture中有图片对象，则应先将图片本身上传，在上传文字内容
-    * */
-    public void uploadPictureText(final STimePicture picture){
-        picture.save(new SaveListener<String>() {
-            @Override
-            public void done(String s, BmobException e) {
-                if (e==null){
-                    //TODO图片与信息都上传成功的处理
-                }else {
-
+                else {  // 图片文件上传失败
+                    deletePictureContent(picture);
+                    Log.d("upload picture", e.toString());
                 }
             }
         });
@@ -201,7 +251,7 @@ public class UploadActivity extends AppCompatActivity {
         picture.getPictureContent().delete(new UpdateListener() {
             @Override
             public void done(BmobException e) {
-                //
+
             }
         });
     }

@@ -310,7 +310,7 @@ public class MainActivity extends AppCompatActivity
         buttonChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                STimeUser upUserInfo = curUserInfo; // TODO 深拷贝处理
+                STimeUser upUserInfo = curUserInfo;
 
                 // 修改昵称
                 String nickName = editTextNickNameC.getText().toString();
