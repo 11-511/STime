@@ -1,8 +1,9 @@
 package xyz.miles.stime.bean;
 
-import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.datatype.BmobDate;
 
+import com.avos.avoscloud.AVObject;
+
+import java.util.Date;
 
 /*
  * 对应Bmob中的用户喜欢的图片表的Bean
@@ -11,11 +12,11 @@ import cn.bmob.v3.datatype.BmobDate;
  * @date 2019-6-4
  * @version V1.0
  * */
-public class STimeFavoritePicture extends BmobObject {
+public class STimeFavoritePicture extends AVObject {
 
     private STimeUser ownUser;
     private STimePicture favoritePicture;
-    private BmobDate collectionDate;
+    private Date collectionDate;
 
 
     public STimeUser getOwnUser() {
@@ -34,11 +35,11 @@ public class STimeFavoritePicture extends BmobObject {
         this.favoritePicture = favoritePicture;
     }
 
-    public BmobDate getCollectionDate() {
+    public Date getCollectionDate() {
         return collectionDate;
     }
 
-    public void setCollectionDate(BmobDate collectionDate) {
+    public void setCollectionDate(Date collectionDate) {
         this.collectionDate = collectionDate;
     }
 }

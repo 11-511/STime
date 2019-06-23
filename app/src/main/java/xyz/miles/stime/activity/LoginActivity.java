@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -17,9 +20,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import cn.bmob.v3.Bmob;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVUser;
+
 import xyz.miles.stime.R;
 import xyz.miles.stime.bean.STimeUser;
 import xyz.miles.stime.util.ElementHolder;
@@ -27,13 +30,29 @@ import xyz.miles.stime.util.ElementHolder;
 public class LoginActivity extends AppCompatActivity {
 
     private Boolean bPwdSwitch = false;
+    private final int loginState = 1;
+    private STimeUser loginUser = new STimeUser();  // 登录的用户
+
+    // 登录成功线程处理
+    private Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    ElementHolder.setUser(loginUser);
+                    Intent toIndex = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(toIndex);
+                    LoginActivity.this.finish();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // 初始化Bmob Appkey
-        Bmob.initialize(this, "782ebc87bf1c101e8c607d7e6bf17a31");
 
         //页面组件
         final EditText editTextAcc = findViewById(R.id.et_account);
@@ -49,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences spFile = getSharedPreferences(spFileName, Context.MODE_PRIVATE);
 
         // 如果是注册成功跳转到该页面，填充注册成功的用户名
-        STimeUser signUpSucUser = ElementHolder.getUser();
+        AVUser signUpSucUser = ElementHolder.getUser();
         if (signUpSucUser != null) {
             editTextAcc.setText(signUpSucUser.getUsername());
         }
@@ -91,12 +110,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //登录操作
+        // 登录按钮点击事件
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //按下按钮记住密码
+                // 按下按钮记住密码
                 String spFileName = getResources().getString(R.string.shared_preferences_file_name);
                 String accountKey = getResources().getString(R.string.login_account_name);
                 String passwordKey = getResources().getString(R.string.login_password);
@@ -117,11 +136,10 @@ public class LoginActivity extends AppCompatActivity {
                     editor.apply();
                 }
 
-                //登录操作：
-                STimeUser loginUser = new STimeUser();
-                loginUser.setUsername(editTextAcc.getText().toString());
-                loginUser.setPassword(editTextPwd.getText().toString());
-                signIn(loginUser);
+                // 登录操作
+                String account = editTextAcc.getText().toString();
+                String password = editTextPwd.getText().toString();
+                signIn(account, password);
             }
         });
 
@@ -137,38 +155,42 @@ public class LoginActivity extends AppCompatActivity {
     /*
      * 登陆方法，调用该方法来登陆用户
      *
-     * @param loginUser
-     * 需要登陆的用户的对象，需要设置其用户名与密码
+     * @param account 用户名
+     * @param password 密码
      * */
-    public void signIn(STimeUser loginUser) {
-        loginUser.login(new SaveListener<STimeUser>() {
+    public void signIn(final String account, final String password) {
+        new Thread(new Runnable() {
             @Override
-            public void done(STimeUser sTimeUser, BmobException e) {
-                //GOTO		数据处理方法
-                if (e != null) {
-                    Log.d("login error", e.toString());
-                    final int errorCode = e.getErrorCode();
-                    switch (errorCode) {
-                        case 101:   // 用户名或密码错误
-                            Toast.makeText(getApplicationContext(), "用户名或密码错误",
-                                    Toast.LENGTH_SHORT).show();
-                            break;
+            public void run() {
+                try {
+                    loginUser = AVUser.logIn(account, password, STimeUser.class);
 
-                        default:    // 其他错误
-                            Toast.makeText(getApplicationContext(), "未知错误，请联系开发人员",
-                                    Toast.LENGTH_SHORT).show();
+                    Message message = new Message();
+                    message.what = loginState;
+                    handler.handleMessage(message);
+                } catch (AVException e) {
+                    String errMsg = "登录失败";
+                    Log.d("error code", e.getCode() + ":" + e.toString());
+                    Log.d("USERNAME_PASSWORD_MISMATCH",
+                            AVException.USERNAME_PASSWORD_MISMATCH + "");
+                    switch (e.getCode()) {
+                        case AVException.USERNAME_PASSWORD_MISMATCH:
+                            errMsg += ",用户名或密码错误！";
+                            break;
+                        case 219:
+                            errMsg += ",次数超过限制，请稍候再试，或者通过忘记密码重设密码！";
+                            break;
+                        default:
+                            errMsg += ",未知错误！";
                             break;
                     }
-                }
-                else {
-                    ElementHolder.setUser(sTimeUser);
-                    Intent toIndex = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(toIndex);
-                    LoginActivity.this.finish();
+                    Looper.prepare();
+                    Toast.makeText(getApplicationContext(), errMsg,
+                            Toast.LENGTH_SHORT).show();
+                    Looper.loop();
                 }
             }
-        });
+        }).start();
     }
-
 
 }

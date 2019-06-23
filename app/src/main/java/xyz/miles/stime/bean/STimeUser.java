@@ -1,9 +1,10 @@
 package xyz.miles.stime.bean;
 
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.datatype.BmobDate;
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.datatype.BmobRelation;
+import com.avos.avoscloud.AVClassName;
+import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVUser;
+import java.util.Date;
+import java.util.List;
 
 
 /*
@@ -13,69 +14,68 @@ import cn.bmob.v3.datatype.BmobRelation;
  * @date 2019-6-4
  * @version V1.0
  * */
-public class STimeUser extends BmobUser {
+@AVClassName("STimeUser")
+public class STimeUser extends AVUser {
 
-    private String nickname;
-    private Integer userAmountOfAttention;
-    private Boolean userGender;
-    private BmobDate userBirthday;
-    private String userIntro;
-    private BmobFile userPortrait;
-    private BmobRelation favoriteUser;
-
-    public BmobRelation getFavoriteUser() {
-        return favoriteUser;
+    public List<String> getFavoriteUser() {
+        return (List<String>) this.getList("favoriteUser");
     }
 
-    public void setFavoriteUser(BmobRelation favoriteUser) {
-        this.favoriteUser = favoriteUser;
+    public void setFavoriteUser(List<String> favoriteUser) {
+        this.put("favoriteUser", favoriteUser);
     }
 
-    public BmobFile getUserPortrait() {
-        return userPortrait;
+    public String getLocalPortraitPath() { return this.getString("localPortraitPath"); }
+
+    public void setLocalPortraitPath(String localPortraitPath) {
+        this.put("localPortraitPath", localPortraitPath);
     }
 
-    public void setUserPortrait(BmobFile userPortrait) {
-        this.userPortrait = userPortrait;
+    public String getUserPortrait() {
+        return this.getString("userPortrait");
+    }
+
+    public void setUserPortrait(String userPortrait) {
+        this.put("userPortrait", userPortrait);
     }
 
     public String getNickname() {
-        return nickname;
+        return this.getString("nickname");
     }
 
     public void setNickname(String nickname) {
-        this.nickname = nickname;
+        this.put("nickname", nickname);
     }
 
     public Integer getUserAmountOfAttention() {
-        return userAmountOfAttention;
+        return this.getInt("userAmountOfAttention");
     }
 
     public void setUserAmountOfAttention(Integer userAmountOfAttention) {
-        this.userAmountOfAttention = userAmountOfAttention;
+        this.put("userAmountOfAttention", userAmountOfAttention);
     }
 
     public Boolean getUserGender() {
-        return userGender;
+        return this.getBoolean("userGender");
     }
 
     public void setUserGender(Boolean userGender) {
-        this.userGender = userGender;
+        this.put("userGender", userGender);
     }
 
-    public BmobDate getUserBirthday() {
-        return userBirthday;
+    public Date getUserBirthday() {
+        return this.getDate("userBirthday");
     }
 
-    public void setUserBirthday(BmobDate userBirthday) {
-        this.userBirthday = userBirthday;
+    public void setUserBirthday(Date userBirthday) {
+        this.put("userBirthday", userBirthday);
     }
 
     public String getUserIntro() {
-        return userIntro;
+        return this.getString("userIntro");
     }
 
     public void setUserIntro(String userIntro) {
-        this.userIntro = userIntro;
+        this.put("userIntro", userIntro);
     }
 }

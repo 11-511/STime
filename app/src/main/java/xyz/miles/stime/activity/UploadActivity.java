@@ -18,18 +18,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.SaveCallback;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.crypto.spec.IvParameterSpec;
 
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
-import cn.bmob.v3.listener.UpdateListener;
-import cn.bmob.v3.listener.UploadFileListener;
 import xyz.miles.stime.R;
 import xyz.miles.stime.bean.STimePicture;
 import xyz.miles.stime.bean.STimeUser;
@@ -38,7 +39,7 @@ import xyz.miles.stime.util.ElementHolder;
 public class UploadActivity extends AppCompatActivity {
 
     private ListView lv;
-    private File uploadPictureFile = null;
+    private String absUploadPictureFilePath = null;
     private EditText editTextImageTitle;
     private EditText editTextImageIntro;
     private STimeUser curUser = ElementHolder.getUser();    // 当前登录用户
@@ -134,15 +135,14 @@ public class UploadActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 上传作品逻辑处理
-                if (uploadPictureFile != null) {
+                if (absUploadPictureFilePath != null) {
                     String title = editTextImageTitle.getText().toString();
                     String intro = editTextImageIntro.getText().toString();
                     if (title.length() != 0) {
                         STimePicture picture = new STimePicture();
-                        picture.setPictureAuthor(curUser);
+                        picture.setPictureAuthor(curUser.getUsername());
                         picture.setPictureTitle(title);
                         picture.setPictureBrief(intro);
-                        picture.setPictureContent(new BmobFile(uploadPictureFile));
                         // 设置获取的标签
                         List<String> tags = new ArrayList<>();
                         for (int i = 0; i < checked.length; ++i) {
@@ -152,7 +152,8 @@ public class UploadActivity extends AppCompatActivity {
                         }
                         if (!tags.isEmpty()) {  // 至少选择了一个标签
                             picture.setPictureType(tags);
-                            uploadPicture(picture);
+                            uploadPicture(picture, absUploadPictureFilePath);
+                            absUploadPictureFilePath = null;    // 上传完图片置空路径，防止多次点击按钮重复上传
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "请至少选择一个图片分类",
@@ -174,6 +175,7 @@ public class UploadActivity extends AppCompatActivity {
 
     }
 
+    // 点击上传图片按钮结果
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -191,8 +193,8 @@ public class UploadActivity extends AppCompatActivity {
             System.out.println(picturePath);
             cursor.close();
             // 保存需要上传的图片文件路径
-            uploadPictureFile = new File(picturePath);
-            Log.d("onActivityResult", uploadPictureFile.getPath());
+            absUploadPictureFilePath = picturePath;
+            Log.d("onActivityResult", absUploadPictureFilePath);
 
             //将图片显示到界面上(上传成功)
             ImageView imageView = findViewById(R.id.iv_image_upload);
@@ -209,51 +211,47 @@ public class UploadActivity extends AppCompatActivity {
      *																		*
      ***********************************************************************/
 
-    /*
-     * 上传作品
-     */
-    public void uploadPicture(final STimePicture picture) {
-        // 先尝试上传图片文件
-        picture.getPictureContent().upload(new UploadFileListener() {
-            @Override
-            public void done(BmobException e) {
-                if (e == null){   // 图片文件上传成功
-                    // 接着尝试上传图片的标题、简介、作者
-                    picture.save(new SaveListener<String>() {
-                        @Override
-                        public void done(String s, BmobException e) {
-                            if (e == null) {    // 图片标题、简介、作者上传成功
-                                Toast.makeText(UploadActivity.this, "图片上传成功!",
-                                        Toast.LENGTH_SHORT).show();
-                                uploadPictureFile = null;   // 上传完后置空图片路径，防止用户多次点击，上传同一张图片
-                                UploadActivity.this.finish();
-                            }
-                            else {  // 图片标题、简介、作者上传失败
-                                Toast.makeText(UploadActivity.this, "图片上传失败!",
-                                        Toast.LENGTH_SHORT).show();
-                                Log.d("upload picture content", e.toString());
-                            }
+    // 上传我的作品
+    private void uploadPicture(final STimePicture picture, String absFilePath) {
+        if (absFilePath != null) {
+            int fileNameIndex = absFilePath.lastIndexOf('/') + 1;
+            String realFileName = absFilePath.substring(fileNameIndex);
+
+            try {
+                final AVFile file = AVFile.withAbsoluteLocalPath(realFileName, absFilePath);
+                file.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(AVException e) {
+                        if (e == null) {
+                            picture.setPictureContent(file.getUrl());   // 上传图片成功，设置图片内容为云端Url
+                            // 然后将作品的其余信息一并上传
+                            picture.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(AVException e) {
+                                    if (e == null) {
+                                        Toast.makeText(getApplicationContext(), "作品上传成功！",
+                                                Toast.LENGTH_SHORT).show();
+                                        UploadActivity.this.finish();   // 结束活动
+                                    } else {
+                                        errorHandler(e);
+                                    }
+                                }
+                            });
+                        } else {
+                            errorHandler(e);
                         }
-                    });
-                }
-                else {  // 图片文件上传失败
-                    deletePictureContent(picture);
-                    Log.d("upload picture", e.toString());
-                }
-            }
-        });
-    }
-
-    /*
-    * 删除图片本身，常用于上传图片成功后，删除文字失败则可调用该方法
-    * */
-    public void deletePictureContent(final STimePicture picture){
-        picture.getPictureContent().delete(new UpdateListener() {
-            @Override
-            public void done(BmobException e) {
+                    }
+                });
+            } catch (FileNotFoundException fe) {
 
             }
-        });
+        }
     }
 
+    // TODO 错误处理
+    private void errorHandler(AVException e) {
+        Toast.makeText(getApplicationContext(), "作品上传失败！",
+                Toast.LENGTH_SHORT).show();
+        Log.d("upload picture error", e.toString());
+    }
 }

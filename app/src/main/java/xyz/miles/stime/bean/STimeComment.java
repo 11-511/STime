@@ -1,8 +1,9 @@
 package xyz.miles.stime.bean;
 
-import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.datatype.BmobDate;
 
+import com.avos.avoscloud.AVObject;
+
+import java.util.Date;
 
 /*
  * 对应Bmob中的图片评论表的Bean
@@ -11,11 +12,11 @@ import cn.bmob.v3.datatype.BmobDate;
  * @date 2019-6-4
  * @version V1.0
  * */
-public class STimeComment extends BmobObject {
+public class STimeComment extends AVObject {
 
     private STimePicture commentPicture;
     private STimeUser commentUser;
-    private BmobDate commentDate;
+    private Date commentDate;
     private String commentContent;
 
     public STimePicture getCommentPicture() {
@@ -34,11 +35,11 @@ public class STimeComment extends BmobObject {
         this.commentUser = commentUser;
     }
 
-    public BmobDate getCommentDate() {
+    public Date getCommentDate() {
         return commentDate;
     }
 
-    public void setCommentDate(BmobDate commentDate) {
+    public void setCommentDate(Date commentDate) {
         this.commentDate = commentDate;
     }
 

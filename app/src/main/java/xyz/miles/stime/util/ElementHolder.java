@@ -1,7 +1,8 @@
 package xyz.miles.stime.util;
 
+import com.avos.avoscloud.AVUser;
+
 import xyz.miles.stime.bean.STimeUser;
-import xyz.miles.stime.dao.UserDao;
 
 public class ElementHolder {
 

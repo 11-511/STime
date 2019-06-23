@@ -1,84 +1,60 @@
 package xyz.miles.stime.bean;
 
+import com.avos.avoscloud.AVClassName;
+import com.avos.avoscloud.AVObject;
+
 import java.util.List;
 
-import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.datatype.BmobDate;
-import cn.bmob.v3.datatype.BmobFile;
-
 /*
-* 对应Bmob中的图片表的Bean
+* 图片表model
 *
 * @author Miles Tong
 * @date 2019-6-4
 * @version V1.0
 * */
-public class STimePicture extends BmobObject {
-
-    private String pictureTitle;
-    private String pictureBrief;
-    private STimeUser pictureAuthor;
-    private BmobDate pictureUploadDate;
-    private Integer pictureAmountOfFavor;
-    private List<String> pictureType;
-    private BmobFile pictureContent;
-
-
+@AVClassName("STimePicture")
+public class STimePicture extends AVObject {
     public String getPictureTitle() {
-        return pictureTitle;
+        return this.getString("pictureTitle");
     }
 
     public void setPictureTitle(String pictureTitle) {
-        this.pictureTitle = pictureTitle;
+        this.put("pictureTitle", pictureTitle);
     }
 
     public String getPictureBrief() {
-        return pictureBrief;
+        return this.getString("pictureBrief");
     }
 
-    public void setPictureBrief(String pictureBrief) {
-        this.pictureBrief = pictureBrief;
-    }
+    public void setPictureBrief(String pictureBrief) { this.put("pictureBrief", pictureBrief); }
 
+    public String getPictureAuthor() { return this.getString("pictureAuthor"); }
 
-    public STimeUser getPictureAuthor() {
-        return pictureAuthor;
-    }
-
-    public void setPictureAuthor(STimeUser pictureAuthor) {
-        this.pictureAuthor = pictureAuthor;
-    }
-
-    public BmobDate getPictureUploadDate() {
-        return pictureUploadDate;
-    }
-
-    public void setPictureUploadDate(BmobDate pictureUploadDate) {
-        this.pictureUploadDate = pictureUploadDate;
+    public void setPictureAuthor(String pictureAuthor) {
+        this.put("pictureAuthor", pictureAuthor);
     }
 
     public Integer getPictureAmountOfFavor() {
-        return pictureAmountOfFavor;
+        return this.getInt("pictureAmountOfFavor");
     }
 
     public void setPictureAmountOfFavor(Integer pictureAmountOfFavor) {
-        this.pictureAmountOfFavor = pictureAmountOfFavor;
+        this.put("pictureAmountOfFavor", pictureAmountOfFavor);
     }
 
     public List<String> getPictureType() {
-        return pictureType;
+        return this.getList("pictureType");
     }
 
     public void setPictureType(List<String> pictureType) {
-        this.pictureType = pictureType;
+        this.put("pictureType", pictureType);
     }
 
-    public BmobFile getPictureContent() {
-        return pictureContent;
+    public String getPictureContent() {
+        return this.getString("pictureContent");
     }
 
-    public void setPictureContent(BmobFile pictureContent) {
-        this.pictureContent = pictureContent;
+    public void setPictureContent(String pictureContent) {
+        this.put("pictureContent", pictureContent);
     }
 }

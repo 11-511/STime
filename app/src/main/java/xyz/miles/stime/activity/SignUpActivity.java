@@ -19,22 +19,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.SignUpCallback;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import java.util.Calendar;
 
 
-import cn.bmob.v3.Bmob;
-import cn.bmob.v3.datatype.BmobDate;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
 import xyz.miles.stime.R;
-import xyz.miles.stime.bean.STimeComment;
-import xyz.miles.stime.bean.STimePicture;
 import xyz.miles.stime.bean.STimeUser;
-import xyz.miles.stime.dao.AbstractSTimeUserDao;
-import xyz.miles.stime.dao.UserDao;
-import xyz.miles.stime.dao.UserServiceDao;
 import xyz.miles.stime.util.ElementHolder;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -53,9 +54,6 @@ public class SignUpActivity extends AppCompatActivity {
         final EditText editTextPwd = findViewById(R.id.et_pwd_su);//密码
         final EditText editTextPwds = findViewById(R.id.et_pwd_su_s);//确认密码
         final EditText editTextEmail = findViewById(R.id.et_email);//电子邮箱
-		/*RadioButton radioButtonMale=findViewById(R.id.rb_male);
-		RadioButton radioButtonFemale=findViewById(R.id.rb_male);*/
-
         final RadioGroup radioGroup = findViewById(R.id.rg_gender);//性别
         final TextView textViewDate = findViewById(R.id.tv_date);
 
@@ -125,17 +123,28 @@ public class SignUpActivity extends AppCompatActivity {
                                 user.setNickname(editTextAcc.getText().toString()); // 初始默认昵称为用户名
                                 user.setPassword(pwd);
                                 user.setEmail(editTextEmail.getText().toString().trim());
+                                user.setUserIntro(new String());
+                                user.setFavoriteUser(new ArrayList<String>());
+                                user.setUserAmountOfAttention(0);
+                                user.setLocalPortraitPath(new String());
+                                user.setUserPortrait(new String());
 
                                 RadioButton sexChecked = findViewById(radioGroup.getCheckedRadioButtonId());
                                 boolean sex = sexChecked.getText().toString().equals("男") ? true : false;
                                 user.setUserGender(sex);
 
-                                String birthDay = String.valueOf(year);
+
+                                String birthday = String.valueOf(year);
                                 String monthStr = month < 10 ? "0" + String.valueOf(month) : String.valueOf(month);
                                 String dayStr = day < 10 ? "0" + String.valueOf(day) : String.valueOf(day);
-                                birthDay += "-" + monthStr + "-" + dayStr;
-                                BmobDate bmobBirthDay = BmobDate.createBmobDate("yyyy-MM-dd", birthDay);
-                                user.setUserBirthday(bmobBirthDay);
+                                birthday += "-" + monthStr + "-" + dayStr;
+                                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                try {
+                                    Date birthDate = dateFormat.parse(birthday);
+                                    user.setUserBirthday(birthDate);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
 
                                 // 提交信息
                                 signUp(user);
@@ -163,41 +172,23 @@ public class SignUpActivity extends AppCompatActivity {
      * 需要注册的用户的对象
      * */
     public void signUp(final STimeUser signUpUser) {
-
-        signUpUser.signUp(new SaveListener<STimeUser>() {
+        signUpUser.signUpInBackground(new SignUpCallback() {
             @Override
-            public void done(STimeUser sTimeUser, BmobException e) {
-                if (e != null) {
-                    Log.d("sign up error", e.toString());
-                    final int errorCode = e.getErrorCode();
-                    switch (errorCode) {
-                        case 202:   // 用户已存在
-                            Toast.makeText(getApplicationContext(), "用户名已存在",
-                                    Toast.LENGTH_SHORT).show();
-                            break;
-
-                        case 203:   // 邮箱已存在
-                            Toast.makeText(getApplicationContext(), "邮箱已存在",
-                                    Toast.LENGTH_SHORT).show();
-                            break;
-
-                        case 204:   // 邮箱格式错误
-                        case 301:
-                            Toast.makeText(getApplicationContext(), "邮箱格式错误",
-                                    Toast.LENGTH_SHORT).show();
-                            break;
-
-                        default:    // 其他错误
-                            Toast.makeText(getApplicationContext(), "未知错误，请联系开发人员",
-                                    Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                }
-                else {
-                    ElementHolder.setUser(sTimeUser);
+            public void done(AVException e) {
+                if (e == null) {
+                    // 注册成功
+                    signUpUser.saveInBackground();
+                    ElementHolder.setUser(signUpUser);
                     Intent toLogin = new Intent(SignUpActivity.this, LoginActivity.class);
+                    Toast.makeText(getApplicationContext(), "注册成功",
+                            Toast.LENGTH_SHORT).show();
                     startActivity(toLogin);
                     SignUpActivity.this.finish();
+                } else {
+                    // TODO 注册失败提示
+                    Toast.makeText(getApplicationContext(), "注册失败",
+                                    Toast.LENGTH_SHORT).show();
+                    Log.d("sign up failure!", e.toString());
                 }
             }
         });
