@@ -376,6 +376,12 @@ public class MainActivity extends AppCompatActivity
         }
 
     }
+    
+    private void initData()
+    {
+    
+    
+    }
 
     /***********************************************************************
      *						分割线
@@ -392,7 +398,7 @@ public class MainActivity extends AppCompatActivity
         // 侧边栏显示用户头像
         String localPortraitPath = currentUser.getLocalPortraitPath();
         Bitmap bmPortrait;
-        if (localPortraitPath != null) {
+        if (localPortraitPath.length() != 0) {
             if (!FileTools.fileIsExits(localPortraitPath)) {
                 // 设置了头像且头像文件不存在于本地，就先下载，文件名为portrait.jpg(png...)
                 String fileName = "portrait";
