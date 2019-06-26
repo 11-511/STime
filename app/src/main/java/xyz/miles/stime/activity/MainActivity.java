@@ -9,11 +9,15 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
@@ -37,25 +41,38 @@ import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.GetDataCallback;
 import com.avos.avoscloud.ProgressCallback;
 import com.avos.avoscloud.SaveCallback;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import xyz.miles.stime.R;
 import xyz.miles.stime.bean.STimePicture;
 import xyz.miles.stime.bean.STimeUser;
 import xyz.miles.stime.util.ElementHolder;
+import xyz.miles.stime.util.EndlessRecyclerOnScrollListener;
 import xyz.miles.stime.util.FileTools;
+import xyz.miles.stime.util.ImageAdapter;
+import xyz.miles.stime.util.LoadMoreWrapper;
 
 
 public class MainActivity extends AppCompatActivity
@@ -94,8 +111,21 @@ public class MainActivity extends AppCompatActivity
     private TextView textViewDate;      // 日期显示框
     private Button buttonChange;        // 修改按钮
 
-    private List<STimePicture> ownPictures = new LinkedList<>();//用户本身上传的图片集合
     private STimeUser newUserInfo = currentUser;  // 新用户信息
+
+    // 适配器相关
+    private RecyclerView recyclerView;
+    private List<Bitmap> bmImages = null;
+    private ImageAdapter adapter;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private LoadMoreWrapper wrapper;
+
+    private int numPerPage = 6;
+    private int HIGHTMAX = 0;
+    private int page;
+
+
 
 
     @Override
@@ -238,7 +268,12 @@ public class MainActivity extends AppCompatActivity
         // 点击按钮更新信息
         buttonChange = findViewById(R.id.bt_change_info);
         updateInfo();
+
+        // TODO Oncreate初始化适配器数据
+        mainPageShow();
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -376,18 +411,152 @@ public class MainActivity extends AppCompatActivity
         }
 
     }
-    
-    private void initData()
-    {
-    
-    
-    }
+
 
     /***********************************************************************
      *						分割线
      * 	业务处理
      *
      ***********************************************************************/
+
+    // 显示主页图片
+    private void mainPageShow() {
+        page = 0;
+        bmImages = new ArrayList<>();
+
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#4DB6AC"));
+
+        initAdapterData(page,page += numPerPage);
+        initAdapter();
+
+        // 在最顶部向上滑动刷新
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //清空list
+                bmImages.clear();
+                //重新加载
+                page = 0;
+                initAdapterData(page,page += numPerPage);
+                wrapper.notifyDataSetChanged();
+                //延时
+                swipeRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    }
+                }, 500);
+            }
+        });
+
+        // 底部向下滑动加载更多
+        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
+            @Override
+            public void onLoadMore() {
+                wrapper.setLoadState(wrapper.LOADING);
+                if (page<13)
+                {
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    initAdapterData(page,page += numPerPage);
+                                    wrapper.setLoadState(wrapper.LOADING_COMPLETE);
+                                }
+                            });
+                        }
+                    }, 500);
+                }
+                else
+                {
+                    wrapper.setLoadState(wrapper.LOADING_END);
+                }
+            }
+        });
+    }
+
+    // TODO 初始化Adapter数据
+    private void initAdapterData(final int low, int high) {
+//        List<String> imagesUrl = new ArrayList<>();
+//        queryPicturesUrl(imagesUrl);
+        AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
+        final int finalHigh = high;
+        query.findInBackground(new FindCallback<STimePicture>() {
+            @Override
+            public void done(final List<STimePicture> avObjects, AVException avException) {
+                if (avException == null) {
+                    int localHigh = finalHigh;
+                    HIGHTMAX = avObjects.size();
+                    if (localHigh > HIGHTMAX) {
+                        localHigh = HIGHTMAX;
+                    }
+                    final int finalLocalHigh = localHigh;
+                    Log.d("finalLocalHigh", finalLocalHigh + "");
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            for (int i = low; i < finalLocalHigh; ++i) {
+                                try {
+                                    String imageUrl = avObjects.get(i).getPictureContent();
+                                    Log.d("picture url", imageUrl);
+                                    URL url = new URL(imageUrl);
+                                    URLConnection connection = url.openConnection();
+                                    connection.connect();
+
+                                    InputStream in;
+                                    in = connection.getInputStream();
+                                    Bitmap bmImage = BitmapFactory.decodeStream(in);
+                                    bmImages.add(bmImage);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }
+                    }).start();
+                }
+            }
+        });
+//        if (!imagesUrl.isEmpty()) {
+//            HIGHTMAX = imagesUrl.size();
+//            if (high > HIGHTMAX) {
+//                high = HIGHTMAX;
+//            }
+//            for (int i = low; i < high; ++i) {
+//                try {
+//                    URL url = new URL(imagesUrl.get(i));
+//                    URLConnection connection = url.openConnection();
+//                    connection.connect();
+//
+//                    InputStream in;
+//                    in = connection.getInputStream();
+//                    Bitmap bmImage = BitmapFactory.decodeStream(in);
+//                    bmImages.add(bmImage);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        } else {
+//            Log.d("initAdapterData", "Url list is empty");
+//        }
+    }
+
+    // TODO 初始化适配器
+    private void initAdapter()
+    {
+        recyclerView = findViewById(R.id.rlv_image);
+        adapter = new ImageAdapter(this,bmImages);
+        wrapper = new LoadMoreWrapper(adapter);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerView.setAdapter(wrapper);
+    }
 
     // 显示侧边栏用户简要信息
     private void showSideBarInfo() {
@@ -585,5 +754,21 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+    }
+
+    // TODO 查询在云端的图片Url
+    private void queryPicturesUrl(final List<String> imagesUrl) {
+        AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
+        query.findInBackground(new FindCallback<STimePicture>() {
+            @Override
+            public void done(List<STimePicture> avObjects, AVException avException) {
+                if (avException == null) {
+                    for (STimePicture picture : avObjects) {
+                        Log.d("picture url", picture.getPictureContent());
+                        imagesUrl.add(picture.getPictureContent());
+                    }
+                }
+            }
+        });
     }
 }
