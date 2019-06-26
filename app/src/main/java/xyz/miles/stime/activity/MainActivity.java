@@ -112,6 +112,19 @@ public class MainActivity extends AppCompatActivity
     private Button buttonChange;        // 修改按钮
 
     private STimeUser newUserInfo = currentUser;  // 新用户信息
+    
+    //分类页
+    private LinearLayout layoutNew;
+    private LinearLayout layoutHot;
+    private LinearLayout layoutClassify;
+    private LinearLayout layoutSub;
+    private TextView textViewTagNew;
+    private TextView textViewTagHot;
+    private TextView textViewTagClassify;
+    private TextView textViewTagSub;
+    //图片页
+    private ImageView imageViewImage;
+    private ImageView imageViewFavoriteCorner;
 
     // 适配器相关
     private RecyclerView recyclerView;
@@ -143,6 +156,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         /*------------------------------------界面初始化------------------------------------------*/
+        
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -155,27 +169,14 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         int defaultId = 2131230859;
         navigationView.setCheckedItem(defaultId);//菜单初始选中
+        
+        loadComponents();
 
         /*-------------------------------------侧边栏头--------------------------------------------*/
-        // 页面组件
-        headView = navigationView.getHeaderView(0);
-        imageViewHeadImage = headView.findViewById(R.id.iv_head_image);
-        textViewUserNickName = headView.findViewById(R.id.tv_user_nickname);
-        textViewIntro = headView.findViewById(R.id.tv_user_intro);
-
         // 侧边栏显示用户原有信息
         showSideBarInfo();
 
         /*-----------------------------------图片页（主页)--------------------------------------*/
-        //分类页：
-        LinearLayout layoutNew = findViewById(R.id.ll_tag_new);
-        LinearLayout layoutHot = findViewById(R.id.ll_tag_hot);
-        LinearLayout layoutClassify = findViewById(R.id.ll_tag_classify);
-        LinearLayout layoutSub = findViewById(R.id.ll_tag_sub);
-        final TextView textViewTagNew = findViewById(R.id.tv_tag_new);
-        final TextView textViewTagHot = findViewById(R.id.tv_tag_hot);
-        final TextView textViewTagClassify = findViewById(R.id.tv_tag_classify);
-        final TextView textViewTagSub = findViewById(R.id.tv_tag_sub);
         //分类页跳转
         ////最新
         layoutNew.setOnClickListener(new View.OnClickListener() {
@@ -186,6 +187,7 @@ public class MainActivity extends AppCompatActivity
                 textViewTagHot.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagSub.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagClassify.setTextColor(getResources().getColor(R.color.colorBlack));
+                
             }
         });
         ////最热
@@ -219,12 +221,11 @@ public class MainActivity extends AppCompatActivity
                 textViewTagHot.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagSub.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagClassify.setTextColor(getResources().getColor(R.color.colorPrimary));
+                
             }
         });
 
-        //图片列表
-        ImageView imageViewImage = findViewById(R.id.iv_image);//list图片
-        ImageView imageViewFavoriteCorner = findViewById(R.id.iv_favorite_corner);//图片右下角快速收藏
+       
 
 
         /*----------------------------------上传图片BUTTON-----------------------------------------*/
@@ -240,15 +241,7 @@ public class MainActivity extends AppCompatActivity
 
         /*--------------------------------------我的账户-------------------------------------------*/
         /*------------------------------------个人信息修改-----------------------------------------*/
-        // 页面组件
-        imageViewHeadC = findViewById(R.id.iv_head_image_change);//修改头像
-        textViewSubNumC = findViewById(R.id.tv_sub_num);//被关注数
-        editTextNickNameC = findViewById(R.id.et_nickname_change);//昵称修改
-        editTextIntroC = findViewById(R.id.et_intro_change);//个性签名
-        editTextEmailC = findViewById(R.id.et_email_change);//修改邮箱
-        radioGroup = findViewById(R.id.rg_gender_change);//性别
-        textViewUserNameC = findViewById(R.id.tv_username_change);   // 用户名
-
+        
         // 修改头像
         imageViewHeadC.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -261,10 +254,8 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
         // 用户原有信息显示
         showUserInfo();
-
         // 点击按钮更新信息
         buttonChange = findViewById(R.id.bt_change_info);
         updateInfo();
@@ -273,6 +264,34 @@ public class MainActivity extends AppCompatActivity
         mainPageShow();
     }
 
+    private void loadComponents()
+    {
+        //侧边栏
+        headView = navigationView.getHeaderView(0);
+        imageViewHeadImage = headView.findViewById(R.id.iv_head_image);
+        textViewUserNickName = headView.findViewById(R.id.tv_user_nickname);
+        textViewIntro = headView.findViewById(R.id.tv_user_intro);
+        //分类页：
+        layoutNew = findViewById(R.id.ll_tag_new);
+        layoutHot = findViewById(R.id.ll_tag_hot);
+        layoutClassify = findViewById(R.id.ll_tag_classify);
+        layoutSub = findViewById(R.id.ll_tag_sub);
+        textViewTagNew = findViewById(R.id.tv_tag_new);
+        textViewTagHot = findViewById(R.id.tv_tag_hot);
+        textViewTagClassify = findViewById(R.id.tv_tag_classify);
+        textViewTagSub = findViewById(R.id.tv_tag_sub);
+        // 个人信息页面组件
+        imageViewHeadC = findViewById(R.id.iv_head_image_change);//修改头像
+        textViewSubNumC = findViewById(R.id.tv_sub_num);//被关注数
+        editTextNickNameC = findViewById(R.id.et_nickname_change);//昵称修改
+        editTextIntroC = findViewById(R.id.et_intro_change);//个性签名
+        editTextEmailC = findViewById(R.id.et_email_change);//修改邮箱
+        radioGroup = findViewById(R.id.rg_gender_change);//性别
+        textViewUserNameC = findViewById(R.id.tv_username_change);   // 用户名
+        //图片列表
+        imageViewImage = findViewById(R.id.iv_image);//list图片
+        imageViewFavoriteCorner = findViewById(R.id.iv_favorite_corner);//图片右下角快速收藏
+    }
 
 
     @Override

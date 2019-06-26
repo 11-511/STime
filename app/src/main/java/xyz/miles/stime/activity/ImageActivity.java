@@ -1,5 +1,7 @@
 package xyz.miles.stime.activity;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -44,6 +46,28 @@ public class ImageActivity extends AppCompatActivity {
 		imageViewCommentHead=findViewById(R.id.iv_comment_head);
 		
 		/*--------------------点击事件-----------------------*/
+		imageViewImage.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				AlertDialog.Builder builder=new AlertDialog.Builder(ImageActivity.this);
+				builder.setTitle("下载");
+				builder.setMessage("确定要下载这张图片吗？");
+				builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						//TODO 下载
+					}
+				});
+				builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					
+					}
+				});
+				return true;
+			}
+		});
+		
 		imageViewCollect.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
