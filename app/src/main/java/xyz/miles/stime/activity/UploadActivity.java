@@ -140,9 +140,10 @@ public class UploadActivity extends AppCompatActivity {
                     String intro = editTextImageIntro.getText().toString();
                     if (title.length() != 0) {
                         STimePicture picture = new STimePicture();
-                        picture.setPictureAuthor(curUser.getUsername());
-                        picture.setPictureTitle(title);
-                        picture.setPictureBrief(intro);
+                        picture.setPictureAuthor(curUser.getUsername());    // 设置作者
+                        picture.setPictureTitle(title);                     // 设置标题
+                        picture.setPictureBrief(intro);                     // 设置简介
+                        picture.setPictureAmountOfFavor(0);                 // 设置收藏数，默认为0
                         // 设置获取的标签
                         List<String> tags = new ArrayList<>();
                         for (int i = 0; i < checked.length; ++i) {

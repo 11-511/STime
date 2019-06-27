@@ -126,12 +126,13 @@ public class MainActivity extends AppCompatActivity
     private TextView textViewTagClassify;
     private TextView textViewTagSub;
     
-    public static final String STATUS_NEW="NEW";
-    public static final String STATUS_HOT="HOT";
-    public static final String STATUS_CLA="CLA";
-    public static final String STATUS_SUB="SUB";
-    public static final String STATUS_MY="MY";
-    public String status=STATUS_NEW;
+    public static final String STATUS_NEW = "NEW";  // 最新
+    public static final String STATUS_HOT = "HOT";  // 最热
+    public static final String STATUS_CLA = "CLA";  // 分类
+    public static final String STATUS_SUB = "SUB";  // 关注
+    public static final String STATUS_MY = "MY";    // 我的作品
+    public String curStatus = STATUS_NEW;    // 当前页面状态
+    public static String MAINSTATUS = STATUS_NEW;
     
     //图片页
     private ImageView imageViewImage;
@@ -139,15 +140,16 @@ public class MainActivity extends AppCompatActivity
 
     // 适配器相关
     private RecyclerView recyclerView;
-    private List<String> imagesUrl = new ArrayList<>();
-    private List<Bitmap> bmImages = null;
+    private List<String> imagesUrl;
+    private List<Bitmap> bmImages;
     private ImageAdapter adapter;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private LoadMoreWrapper wrapper;
+    private AddImagesAsyncTask addTask;
+    private List<AddImagesAsyncTask> addTaskList;
 
     private int numPerPage = 6;
-    private int HIGHTMAX = 0;
     private int page;
 
     
@@ -189,6 +191,8 @@ public class MainActivity extends AppCompatActivity
         showSideBarInfo();
 
         /*-----------------------------------图片页（主页)--------------------------------------*/
+        // 初始化主页
+        initMainPage();
         //分类页跳转
         ////最新
         layoutNew.setOnClickListener(new View.OnClickListener() {
@@ -199,8 +203,8 @@ public class MainActivity extends AppCompatActivity
                 textViewTagHot.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagSub.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagClassify.setTextColor(getResources().getColor(R.color.colorBlack));
-                page = 0;
-                initAdapterData(page, page += numPerPage);
+                MAINSTATUS = STATUS_NEW;
+                initDiffPage(STATUS_NEW);
             }
         });
         ////最热
@@ -212,7 +216,10 @@ public class MainActivity extends AppCompatActivity
                 textViewTagHot.setTextColor(getResources().getColor(R.color.colorPrimary));
                 textViewTagSub.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagClassify.setTextColor(getResources().getColor(R.color.colorBlack));
+                MAINSTATUS = STATUS_HOT;
+                initDiffPage(STATUS_HOT);
             }
+
         });
         ////关注
         layoutSub.setOnClickListener(new View.OnClickListener() {
@@ -223,6 +230,8 @@ public class MainActivity extends AppCompatActivity
                 textViewTagHot.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagSub.setTextColor(getResources().getColor(R.color.colorPrimary));
                 textViewTagClassify.setTextColor(getResources().getColor(R.color.colorBlack));
+                MAINSTATUS = STATUS_SUB;
+                initDiffPage(STATUS_SUB);
             }
         });
         ////分类
@@ -234,7 +243,8 @@ public class MainActivity extends AppCompatActivity
                 textViewTagHot.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagSub.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagClassify.setTextColor(getResources().getColor(R.color.colorPrimary));
-                
+                MAINSTATUS = STATUS_CLA;
+                initDiffPage(STATUS_CLA);
             }
         });
 
@@ -274,8 +284,7 @@ public class MainActivity extends AppCompatActivity
         updateInfo();
         
         viewMyImage.setVisibility(View.GONE);
-        // TODO OnCreate初始化适配器数据
-        mainPageShow();
+
     }
 
     // 初始化页面组件
@@ -312,6 +321,101 @@ public class MainActivity extends AppCompatActivity
         viewMyImage=findViewById(R.id.upload_view);
     }
 
+    // 初始化主页
+    private void initMainPage() {
+        page = 0;
+        imagesUrl = new ArrayList<>();
+        bmImages = new ArrayList<>();
+        addTaskList = new ArrayList<>();
+
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#4DB6AC"));
+
+        initAdapter();
+        setListener();
+        initDiffPage(STATUS_NEW);
+    }
+
+    // TODO 不同页面初始化数据
+    private void initDiffPage(String status) {
+        this.curStatus = status;
+        page = 0;
+
+        imagesUrl.clear();
+        bmImages.clear();
+        wrapper.notifyDataSetChanged();
+        switch (status) {
+            case STATUS_NEW:    // 最新
+                queryImagesUrlByNew();
+                break;
+            case STATUS_HOT:    // 最热
+                queryImagesUrlByHot();
+                break;
+            case STATUS_SUB:    // 关注
+                queryImagesUrlBySub();
+                break;
+            case STATUS_CLA:    // 分类
+                queryImagesUrlByCla();
+                break;
+            case STATUS_MY:     // 我的作品
+                queryImagesUrlByMy();
+                break;
+            default:
+                break;
+        }
+    }
+
+    // TODO 设置刷新、加载监听器
+    private void setListener() {
+        // 在最顶部向上滑动刷新
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //清空list
+                imagesUrl.clear();
+                bmImages.clear();
+                //重新加载
+                page = 0;
+                queryImagesUrlByNew();
+                //延时
+                swipeRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    }
+                }, 500);
+            }
+        });
+
+        // 底部向下滑动加载更多
+        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
+            @Override
+            public void onLoadMore() {
+                wrapper.setLoadState(wrapper.LOADING);
+                if (page<13)
+                {
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    initAdapterData(page, page += numPerPage);
+                                    wrapper.setLoadState(wrapper.LOADING_COMPLETE);
+                                }
+                            });
+                        }
+                    }, 500);
+                }
+                else
+                {
+                    wrapper.setLoadState(wrapper.LOADING_END);
+                }
+            }
+        });
+    }
 
     @Override
     public void onBackPressed() {
@@ -320,7 +424,7 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             moveTaskToBack(false);
-            //super.onBackPressed();
+
         }
     }
 
@@ -363,7 +467,7 @@ public class MainActivity extends AppCompatActivity
 			viewImage.setVisibility(View.VISIBLE);
 			viewMyInfo.setVisibility(View.GONE);
 			viewMyImage.setVisibility(View.VISIBLE);
-			
+			initDiffPage(STATUS_MY);
         } else if (id == R.id.nav_collections) {
 
         } else if (id == R.id.nav_subscribe) {
@@ -455,101 +559,70 @@ public class MainActivity extends AppCompatActivity
      *
      ***********************************************************************/
 
-    // 显示主页图片
-    private void mainPageShow() {
-        page = 0;
-        bmImages = new ArrayList<>();
-
-        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#4DB6AC"));
-
-        initAdapter();
-        setListener();
-        queryImagesUrl();
-
-    }
-
-    // 设置刷新、加载监听器
-    private void setListener() {
-        // 在最顶部向上滑动刷新
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                //清空list
-                imagesUrl.clear();
-                bmImages.clear();
-                //重新加载
-                page = 0;
-                queryImagesUrl();
-                //延时
-                swipeRefreshLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
-                            swipeRefreshLayout.setRefreshing(false);
-                        }
-                    }
-                }, 500);
-            }
-        });
-
-        // 底部向下滑动加载更多
-        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
-            @Override
-            public void onLoadMore() {
-                wrapper.setLoadState(wrapper.LOADING);
-                if (page<13)
-                {
-                    new Timer().schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    initAdapterData(page, page += numPerPage);
-                                    wrapper.setLoadState(wrapper.LOADING_COMPLETE);
-                                }
-                            });
-                        }
-                    }, 500);
-                }
-                else
-                {
-                    wrapper.setLoadState(wrapper.LOADING_END);
-                }
-            }
-        });
-    }
-
-    // TODO queryImagesUrl
-    private void queryImagesUrl() {
+    // TODO 按最新查询图片
+    private void queryImagesUrlByNew() {
         AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
+        query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<STimePicture>() {
             @Override
             public void done(List<STimePicture> avObjects, AVException avException) {
                 for (STimePicture image : avObjects) {
                     imagesUrl.add(image.getPictureContent());
                 }
-                Log.d("images number", imagesUrl.size() + "");
+                Log.d("new images number", imagesUrl.size() + "");
+                initAdapterData(page, page += numPerPage);
+            }
+        });
+
+    }
+
+    // TODO 按照热度查询图片
+    private void queryImagesUrlByHot() {
+        AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
+        query.orderByDescending("pictureAmountOfFavor");
+        query.findInBackground(new FindCallback<STimePicture>() {
+            @Override
+            public void done(List<STimePicture> avObjects, AVException avException) {
+                for (STimePicture image : avObjects) {
+                    imagesUrl.add(image.getPictureContent());
+                }
+                Log.d("hot images number", imagesUrl.size() + "");
                 initAdapterData(page, page += numPerPage);
             }
         });
     }
 
-    // TODO 初始化Adapter数据
+    // TODO 按照关注查询图片
+    private void queryImagesUrlBySub() {
+
+    }
+
+    // TODO 按照分类查询图片
+    private void queryImagesUrlByCla() {
+
+    }
+
+    // TODO 按照我的作品查询图片
+    private void queryImagesUrlByMy() {
+
+    }
+
+    // 初始化Adapter数据
     public void initAdapterData(final int low, int high) {
-        Log.d("initAdapterData", "start!");
         int highMax = imagesUrl.size();
         if (high > highMax) {
             high = highMax;
         }
-        for (int i = low; i < high; ++i) {
-            AddImagesAsyncTask addTask = new AddImagesAsyncTask(wrapper, bmImages);
+        for (int i = low, j = 0; i < high; ++i, ++j) {
+//            addTaskList.add(new AddImagesAsyncTask(wrapper, bmImages));
+//            addTaskList.get(j).execute(imagesUrl.get(i), MAINSTATUS);
+            addTask = new AddImagesAsyncTask(wrapper, bmImages);
             addTask.execute(imagesUrl.get(i));
+            Log.d("add task", "executing" + ":" + i);
         }
     }
 
-    // TODO 初始化适配器
+    // 初始化适配器
     private void initAdapter()
     {
         recyclerView = findViewById(R.id.rlv_image);
@@ -758,19 +831,4 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    // TODO 查询在云端的图片Url
-    private void queryPicturesUrl(final List<String> imagesUrl) {
-        AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
-        query.findInBackground(new FindCallback<STimePicture>() {
-            @Override
-            public void done(List<STimePicture> avObjects, AVException avException) {
-                if (avException == null) {
-                    for (STimePicture picture : avObjects) {
-                        Log.d("picture url", picture.getPictureContent());
-                        imagesUrl.add(picture.getPictureContent());
-                    }
-                }
-            }
-        });
-    }
 }
