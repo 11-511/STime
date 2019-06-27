@@ -12,6 +12,7 @@ import java.net.URLConnection;
 import java.util.BitSet;
 import java.util.List;
 
+import xyz.miles.stime.activity.MainActivity;
 import xyz.miles.stime.util.LoadMoreWrapper;
 
 public class AddImagesAsyncTask extends AsyncTask<String, Integer, Void> {
@@ -27,6 +28,9 @@ public class AddImagesAsyncTask extends AsyncTask<String, Integer, Void> {
     @Override
     protected Void doInBackground(String... strings) {
         String imageUrl = strings[0];
+//        if (!isCancelled()) {
+//            addData(imageUrl);
+//        }
         addData(imageUrl);
 
         return null;
@@ -36,6 +40,9 @@ public class AddImagesAsyncTask extends AsyncTask<String, Integer, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
+//        if (!isCancelled()) {
+//            wrapper.notifyDataSetChanged();
+//        }
         wrapper.notifyDataSetChanged();
     }
 

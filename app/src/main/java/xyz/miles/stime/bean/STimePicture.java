@@ -14,6 +14,7 @@ import java.util.List;
 * */
 @AVClassName("STimePicture")
 public class STimePicture extends AVObject {
+    // 图片标题
     public String getPictureTitle() {
         return this.getString("pictureTitle");
     }
@@ -22,18 +23,21 @@ public class STimePicture extends AVObject {
         this.put("pictureTitle", pictureTitle);
     }
 
+    // 图片简介
     public String getPictureBrief() {
         return this.getString("pictureBrief");
     }
 
     public void setPictureBrief(String pictureBrief) { this.put("pictureBrief", pictureBrief); }
 
+    // 图片作者
     public String getPictureAuthor() { return this.getString("pictureAuthor"); }
 
     public void setPictureAuthor(String pictureAuthor) {
         this.put("pictureAuthor", pictureAuthor);
     }
 
+    // 图片收藏数
     public Integer getPictureAmountOfFavor() {
         return this.getInt("pictureAmountOfFavor");
     }
@@ -42,6 +46,7 @@ public class STimePicture extends AVObject {
         this.put("pictureAmountOfFavor", pictureAmountOfFavor);
     }
 
+    // 图片Tag
     public List<String> getPictureType() {
         return this.getList("pictureType");
     }
@@ -50,6 +55,7 @@ public class STimePicture extends AVObject {
         this.put("pictureType", pictureType);
     }
 
+    // 图片Url
     public String getPictureContent() {
         return this.getString("pictureContent");
     }
