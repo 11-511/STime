@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/iv_sub_author_head"
+        android:layout_below="@+id/tv_watch_image_intro"
+        android:layout_marginTop="10dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+    <TextView
+        android:id="@+id/tv_sub_author_name"
+        android:text="作者名"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_toRightOf="@+id/iv_sub_author_head"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="12dp"
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_sub_author_sub_num"
+        android:layout_below="@+id/tv_sub_author_name"
+        android:layout_marginLeft="12dp"
+        android:layout_toRightOf="@+id/iv_sub_author_head"
+        android:text="被关注数:0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/iv_sub_author_sub"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_favorite_border_24dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+    <View
+        android:layout_above="@+id/iv_sub_author_head"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/darker_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+</RelativeLayout>
