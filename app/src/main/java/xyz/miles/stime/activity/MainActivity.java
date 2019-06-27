@@ -68,6 +68,7 @@ import java.util.TimerTask;
 import xyz.miles.stime.R;
 import xyz.miles.stime.bean.STimePicture;
 import xyz.miles.stime.bean.STimeUser;
+import xyz.miles.stime.service.DownloadAsyncTask;
 import xyz.miles.stime.util.ElementHolder;
 import xyz.miles.stime.util.EndlessRecyclerOnScrollListener;
 import xyz.miles.stime.util.FileTools;
@@ -128,6 +129,7 @@ public class MainActivity extends AppCompatActivity
 
     // 适配器相关
     private RecyclerView recyclerView;
+    private List<String> imagesUrl = new ArrayList<>();
     private List<Bitmap> bmImages = null;
     private ImageAdapter adapter;
 
@@ -187,7 +189,8 @@ public class MainActivity extends AppCompatActivity
                 textViewTagHot.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagSub.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagClassify.setTextColor(getResources().getColor(R.color.colorBlack));
-                
+                page = 0;
+                initAdapterData(page, page += numPerPage);
             }
         });
         ////最热
@@ -260,10 +263,11 @@ public class MainActivity extends AppCompatActivity
         buttonChange = findViewById(R.id.bt_change_info);
         updateInfo();
 
-        // TODO Oncreate初始化适配器数据
+        // TODO OnCreate初始化适配器数据
         mainPageShow();
     }
 
+    // 初始化页面组件
     private void loadComponents()
     {
         //侧边栏
@@ -446,9 +450,16 @@ public class MainActivity extends AppCompatActivity
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#4DB6AC"));
 
-        initAdapterData(page,page += numPerPage);
-        initAdapter();
+        recyclerView = findViewById(R.id.rlv_image);
 
+//        initAdapterData(page, page += numPerPage);
+//        initAdapter();
+        queryImagesUrl();
+
+    }
+
+    // 设置刷新、加载监听器
+    private void setListener() {
         // 在最顶部向上滑动刷新
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -484,7 +495,7 @@ public class MainActivity extends AppCompatActivity
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    initAdapterData(page,page += numPerPage);
+                                    initAdapterData(page, page += numPerPage);
                                     wrapper.setLoadState(wrapper.LOADING_COMPLETE);
                                 }
                             });
@@ -499,10 +510,25 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    // TODO queryImagesUrl
+    private void queryImagesUrl() {
+        AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
+        query.findInBackground(new FindCallback<STimePicture>() {
+            @Override
+            public void done(List<STimePicture> avObjects, AVException avException) {
+                for (STimePicture image : avObjects) {
+                    imagesUrl.add(image.getPictureContent());
+                }
+                DownloadAsyncTask initImagesAsyncTask = new DownloadAsyncTask(getApplicationContext(),
+                        swipeRefreshLayout,
+                        recyclerView, wrapper, adapter, bmImages);
+                initImagesAsyncTask.execute(imagesUrl);
+            }
+        });
+    }
+
     // TODO 初始化Adapter数据
-    private void initAdapterData(final int low, int high) {
-//        List<String> imagesUrl = new ArrayList<>();
-//        queryPicturesUrl(imagesUrl);
+    public void initAdapterData(final int low, int high) {
         AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
         final int finalHigh = high;
         query.findInBackground(new FindCallback<STimePicture>() {
@@ -522,7 +548,7 @@ public class MainActivity extends AppCompatActivity
                             for (int i = low; i < finalLocalHigh; ++i) {
                                 try {
                                     String imageUrl = avObjects.get(i).getPictureContent();
-                                    Log.d("picture url", imageUrl);
+                                    Log.d("get image url", imageUrl);
                                     URL url = new URL(imageUrl);
                                     URLConnection connection = url.openConnection();
                                     connection.connect();
@@ -531,6 +557,7 @@ public class MainActivity extends AppCompatActivity
                                     in = connection.getInputStream();
                                     Bitmap bmImage = BitmapFactory.decodeStream(in);
                                     bmImages.add(bmImage);
+                                    Log.d("bmImages add", "success!" + " " + (i + 1));
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -541,35 +568,12 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
-//        if (!imagesUrl.isEmpty()) {
-//            HIGHTMAX = imagesUrl.size();
-//            if (high > HIGHTMAX) {
-//                high = HIGHTMAX;
-//            }
-//            for (int i = low; i < high; ++i) {
-//                try {
-//                    URL url = new URL(imagesUrl.get(i));
-//                    URLConnection connection = url.openConnection();
-//                    connection.connect();
-//
-//                    InputStream in;
-//                    in = connection.getInputStream();
-//                    Bitmap bmImage = BitmapFactory.decodeStream(in);
-//                    bmImages.add(bmImage);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//        } else {
-//            Log.d("initAdapterData", "Url list is empty");
-//        }
     }
 
     // TODO 初始化适配器
     private void initAdapter()
     {
-        recyclerView = findViewById(R.id.rlv_image);
+//        recyclerView = findViewById(R.id.rlv_image);
         adapter = new ImageAdapter(this,bmImages);
         wrapper = new LoadMoreWrapper(adapter);
 
