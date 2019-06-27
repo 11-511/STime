@@ -125,6 +125,14 @@ public class MainActivity extends AppCompatActivity
     private TextView textViewTagHot;
     private TextView textViewTagClassify;
     private TextView textViewTagSub;
+    
+    public static final String STATUS_NEW="NEW";
+    public static final String STATUS_HOT="HOT";
+    public static final String STATUS_CLA="CLA";
+    public static final String STATUS_SUB="SUB";
+    public static final String STATUS_MY="MY";
+    public String status=STATUS_NEW;
+    
     //图片页
     private ImageView imageViewImage;
     private ImageView imageViewFavoriteCorner;
@@ -142,7 +150,7 @@ public class MainActivity extends AppCompatActivity
     private int HIGHTMAX = 0;
     private int page;
 
-
+    
 
 
     @Override
@@ -297,7 +305,7 @@ public class MainActivity extends AppCompatActivity
         textViewUserNameC = findViewById(R.id.tv_username_change);   // 用户名
         //图片列表
         imageViewImage = findViewById(R.id.iv_image);//list图片
-        imageViewFavoriteCorner = findViewById(R.id.iv_favorite_corner);//图片右下角快速收藏
+        //imageViewFavoriteCorner = findViewById(R.id.iv_favorite_corner);//图片右下角快速收藏
         viewClassify = findViewById(R.id.classify_view);
         viewMyInfo = findViewById(R.id.my_info_view);
         viewImage = findViewById(R.id.image_view);
@@ -355,6 +363,7 @@ public class MainActivity extends AppCompatActivity
 			viewImage.setVisibility(View.VISIBLE);
 			viewMyInfo.setVisibility(View.GONE);
 			viewMyImage.setVisibility(View.VISIBLE);
+			
         } else if (id == R.id.nav_collections) {
 
         } else if (id == R.id.nav_subscribe) {

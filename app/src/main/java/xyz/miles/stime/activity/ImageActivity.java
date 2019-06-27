@@ -88,7 +88,7 @@ public class ImageActivity extends AppCompatActivity {
 		//Adapter
 		
 		//设置为两行
-		recyclerViewComment.setLayoutManager(new GridLayoutManager(this,2));
+		recyclerViewComment.setLayoutManager(new GridLayoutManager(this,1));
 		
 		
 		
