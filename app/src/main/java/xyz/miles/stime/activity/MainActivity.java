@@ -48,7 +48,6 @@ import com.avos.avoscloud.GetDataCallback;
 import com.avos.avoscloud.ProgressCallback;
 import com.avos.avoscloud.SaveCallback;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,7 +59,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -68,7 +66,7 @@ import java.util.TimerTask;
 import xyz.miles.stime.R;
 import xyz.miles.stime.bean.STimePicture;
 import xyz.miles.stime.bean.STimeUser;
-import xyz.miles.stime.service.DownloadAsyncTask;
+import xyz.miles.stime.service.AddImagesAsyncTask;
 import xyz.miles.stime.util.ElementHolder;
 import xyz.miles.stime.util.EndlessRecyclerOnScrollListener;
 import xyz.miles.stime.util.FileTools;
@@ -456,10 +454,8 @@ public class MainActivity extends AppCompatActivity
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#4DB6AC"));
 
-        recyclerView = findViewById(R.id.rlv_image);
-
-//        initAdapterData(page, page += numPerPage);
-//        initAdapter();
+        initAdapter();
+        setListener();
         queryImagesUrl();
 
     }
@@ -471,11 +467,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onRefresh() {
                 //清空list
+                imagesUrl.clear();
                 bmImages.clear();
                 //重新加载
                 page = 0;
-                initAdapterData(page,page += numPerPage);
-                wrapper.notifyDataSetChanged();
+                queryImagesUrl();
                 //延时
                 swipeRefreshLayout.postDelayed(new Runnable() {
                     @Override
@@ -525,61 +521,29 @@ public class MainActivity extends AppCompatActivity
                 for (STimePicture image : avObjects) {
                     imagesUrl.add(image.getPictureContent());
                 }
-                DownloadAsyncTask initImagesAsyncTask = new DownloadAsyncTask(getApplicationContext(),
-                        swipeRefreshLayout,
-                        recyclerView, wrapper, adapter, bmImages);
-                initImagesAsyncTask.execute(imagesUrl);
+                Log.d("images number", imagesUrl.size() + "");
+                initAdapterData(page, page += numPerPage);
             }
         });
     }
 
     // TODO 初始化Adapter数据
     public void initAdapterData(final int low, int high) {
-        AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
-        final int finalHigh = high;
-        query.findInBackground(new FindCallback<STimePicture>() {
-            @Override
-            public void done(final List<STimePicture> avObjects, AVException avException) {
-                if (avException == null) {
-                    int localHigh = finalHigh;
-                    HIGHTMAX = avObjects.size();
-                    if (localHigh > HIGHTMAX) {
-                        localHigh = HIGHTMAX;
-                    }
-                    final int finalLocalHigh = localHigh;
-                    Log.d("finalLocalHigh", finalLocalHigh + "");
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            for (int i = low; i < finalLocalHigh; ++i) {
-                                try {
-                                    String imageUrl = avObjects.get(i).getPictureContent();
-                                    Log.d("get image url", imageUrl);
-                                    URL url = new URL(imageUrl);
-                                    URLConnection connection = url.openConnection();
-                                    connection.connect();
-
-                                    InputStream in;
-                                    in = connection.getInputStream();
-                                    Bitmap bmImage = BitmapFactory.decodeStream(in);
-                                    bmImages.add(bmImage);
-                                    Log.d("bmImages add", "success!" + " " + (i + 1));
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        }
-                    }).start();
-                }
-            }
-        });
+        Log.d("initAdapterData", "start!");
+        int highMax = imagesUrl.size();
+        if (high > highMax) {
+            high = highMax;
+        }
+        for (int i = low; i < high; ++i) {
+            AddImagesAsyncTask addTask = new AddImagesAsyncTask(wrapper, bmImages);
+            addTask.execute(imagesUrl.get(i));
+        }
     }
 
     // TODO 初始化适配器
     private void initAdapter()
     {
-//        recyclerView = findViewById(R.id.rlv_image);
+        recyclerView = findViewById(R.id.rlv_image);
         adapter = new ImageAdapter(this,bmImages);
         wrapper = new LoadMoreWrapper(adapter);
 
