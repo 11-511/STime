@@ -99,6 +99,10 @@ public class MainActivity extends AppCompatActivity
     private ImageView imageViewHeadImage;
     private TextView textViewUserNickName;
     private TextView textViewIntro;
+    private View viewClassify;
+    private View viewMyInfo;
+    private View viewImage ;
+    private View viewMyImage;
 
     // 个人信息修改组件
     private ImageView imageViewHeadC;   // 修改头像
@@ -262,7 +266,8 @@ public class MainActivity extends AppCompatActivity
         // 点击按钮更新信息
         buttonChange = findViewById(R.id.bt_change_info);
         updateInfo();
-
+        
+        viewMyImage.setVisibility(View.GONE);
         // TODO OnCreate初始化适配器数据
         mainPageShow();
     }
@@ -295,6 +300,10 @@ public class MainActivity extends AppCompatActivity
         //图片列表
         imageViewImage = findViewById(R.id.iv_image);//list图片
         imageViewFavoriteCorner = findViewById(R.id.iv_favorite_corner);//图片右下角快速收藏
+        viewClassify = findViewById(R.id.classify_view);
+        viewMyInfo = findViewById(R.id.my_info_view);
+        viewImage = findViewById(R.id.image_view);
+        viewMyImage=findViewById(R.id.upload_view);
     }
 
 
@@ -336,10 +345,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        View viewClassify = findViewById(R.id.classify_view);
-        View viewMyInfo = findViewById(R.id.my_info_view);
-        View viewImage = findViewById(R.id.image_view);
-		View viewMyImage=findViewById(R.id.upload_view);
+        
         if (id == R.id.nav_home) {
             viewClassify.setVisibility(View.VISIBLE);
             viewImage.setVisibility(View.VISIBLE);
