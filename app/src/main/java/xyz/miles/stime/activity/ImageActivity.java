@@ -11,8 +11,11 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,7 +77,7 @@ public class ImageActivity extends AppCompatActivity {
 	private String favoritePictureId = null;		// 收藏的图片ID
 	private boolean isFollowed;				// 图片作者是否被关注
 	private STimeUser pictureAuthor = null;		// 图片作者
-	
+	private TextView textViewAddComment;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -114,6 +117,35 @@ public class ImageActivity extends AppCompatActivity {
 		
 		//设置为两行
 		recyclerViewComment.setLayoutManager(new GridLayoutManager(this,1));
+		
+		textViewAddComment.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				AlertDialog.Builder builder=new AlertDialog.Builder(ImageActivity.this);
+				LayoutInflater inflater=LayoutInflater.from(ImageActivity.this);
+				View view=inflater.inflate(R.layout.add_comment,null);
+				final EditText editText=view.findViewById(R.id.et_add_comment);
+				builder.setCustomTitle(view);
+				builder.setPositiveButton("提交评论", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						String comment=editText.getText().toString();
+						Toast.makeText(ImageActivity.this,comment,Toast.LENGTH_SHORT).show();
+						//TODO 提交评论
+					}
+				});
+				builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					
+					}
+				});
+				AlertDialog dialog=builder.create();
+				dialog.show();
+				dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+				dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+			}
+		});
 
 	}
 
@@ -130,6 +162,7 @@ public class ImageActivity extends AppCompatActivity {
 		textViewSubNum=findViewById(R.id.tv_watch_author_sub_num);			// 作者被关注数
 		imageViewSub=findViewById(R.id.iv_watch_author_sub);				// 作者被关注数图标
 		imageViewCommentHead=findViewById(R.id.iv_comment_head);			// 评论者头像
+		textViewAddComment=findViewById(R.id.tv_add_comment);
 	}
 
 	// 设置收藏图片事件
