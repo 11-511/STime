@@ -2,7 +2,9 @@ package xyz.miles.stime.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Environment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,8 +39,10 @@ import xyz.miles.stime.bean.STimeFavoritePicture;
 import xyz.miles.stime.bean.STimePicture;
 import xyz.miles.stime.bean.STimeUser;
 import xyz.miles.stime.service.SetImageAsyncTask;
+import xyz.miles.stime.util.CommentAdapter;
 import xyz.miles.stime.util.ElementHolder;
 import xyz.miles.stime.util.FileTools;
+import xyz.miles.stime.util.LoadMoreWrapper;
 
 public class ImageActivity extends AppCompatActivity {
 	
@@ -54,7 +58,14 @@ public class ImageActivity extends AppCompatActivity {
 	private ImageView imageViewSub;
 	private ImageView imageViewCommentHead;
 	private RecyclerView recyclerViewComment;
-
+	private CommentAdapter adapter;
+	private SwipeRefreshLayout swipeRefreshLayout;
+	private LoadMoreWrapper wrapper;
+	private List<Bitmap> heads;
+	private List<String> comments;
+	private List<String> times;
+	
+	
 	private STimePicture picture;
 	private SetImageAsyncTask setImageContent;
 	private String savePath = FileTools.getSdCardPath() + "/STime/";
@@ -328,4 +339,15 @@ public class ImageActivity extends AppCompatActivity {
 			}
 		});
 	}
+	
+	private void initAdapter()
+	{
+		recyclerViewComment = findViewById(R.id.rlv_comment);
+		adapter = new CommentAdapter(ImageActivity.this,heads,comments,times);
+		wrapper = new LoadMoreWrapper(adapter);
+		recyclerViewComment.setLayoutManager(new GridLayoutManager(this,1));
+		recyclerViewComment.setAdapter(wrapper);
+	}
+	
+	
 }
