@@ -31,10 +31,13 @@ import com.avos.avoscloud.GetCallback;
 import com.avos.avoscloud.SaveCallback;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.function.Predicate;
 
 import xyz.miles.stime.R;
@@ -44,8 +47,10 @@ import xyz.miles.stime.bean.STimeFollowUsers;
 import xyz.miles.stime.bean.STimePicture;
 import xyz.miles.stime.bean.STimeUser;
 import xyz.miles.stime.service.SetImageAsyncTask;
+import xyz.miles.stime.util.Comment;
 import xyz.miles.stime.util.CommentAdapter;
 import xyz.miles.stime.util.ElementHolder;
+import xyz.miles.stime.util.EndlessRecyclerOnScrollListener;
 import xyz.miles.stime.util.FileTools;
 import xyz.miles.stime.util.LoadMoreWrapper;
 
@@ -63,14 +68,15 @@ public class ImageActivity extends AppCompatActivity {
 	private TextView textViewSubNum;
 	private ImageView imageViewSub;
 	private ImageView imageViewCommentHead;
+	private TextView textViewCommentNum;
 	private RecyclerView recyclerViewComment;
 	private CommentAdapter adapter;
 	private SwipeRefreshLayout swipeRefreshLayout;
 	private LoadMoreWrapper wrapper;
-	private List<Bitmap> heads;
-	private List<String> comments;
-	private List<String> times;
-	private List<String> names;
+	private List<Comment> comments = new ArrayList<>();
+	private List<String> imagesUrl = new ArrayList<>();
+	private int item = 0;
+	private int numPreItem = 3;
 	
 	
 	private STimePicture picture;
@@ -96,6 +102,9 @@ public class ImageActivity extends AppCompatActivity {
 		
 		/*----------------组件初始化------------------*/
 		initComponent();
+
+		// 初始化适配器
+		initAdapter();
 		
 		//返回
 		imageViewBack.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +140,7 @@ public class ImageActivity extends AppCompatActivity {
 
 	// 初始化组件
 	private void initComponent() {
-		imageViewBack=findViewById(R.id.iv_image_back);
+		imageViewBack=findViewById(R.id.iv_image_back);						// 返回图片
 		imageViewImage=findViewById(R.id.iv_watch_image);					// 图片内容
 		textViewTitle=findViewById(R.id.tv_watch_title);					// 图片标题
 		textViewIntro=findViewById(R.id.tv_watch_image_intro);				// 图片简介
@@ -142,6 +151,46 @@ public class ImageActivity extends AppCompatActivity {
 		textViewSubNum=findViewById(R.id.tv_watch_author_sub_num);			// 作者被关注数
 		imageViewSub=findViewById(R.id.iv_watch_author_sub);				// 作者被关注数图标
 		imageViewCommentHead=findViewById(R.id.iv_comment_head);			// 评论者头像
+		textViewCommentNum = findViewById(R.id.tv_watch_comment_num);		// 评论数
+	}
+
+	// 显示图片信息
+	private void showImageInfo() {
+		// 设置图片标题
+		textViewTitle.setText(picture.getPictureTitle());
+		// 设置图片简介
+		textViewIntro.setText(picture.getPictureBrief());
+		// 设置图片收藏数
+		textViewCollectNum.setText(picture.getPictureAmountOfFavor().toString());
+		// 设置图片内容
+		setImageContent = new SetImageAsyncTask(imageViewImage);
+		setImageContent.execute(picture.getPictureContent());
+
+		// 查询该图片是否被该登录用户收藏
+		queryPictureCollectionStatus();
+
+		// 设置图片作者
+		textViewAuthorName.setText(picture.getPictureAuthor());
+		// 设置图片作者被关注数、头像
+		AVQuery<STimeUser> query = AVUser.getQuery(STimeUser.class);
+		query.whereEqualTo("username", picture.getPictureAuthor());
+		query.getFirstInBackground(new GetCallback<STimeUser>() {
+			@Override
+			public void done(STimeUser object, AVException e) {
+				// 设置作者
+				pictureAuthor = object;
+
+				// 设置作者头像
+				setImageContent = new SetImageAsyncTask(imageViewAuthorHead);
+				setImageContent.execute(pictureAuthor.getUserPortrait());
+
+				// 查询作者是否被该登录用户关注
+				queryFollowAuthorStatus();
+			}
+		});
+
+		// TODO 显示评论
+		queryComments();
 	}
 
 	/* ----------------------------------------------------------------
@@ -295,6 +344,8 @@ public class ImageActivity extends AppCompatActivity {
 								if (e == null) {
 									Toast.makeText(getApplicationContext(), "评论成功",
 											Toast.LENGTH_SHORT).show();
+									comments.clear();
+									queryComments();
 								} else {
 									Toast.makeText(getApplicationContext(), "评论失败",
 											Toast.LENGTH_SHORT).show();
@@ -320,43 +371,55 @@ public class ImageActivity extends AppCompatActivity {
 
     }
 
-	// 显示图片信息
-	private void showImageInfo() {
-		// 设置图片标题
-		textViewTitle.setText(picture.getPictureTitle());
-		// 设置图片简介
-		textViewIntro.setText(picture.getPictureBrief());
-		// 设置图片收藏数
-		textViewCollectNum.setText(picture.getPictureAmountOfFavor().toString());
-		// 设置图片内容
-		setImageContent = new SetImageAsyncTask(imageViewImage);
-		setImageContent.execute(picture.getPictureContent());
-
-		// 查询该图片是否被该登录用户收藏
-		queryPictureCollectionStatus();
-
-		// 设置图片作者
-		textViewAuthorName.setText(picture.getPictureAuthor());
-		// 设置图片作者被关注数、头像
-		AVQuery<STimeUser> query = AVUser.getQuery(STimeUser.class);
-		query.whereEqualTo("username", picture.getPictureAuthor());
-		query.getFirstInBackground(new GetCallback<STimeUser>() {
+	// 设置刷新、加载监听器
+	private void setListener(final int max) {
+		// 在最顶部向上滑动刷新
+		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
-			public void done(STimeUser object, AVException e) {
-				// 设置作者
-				pictureAuthor = object;
+			public void onRefresh() {
+				// 重新初始化评论
+				comments.clear();
+				queryComments();
 
-				// 设置作者头像
-				setImageContent = new SetImageAsyncTask(imageViewAuthorHead);
-				setImageContent.execute(pictureAuthor.getUserPortrait());
-
-				// 查询作者是否被该登录用户关注
-				queryFollowAuthorStatus();
+				//延时
+				swipeRefreshLayout.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
+							swipeRefreshLayout.setRefreshing(false);
+						}
+					}
+				}, 500);
 			}
 		});
 
-		// TODO 显示评论
+		// 底部向下滑动加载更多
+		recyclerViewComment.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
+			@Override
+			public void onLoadMore() {
+				wrapper.setLoadState(wrapper.LOADING);
+				if (item < max)
+				{
+					new Timer().schedule(new TimerTask() {
+						@Override
+						public void run() {
+							runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									wrapper.setLoadState(wrapper.LOADING_COMPLETE);
+								}
+							});
+						}
+					}, 500);
+				}
+				else
+				{
+					wrapper.setLoadState(wrapper.LOADING_END);
+				}
+			}
+		});
 	}
+
 
 	/* ----------------------------------------------------------------
 	 * 							数据库查询
@@ -371,7 +434,24 @@ public class ImageActivity extends AppCompatActivity {
             @Override
             public void done(List<STimeComment> avObjects, AVException avException) {
                 if (avObjects != null) {
+                	setListener(avObjects.size());
+                	textViewCommentNum.setText("评论(" + avObjects.size() + ")");
+                	for (STimeComment commentObject : avObjects) {
+                		Comment queryData = new Comment();
+                		queryData.name = commentObject.getCommentUser(); // 评论者用户名
+						queryData.comment = commentObject.getCommentContent();			// 评论内容
 
+						// 评论时间添加
+						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						String commentDateStr = formatter.format(commentObject.getCreatedAt());
+						queryData.time = commentDateStr;
+
+						// TODO 头像设置，先添加至图片Url List
+//						imagesUrl.add(commentObject.getCommentUser().getUserPortrait());
+//						initAdapterData(item, item += numPreItem);
+						comments.add(queryData);		// 添加adapter数据
+						++item;
+					}
                 }
             }
         });
@@ -451,13 +531,18 @@ public class ImageActivity extends AppCompatActivity {
 	 */
 
 	// 初始化适配器
-	private void initAdapter()
-	{
+	private void initAdapter() {
 		recyclerViewComment = findViewById(R.id.rlv_comment);
-		adapter = new CommentAdapter(ImageActivity.this,heads, comments,names, times);
+		swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout_comment);
+		swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+		adapter = new CommentAdapter(ImageActivity.this, comments);
 		wrapper = new LoadMoreWrapper(adapter);
 		recyclerViewComment.setLayoutManager(new GridLayoutManager(this,1));
 		recyclerViewComment.setAdapter(wrapper);
 	}
 
+	// 初始化适配器的数据
+	private void initAdapterData() {
+
+	}
 }

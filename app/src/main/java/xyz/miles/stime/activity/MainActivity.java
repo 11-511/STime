@@ -43,6 +43,7 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
 
@@ -59,6 +60,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import xyz.miles.stime.R;
+import xyz.miles.stime.bean.STimeFavoritePicture;
 import xyz.miles.stime.bean.STimePicture;
 import xyz.miles.stime.bean.STimeUser;
 import xyz.miles.stime.service.AddImagesAsyncTask;
@@ -124,10 +126,12 @@ public class MainActivity extends AppCompatActivity
     
     // 页面状态枚举变量
     public enum STATUS {
-        // 最新      // 最热     // 分类      // 关注     // 我的作品
-        STATUS_NEW, STATUS_HOT, STATUS_CLA, STATUS_SUB, STATUS_MY
+        // 最新      // 最热     // 分类      // 所关注的所有作者作品
+        STATUS_NEW, STATUS_HOT, STATUS_CLA, STATUS_SUB,
+        // 我的作品   // 收藏夹      // 所关注的作者
+        STATUS_MY,   STATUS_COL,    STATUS_FOL
     }
-    private final int STATUSNUM = 5;
+    private final int STATUSNUM = 7;
     public STATUS curStatus = STATUS.STATUS_NEW;    // 当前页面状态
     
     private final String[] multiChoiceItems = new String[]{"家具",
@@ -321,8 +325,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     // 初始化页面组件
-    private void loadComponents()
-    {
+    private void loadComponents() {
         //侧边栏
         headView = navigationView.getHeaderView(0);
         imageViewHeadImage = headView.findViewById(R.id.iv_head_image);
@@ -369,7 +372,6 @@ public class MainActivity extends AppCompatActivity
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
 
         initAdapter();
-        setListener();
         initDiffPage(STATUS.STATUS_NEW);
     }
 
@@ -389,7 +391,7 @@ public class MainActivity extends AppCompatActivity
             case STATUS_HOT:    // 最热
                 queryImagesUrlByHot();
                 break;
-            case STATUS_SUB:    // 关注
+            case STATUS_SUB:    // 关注的所有作者的作品
                 queryImagesUrlBySub();
                 break;
             case STATUS_CLA:    // 分类
@@ -398,13 +400,18 @@ public class MainActivity extends AppCompatActivity
             case STATUS_MY:     // 我的作品
                 queryImagesUrlByMy();
                 break;
+            case STATUS_COL:    // 收藏夹
+                queryImagesUrlByCol();
+                break;
+            case STATUS_FOL:    // 关注的所有作者
+                break;
             default:
                 break;
         }
     }
 
     // 设置刷新、加载监听器
-    private void setListener() {
+    private void setListener(final int max) {
         // 在最顶部向上滑动刷新
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -429,7 +436,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onLoadMore() {
                 wrapper.setLoadState(wrapper.LOADING);
-                if (page<13)
+                if (page < max)
                 {
                     new Timer().schedule(new TimerTask() {
                         @Override
@@ -484,34 +491,35 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }*/
+    // 侧边栏Item
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         
-        if (id == R.id.nav_home) {
+        if (id == R.id.nav_home) {  // 主页
             viewClassify.setVisibility(View.VISIBLE);
             viewImage.setVisibility(View.VISIBLE);
             viewMyInfo.setVisibility(View.GONE);
 			viewMyImage.setVisibility(View.GONE);
 			viewSub.setVisibility(View.GONE);
             initDiffPage((STATUS.STATUS_NEW));
-        } else if (id == R.id.nav_my_image) {
+        } else if (id == R.id.nav_my_image) {   // 我的作品
 			viewClassify.setVisibility(View.GONE);
 			viewImage.setVisibility(View.VISIBLE);
 			viewMyInfo.setVisibility(View.GONE);
 			viewMyImage.setVisibility(View.VISIBLE);
             viewSub.setVisibility(View.GONE);
 			initDiffPage(STATUS.STATUS_MY);
-        } else if (id == R.id.nav_collections) {
+        } else if (id == R.id.nav_collections) {    // 我的收藏
             viewClassify.setVisibility(View.GONE);
             viewImage.setVisibility(View.VISIBLE);
             viewMyInfo.setVisibility(View.GONE);
             viewMyImage.setVisibility(View.GONE);
             viewSub.setVisibility(View.GONE);
-            //TODO 我收藏的图片
-        } else if (id == R.id.nav_subscribe) {
+            initDiffPage(STATUS.STATUS_COL);
+        } else if (id == R.id.nav_subscribe) {      // 我的关注
             viewClassify.setVisibility(View.GONE);
             viewImage.setVisibility(View.GONE);
             viewMyInfo.setVisibility(View.GONE);
@@ -606,7 +614,7 @@ public class MainActivity extends AppCompatActivity
      *
      ***********************************************************************/
 
-    // TODO 按最新查询图片
+    // 按最新查询图片
     private void queryImagesUrlByNew() {
         AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
         query.orderByDescending("createdAt");
@@ -618,12 +626,13 @@ public class MainActivity extends AppCompatActivity
                 }
                 Log.d("new images number", imagesUrl.size() + "");
                 initAdapterData(page, page += numPerPage);
+                setListener(avObjects.size());
             }
         });
 
     }
 
-    // TODO 按照热度查询图片
+    // 按照热度查询图片
     private void queryImagesUrlByHot() {
         AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
         query.orderByDescending("pictureAmountOfFavor");
@@ -635,21 +644,56 @@ public class MainActivity extends AppCompatActivity
                 }
                 Log.d("hot images number", imagesUrl.size() + "");
                 initAdapterData(page, page += numPerPage);
+                setListener(avObjects.size());
             }
         });
     }
 
-    // TODO 按照关注查询图片
+    // 按照关注的作者查询图片
     private void queryImagesUrlBySub() {
-
+        AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
+        query.whereContainedIn("pictureAuthor", currentUser.getFavoriteUser());
+        query.orderByDescending("createdAt");
+        query.findInBackground(new FindCallback<STimePicture>() {
+            @Override
+            public void done(List<STimePicture> avObjects, AVException avException) {
+                for (STimePicture image : avObjects) {
+                    imagesUrl.add(image.getPictureContent());
+                }
+                Log.d("my followers images number", imagesUrl.size() + "");
+                initAdapterData(page, page += numPerPage);
+                setListener(avObjects.size());
+            }
+        });
     }
 
-    // TODO 按照分类查询图片
+    // 按照分类查询图片
     private void queryImagesUrlByCla() {
+        // 设置获取的标签
+        List<String> tags = new ArrayList<>();
+        for (int i = 0; i < checked.length; ++i) {
+            if (checked[i]) {
+                tags.add(multiChoiceItems[i]);
+            }
+        }
 
+        AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
+        query.whereContainsAll("pictureType", tags);
+        query.orderByDescending("createdAt");
+        query.findInBackground(new FindCallback<STimePicture>() {
+            @Override
+            public void done(List<STimePicture> avObjects, AVException avException) {
+                for (STimePicture image : avObjects) {
+                    imagesUrl.add(image.getPictureContent());
+                }
+                Log.d("match tags images number", imagesUrl.size() + "");
+                initAdapterData(page, page += numPerPage);
+                setListener(avObjects.size());
+            }
+        });
     }
 
-    // TODO 按照我的作品查询图片
+    // 按照我的作品查询图片
     private void queryImagesUrlByMy() {
         AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
         query.whereEqualTo("pictureAuthor", currentUser.getUsername());
@@ -660,8 +704,30 @@ public class MainActivity extends AppCompatActivity
                 for (STimePicture image : avObjects) {
                     imagesUrl.add(image.getPictureContent());
                 }
-                Log.d("hot images number", imagesUrl.size() + "");
+                Log.d("my works images number", imagesUrl.size() + "");
                 initAdapterData(page, page += numPerPage);
+                setListener(avObjects.size());
+            }
+        });
+    }
+
+    // 按照我的收藏夹查询作品
+    private void queryImagesUrlByCol() {
+        AVQuery<STimeFavoritePicture> query = AVObject.getQuery(STimeFavoritePicture.class);
+        query.whereEqualTo("ownUser", currentUser.getUsername());
+        query.include("favoritePicture");
+        query.orderByDescending("createdAt");
+        query.findInBackground(new FindCallback<STimeFavoritePicture>() {
+            @Override
+            public void done(List<STimeFavoritePicture> avObjects, AVException avException) {
+                for (STimeFavoritePicture picture : avObjects) {
+                    STimePicture tmpData = picture.getAVObject("favoritePicture");
+                    String url = tmpData.getPictureContent();
+                    imagesUrl.add(url);
+                }
+                Log.d("my collected images number", imagesUrl.size() + "");
+                initAdapterData(page, page += numPerPage);
+                setListener(avObjects.size());
             }
         });
     }
@@ -675,7 +741,7 @@ public class MainActivity extends AppCompatActivity
         for (int i = low, j = 0; i < high; ++i, ++j) {
             addTask = new AddImagesAsyncTask(wrapper, bmImagesListArr.get(curStatus.ordinal()));
             addTask.execute(imagesUrl.get(i));
-            Log.d("add task", "executing" + ":" + i);
+            Log.d("add task", "executing" + ":" + i + " " + imagesUrl.get(i));
         }
     }
 

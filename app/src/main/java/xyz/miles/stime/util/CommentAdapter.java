@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
 	@Override
 	public void onBindViewHolder(CommentViewHolder holder, int position)
 	{
+		Log.d("comment username", comments.get(position).name);
 		holder.head.setImageBitmap(comments.get(position).head);
 		holder.name.setText(comments.get(position).name);
 		holder.time.setText(comments.get(position).time);
