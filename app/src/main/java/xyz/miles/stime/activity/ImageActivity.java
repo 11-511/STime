@@ -34,16 +34,7 @@ public class ImageActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_image);
 		
 		/*----------------组件初始化------------------*/
-		imageViewImage=findViewById(R.id.iv_watch_image);
-		textViewTitle=findViewById(R.id.tv_watch_title);
-		textViewIntro=findViewById(R.id.tv_watch_image_intro);
-		imageViewCollect=findViewById(R.id.iv_watch_image_collect);
-		textViewCollectNum=findViewById(R.id.tv_watch_image_collect_num);
-		imageViewAuthorHead=findViewById(R.id.iv_watch_author_head);
-		textViewAuthorName=findViewById(R.id.tv_watch_author_name);
-		textViewSubNum=findViewById(R.id.tv_sub_num);
-		imageViewSub=findViewById(R.id.iv_watch_author_sub);
-		imageViewCommentHead=findViewById(R.id.iv_comment_head);
+		initComponent();
 		
 		/*--------------------点击事件-----------------------*/
 		imageViewImage.setOnLongClickListener(new View.OnLongClickListener() {
@@ -93,6 +84,20 @@ public class ImageActivity extends AppCompatActivity {
 		
 		
 		
+	}
+
+	// 初始化组件
+	private void initComponent() {
+		imageViewImage=findViewById(R.id.iv_watch_image);
+		textViewTitle=findViewById(R.id.tv_watch_title);
+		textViewIntro=findViewById(R.id.tv_watch_image_intro);
+		imageViewCollect=findViewById(R.id.iv_watch_image_collect);
+		textViewCollectNum=findViewById(R.id.tv_watch_image_collect_num);
+		imageViewAuthorHead=findViewById(R.id.iv_watch_author_head);
+		textViewAuthorName=findViewById(R.id.tv_watch_author_name);
+		textViewSubNum=findViewById(R.id.tv_sub_num);
+		imageViewSub=findViewById(R.id.iv_watch_author_sub);
+		imageViewCommentHead=findViewById(R.id.iv_comment_head);
 	}
 	
 }

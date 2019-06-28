@@ -126,13 +126,13 @@ public class MainActivity extends AppCompatActivity
     private TextView textViewTagClassify;
     private TextView textViewTagSub;
     
-    public static final String STATUS_NEW = "NEW";  // 最新
-    public static final String STATUS_HOT = "HOT";  // 最热
-    public static final String STATUS_CLA = "CLA";  // 分类
-    public static final String STATUS_SUB = "SUB";  // 关注
-    public static final String STATUS_MY = "MY";    // 我的作品
-    public String curStatus = STATUS_NEW;    // 当前页面状态
-    public static String MAINSTATUS = STATUS_NEW;
+    // 页面状态枚举变量
+    public enum STATUS {
+        // 最新      // 最热     // 分类      // 关注     // 我的作品
+        STATUS_NEW, STATUS_HOT, STATUS_CLA, STATUS_SUB, STATUS_MY
+    }
+    private final int STATUSNUM = 5;
+    public STATUS curStatus = STATUS.STATUS_NEW;    // 当前页面状态
     
     //图片页
     private ImageView imageViewImage;
@@ -140,8 +140,8 @@ public class MainActivity extends AppCompatActivity
 
     // 适配器相关
     private RecyclerView recyclerView;
-    private List<String> imagesUrl;
-    private List<Bitmap> bmImages;
+    private List<String> imagesUrl;                         // 查询得到到图片Url List
+    private ArrayList<ArrayList<Bitmap>> bmImagesListArr;   // 不同页面对应的图片数据List
     private ImageAdapter adapter;
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -193,6 +193,7 @@ public class MainActivity extends AppCompatActivity
         /*-----------------------------------图片页（主页)--------------------------------------*/
         // 初始化主页
         initMainPage();
+
         //分类页跳转
         ////最新
         layoutNew.setOnClickListener(new View.OnClickListener() {
@@ -203,8 +204,7 @@ public class MainActivity extends AppCompatActivity
                 textViewTagHot.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagSub.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagClassify.setTextColor(getResources().getColor(R.color.colorBlack));
-                MAINSTATUS = STATUS_NEW;
-                initDiffPage(STATUS_NEW);
+                initDiffPage(STATUS.STATUS_NEW);
             }
         });
         ////最热
@@ -216,8 +216,7 @@ public class MainActivity extends AppCompatActivity
                 textViewTagHot.setTextColor(getResources().getColor(R.color.colorPrimary));
                 textViewTagSub.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagClassify.setTextColor(getResources().getColor(R.color.colorBlack));
-                MAINSTATUS = STATUS_HOT;
-                initDiffPage(STATUS_HOT);
+                initDiffPage(STATUS.STATUS_HOT);
             }
 
         });
@@ -230,8 +229,7 @@ public class MainActivity extends AppCompatActivity
                 textViewTagHot.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagSub.setTextColor(getResources().getColor(R.color.colorPrimary));
                 textViewTagClassify.setTextColor(getResources().getColor(R.color.colorBlack));
-                MAINSTATUS = STATUS_SUB;
-                initDiffPage(STATUS_SUB);
+                initDiffPage(STATUS.STATUS_SUB);
             }
         });
         ////分类
@@ -243,13 +241,9 @@ public class MainActivity extends AppCompatActivity
                 textViewTagHot.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagSub.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagClassify.setTextColor(getResources().getColor(R.color.colorPrimary));
-                MAINSTATUS = STATUS_CLA;
-                initDiffPage(STATUS_CLA);
+                initDiffPage(STATUS.STATUS_CLA);
             }
         });
-
-       
-
 
         /*----------------------------------上传图片BUTTON-----------------------------------------*/
         Button buttonEnterUpload=findViewById(R.id.bt_enter_upload);
@@ -325,7 +319,10 @@ public class MainActivity extends AppCompatActivity
     private void initMainPage() {
         page = 0;
         imagesUrl = new ArrayList<>();
-        bmImages = new ArrayList<>();
+        bmImagesListArr = new ArrayList<>();
+        for (int i = 0; i < STATUSNUM; ++i) {
+            bmImagesListArr.add(new ArrayList<Bitmap>());
+        }
         addTaskList = new ArrayList<>();
 
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
@@ -333,16 +330,17 @@ public class MainActivity extends AppCompatActivity
 
         initAdapter();
         setListener();
-        initDiffPage(STATUS_NEW);
+        initDiffPage(STATUS.STATUS_NEW);
     }
 
     // TODO 不同页面初始化数据
-    private void initDiffPage(String status) {
+    private void initDiffPage(STATUS status) {
         this.curStatus = status;
         page = 0;
 
+        bmImagesListArr.get(status.ordinal()).clear();
         imagesUrl.clear();
-        bmImages.clear();
+        initAdapter();
         wrapper.notifyDataSetChanged();
         switch (status) {
             case STATUS_NEW:    // 最新
@@ -371,12 +369,9 @@ public class MainActivity extends AppCompatActivity
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //清空list
-                imagesUrl.clear();
-                bmImages.clear();
-                //重新加载
-                page = 0;
-                queryImagesUrlByNew();
+                // 重新初始化当前页
+                initDiffPage(curStatus);
+
                 //延时
                 swipeRefreshLayout.postDelayed(new Runnable() {
                     @Override
@@ -467,7 +462,7 @@ public class MainActivity extends AppCompatActivity
 			viewImage.setVisibility(View.VISIBLE);
 			viewMyInfo.setVisibility(View.GONE);
 			viewMyImage.setVisibility(View.VISIBLE);
-			initDiffPage(STATUS_MY);
+			initDiffPage(STATUS.STATUS_MY);
         } else if (id == R.id.nav_collections) {
 
         } else if (id == R.id.nav_subscribe) {
@@ -604,7 +599,19 @@ public class MainActivity extends AppCompatActivity
 
     // TODO 按照我的作品查询图片
     private void queryImagesUrlByMy() {
-
+        AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
+        query.whereEqualTo("pictureAuthor", currentUser.getUsername());
+        query.orderByDescending("createdAt");
+        query.findInBackground(new FindCallback<STimePicture>() {
+            @Override
+            public void done(List<STimePicture> avObjects, AVException avException) {
+                for (STimePicture image : avObjects) {
+                    imagesUrl.add(image.getPictureContent());
+                }
+                Log.d("hot images number", imagesUrl.size() + "");
+                initAdapterData(page, page += numPerPage);
+            }
+        });
     }
 
     // 初始化Adapter数据
@@ -614,9 +621,7 @@ public class MainActivity extends AppCompatActivity
             high = highMax;
         }
         for (int i = low, j = 0; i < high; ++i, ++j) {
-//            addTaskList.add(new AddImagesAsyncTask(wrapper, bmImages));
-//            addTaskList.get(j).execute(imagesUrl.get(i), MAINSTATUS);
-            addTask = new AddImagesAsyncTask(wrapper, bmImages);
+            addTask = new AddImagesAsyncTask(wrapper, bmImagesListArr.get(curStatus.ordinal()));
             addTask.execute(imagesUrl.get(i));
             Log.d("add task", "executing" + ":" + i);
         }
@@ -626,7 +631,7 @@ public class MainActivity extends AppCompatActivity
     private void initAdapter()
     {
         recyclerView = findViewById(R.id.rlv_image);
-        adapter = new ImageAdapter(this,bmImages);
+        adapter = new ImageAdapter(this,bmImagesListArr.get(curStatus.ordinal()));
         wrapper = new LoadMoreWrapper(adapter);
 
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
