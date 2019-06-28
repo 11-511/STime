@@ -29,13 +29,13 @@
         android:text="被关注数:0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <ImageView
+    <!--<ImageView
         android:id="@+id/iv_sub_author_sub"
         android:layout_marginTop="10dp"
         android:src="@drawable/ic_favorite_border_24dp"
         android:layout_alignParentRight="true"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_height="50dp" />-->
     <View
         android:layout_above="@+id/iv_sub_author_head"
         android:layout_marginTop="5dp"
