@@ -109,6 +109,7 @@ public class ImageActivity extends AppCompatActivity {
 			public void onClick(View v) {
 				//收藏图片
 				imageViewCollect.setImageResource(R.drawable.ic_star_50dp);
+				//imageViewCollect.setImageResource(R.drawable.ic_star_border_50dp);
 			}
 		});
 		imageViewSub.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +117,7 @@ public class ImageActivity extends AppCompatActivity {
 			public void onClick(View v) {
 				//关注作者
 				imageViewSub.setImageResource(R.drawable.ic_favorite_50dp);
+				//imageViewSub.setImageResource(R.drawable.ic_favorite_border_50dp);
 			}
 		});
 		
