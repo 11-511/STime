@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import xyz.miles.stime.service.SetImageAsyncTask;
 
 public class ImageActivity extends AppCompatActivity {
 	
+	private ImageView imageViewBack;
 	private ImageView imageViewImage;
 	private TextView textViewTitle;
 	private TextView textViewIntro;
@@ -46,13 +48,25 @@ public class ImageActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_image);
+		
+		this.getWindow().setBackgroundDrawableResource(R.color.colorWhite);
+		
+		
 
 		// 接受intent信息
 		picture = (STimePicture) getIntent().getSerializableExtra("imageData");
 		
 		/*----------------组件初始化------------------*/
 		initComponent();
-
+		
+		
+		//返回
+		imageViewBack.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 		// 图片信息显示
 		showImageInfo();
 		
@@ -106,6 +120,7 @@ public class ImageActivity extends AppCompatActivity {
 
 	// 初始化组件
 	private void initComponent() {
+		imageViewBack=findViewById(R.id.iv_image_back);
 		imageViewImage=findViewById(R.id.iv_watch_image);					// 图片内容
 		textViewTitle=findViewById(R.id.tv_watch_title);					// 图片标题
 		textViewIntro=findViewById(R.id.tv_watch_image_intro);				// 图片简介
@@ -113,7 +128,7 @@ public class ImageActivity extends AppCompatActivity {
 		textViewCollectNum=findViewById(R.id.tv_watch_image_collect_num);	// 图片收藏数
 		imageViewAuthorHead=findViewById(R.id.iv_watch_author_head);		// 图片作者头像
 		textViewAuthorName=findViewById(R.id.tv_watch_author_name);			// 作者名
-		textViewSubNum=findViewById(R.id.tv_sub_num);						// 作者被关注数
+		textViewSubNum=findViewById(R.id.tv_watch_author_sub_num);						// 作者被关注数
 		imageViewSub=findViewById(R.id.iv_watch_author_sub);				// 作者被关注数图标
 		imageViewCommentHead=findViewById(R.id.iv_comment_head);			// 评论者头像
 	}
@@ -125,7 +140,7 @@ public class ImageActivity extends AppCompatActivity {
 		// 设置图片简介
 		textViewIntro.setText(picture.getPictureBrief());
 		// TODO 设置图片收藏数（有问题，空引用）
-//		textViewCollectNum.setText(picture.getPictureAmountOfFavor());
+		textViewCollectNum.setText(picture.getPictureAmountOfFavor().toString());
 		// 设置图片内容
 		setImageContent = new SetImageAsyncTask(imageViewImage);
 		setImageContent.execute(picture.getPictureContent());
@@ -141,7 +156,7 @@ public class ImageActivity extends AppCompatActivity {
 				if (avObjects != null) {
 					STimeUser user = avObjects.get(0);
 					// TODO 设置作者被关注数（有问题，空引用）
-//					textViewSubNum.setText(user.getUserAmountOfAttention());
+					textViewSubNum.setText("被关注数："+user.getUserAmountOfAttention());
 
 					// 设置作者头像
 					setImageContent = new SetImageAsyncTask(imageViewAuthorHead);
@@ -152,4 +167,5 @@ public class ImageActivity extends AppCompatActivity {
 
 
 	}
+
 }

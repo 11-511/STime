@@ -329,7 +329,7 @@ public class MainActivity extends AppCompatActivity
         addTaskList = new ArrayList<>();
 
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#4DB6AC"));
+        swipeRefreshLayout.setColorSchemeColors(R.color.colorPrimary);
 
         initAdapter();
         setListener();
