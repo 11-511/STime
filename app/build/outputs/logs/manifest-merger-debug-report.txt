@@ -1,11 +1,11 @@
 -- Merging decision tree log ---
 manifest
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-42:12
-INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-42:12
-INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-42:12
-INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-42:12
-MERGED from [cn.bmob.android:bmob-sdk:3.7.3-rc1] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\c9be42eddabb201b4acf98f14ddde791\AndroidManifest.xml:2:1-16:12
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-51:12
+INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-51:12
+INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-51:12
+INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-51:12
 MERGED from [io.reactivex.rxjava2:rxandroid:2.1.0] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\04c452c1356808852042cf7761fe041d\AndroidManifest.xml:15:1-20:12
+MERGED from [cn.leancloud.android:avoscloud-push:4.7.10] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\b069be93c03e6f8568cedcec0a5efe26\AndroidManifest.xml:2:1-11:12
 MERGED from [com.android.support:design:28.0.0] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\7b631687521757491f302bc8dff0a552\AndroidManifest.xml:17:1-24:12
 MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\26f8c677cace00d471d85bc1789d02e6\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:support-v4:28.0.0] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\85fa37658a602eaf01380f633525b593\AndroidManifest.xml:17:1-22:12
@@ -39,55 +39,45 @@ MERGED from [com.android.support:interpolator:28.0.0] C:\Users\lsh\.gradle\cache
 MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\d42623500ea9edce0c1449a5aefa1f67\AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\6ae6ba6eda07d10d4329a23abd5fbcdb\AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.core:runtime:1.1.1] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\d7a4b195b6c8bc52379cbe32206113ac\AndroidManifest.xml:17:1-22:12
-INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-42:12
-INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-42:12
-INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-42:12
+INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-51:12
+INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-51:12
+INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-51:12
 	package
 		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:3:5-30
 		INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml
 		INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-42:12
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-51:12
 		INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml
 	android:versionCode
 		INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-42:12
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:1-51:12
 		INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:2:11-69
-uses-permission#android.permission.INTERNET
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:6:5-67
-	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:6:22-64
-uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:7:5-79
-	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:7:22-76
-uses-permission#android.permission.ACCESS_WIFI_STATE
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:8:5-76
-	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:8:22-73
-uses-permission#android.permission.WAKE_LOCK
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:9:5-68
-	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:9:22-65
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:10:5-81
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:6:5-81
 	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:10:22-78
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:6:22-78
+uses-permission#android.permission.INTERNET
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:7:5-66
+	android:name
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:7:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:8:5-79
+	android:name
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:8:22-76
 uses-permission#android.permission.READ_PHONE_STATE
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:11:5-75
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:9:5-75
 	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:11:22-72
-uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:12:5-80
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:9:22-72
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:10:5-76
 	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:12:22-77
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:10:22-73
 application
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:14:5-40:19
-MERGED from [cn.bmob.android:bmob-sdk:3.7.3-rc1] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\c9be42eddabb201b4acf98f14ddde791\AndroidManifest.xml:11:5-14:19
-MERGED from [cn.bmob.android:bmob-sdk:3.7.3-rc1] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\c9be42eddabb201b4acf98f14ddde791\AndroidManifest.xml:11:5-14:19
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:13:5-49:19
 MERGED from [com.android.support:design:28.0.0] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\7b631687521757491f302bc8dff0a552\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:design:28.0.0] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\7b631687521757491f302bc8dff0a552\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\8427bd0970c2b0082c11e10881790769\AndroidManifest.xml:9:5-20
@@ -99,67 +89,85 @@ MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\lsh\.gradl
 	android:appComponentFactory
 		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\1b71b216487772c14c11bd1f23933f44\AndroidManifest.xml:22:18-91
 	android:supportsRtl
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:20:9-35
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:19:9-35
 	android:label
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:17:9-41
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:16:9-41
 	android:roundIcon
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:19:9-54
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:18:9-54
 	android:icon
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:16:9-43
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:15:9-43
 	android:allowBackup
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:15:9-35
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:14:9-35
 	android:theme
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:21:9-40
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:20:9-65
 	android:networkSecurityConfig
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:18:9-69
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:17:9-69
+	android:name
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:21:9-44
+service#com.avos.avoscloud.PushService
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:25:9-65
+	android:name
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:25:18-63
+receiver#com.avos.avoscloud.AVBroadcastReceiver
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:26:9-32:20
+	android:name
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:26:19-72
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.USER_PRESENT+action:name:android.net.conn.CONNECTIVITY_CHANGE
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:27:13-31:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:28:17-78
+	android:name
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:28:25-76
+action#android.intent.action.USER_PRESENT
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:29:17-76
+	android:name
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:29:25-74
+action#android.net.conn.CONNECTIVITY_CHANGE
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:30:17-79
+	android:name
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:30:25-76
 activity#xyz.miles.stime.activity.UploadActivity
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:22:9-70
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:34:9-70
 	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:22:19-58
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:34:19-58
 activity#xyz.miles.stime.activity.ImageActivity
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:23:9-60
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:35:9-59
 	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:23:19-57
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:35:19-57
 activity#xyz.miles.stime.activity.LoginActivity
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:24:9-30:20
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:36:9-42:20
 	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:24:19-57
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:36:19-57
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:25:13-29:29
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:37:13-41:29
 action#android.intent.action.MAIN
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:26:17-69
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:38:17-69
 	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:26:25-66
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:38:25-66
 category#android.intent.category.LAUNCHER
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:28:17-77
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:40:17-77
 	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:28:27-74
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:40:27-74
 activity#xyz.miles.stime.activity.SignUpActivity
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:31:9-61
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:43:9-61
 	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:31:19-58
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:43:19-58
 activity#xyz.miles.stime.activity.MainActivity
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:32:9-35:59
+ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:44:9-47:59
 	android:label
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:34:13-45
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:46:13-45
 	android:theme
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:35:13-56
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:47:13-56
 	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:33:13-50
-provider#cn.bmob.v3.util.BmobContentProvider
-ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:37:9-39:73
-	android:authorities
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:39:13-70
-	android:name
-		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:38:13-63
+		ADDED from E:\Program\STime\app\src\main\AndroidManifest.xml:45:13-50
 uses-sdk
 INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml
 INJECTED from E:\Program\STime\app\src\main\AndroidManifest.xml
-MERGED from [cn.bmob.android:bmob-sdk:3.7.3-rc1] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\c9be42eddabb201b4acf98f14ddde791\AndroidManifest.xml:7:5-9:41
-MERGED from [cn.bmob.android:bmob-sdk:3.7.3-rc1] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\c9be42eddabb201b4acf98f14ddde791\AndroidManifest.xml:7:5-9:41
 MERGED from [io.reactivex.rxjava2:rxandroid:2.1.0] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\04c452c1356808852042cf7761fe041d\AndroidManifest.xml:18:5-43
 MERGED from [io.reactivex.rxjava2:rxandroid:2.1.0] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\04c452c1356808852042cf7761fe041d\AndroidManifest.xml:18:5-43
+MERGED from [cn.leancloud.android:avoscloud-push:4.7.10] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\b069be93c03e6f8568cedcec0a5efe26\AndroidManifest.xml:7:5-9:41
+MERGED from [cn.leancloud.android:avoscloud-push:4.7.10] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\b069be93c03e6f8568cedcec0a5efe26\AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.support:design:28.0.0] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\7b631687521757491f302bc8dff0a552\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:design:28.0.0] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\7b631687521757491f302bc8dff0a552\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\lsh\.gradle\caches\transforms-2\files-2.1\26f8c677cace00d471d85bc1789d02e6\AndroidManifest.xml:20:5-44

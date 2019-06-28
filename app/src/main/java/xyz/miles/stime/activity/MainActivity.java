@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity
     private View viewMyInfo;
     private View viewImage ;
     private View viewMyImage;
+    private View viewSub;
 
     // 个人信息修改组件
     private ImageView imageViewHeadC;   // 修改头像
@@ -128,6 +129,21 @@ public class MainActivity extends AppCompatActivity
     }
     private final int STATUSNUM = 5;
     public STATUS curStatus = STATUS.STATUS_NEW;    // 当前页面状态
+    
+    private final String[] multiChoiceItems = new String[]{"家具",
+            "旅行",
+            "阅读",
+            "生活",
+            "艺术",
+            "美人",
+            "汽车",
+            "卡通",
+            "时尚",
+            "美食",
+            "宠物",
+            "影视"};
+    final boolean[] checked = {false, false, false, false, false, false
+            , false, false, false, false, false, false};//已被选择的tag
     
     //图片页
     private ImageView imageViewImage;
@@ -238,7 +254,33 @@ public class MainActivity extends AppCompatActivity
                 textViewTagHot.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagSub.setTextColor(getResources().getColor(R.color.colorBlack));
                 textViewTagClassify.setTextColor(getResources().getColor(R.color.colorPrimary));
-                initDiffPage(STATUS.STATUS_CLA);
+    
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("选择分类标签");
+                builder.setMultiChoiceItems(multiChoiceItems, checked, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if (isChecked) {
+                            checked[which] = true;
+                        }
+                    }
+        
+                });
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //TODO 分类选择
+                        //checked[]保存筛选结果
+                        initDiffPage(STATUS.STATUS_CLA);
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+            
+                    }
+                });
+                builder.show();
             }
         });
 
@@ -310,6 +352,7 @@ public class MainActivity extends AppCompatActivity
         viewMyInfo = findViewById(R.id.my_info_view);
         viewImage = findViewById(R.id.image_view);
         viewMyImage=findViewById(R.id.upload_view);
+        viewSub=findViewById(R.id.sub_view);
     }
 
     // 初始化主页
@@ -427,7 +470,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -440,8 +483,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
+    }*/
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -453,23 +495,36 @@ public class MainActivity extends AppCompatActivity
             viewImage.setVisibility(View.VISIBLE);
             viewMyInfo.setVisibility(View.GONE);
 			viewMyImage.setVisibility(View.GONE);
+			viewSub.setVisibility(View.GONE);
             initDiffPage((STATUS.STATUS_NEW));
         } else if (id == R.id.nav_my_image) {
 			viewClassify.setVisibility(View.GONE);
 			viewImage.setVisibility(View.VISIBLE);
 			viewMyInfo.setVisibility(View.GONE);
 			viewMyImage.setVisibility(View.VISIBLE);
+            viewSub.setVisibility(View.GONE);
 			initDiffPage(STATUS.STATUS_MY);
         } else if (id == R.id.nav_collections) {
-
+            viewClassify.setVisibility(View.GONE);
+            viewImage.setVisibility(View.VISIBLE);
+            viewMyInfo.setVisibility(View.GONE);
+            viewMyImage.setVisibility(View.GONE);
+            viewSub.setVisibility(View.GONE);
+            //TODO 我收藏的图片
         } else if (id == R.id.nav_subscribe) {
-
+            viewClassify.setVisibility(View.GONE);
+            viewImage.setVisibility(View.GONE);
+            viewMyInfo.setVisibility(View.GONE);
+            viewMyImage.setVisibility(View.GONE);
+            viewSub.setVisibility(View.VISIBLE);
+            //TODO 关注列表
         } else if (id == R.id.nav_my_info) {
             editTextEmailC.setText(currentUser.getEmail());      // 显示原有email
             viewClassify.setVisibility(View.GONE);
             viewImage.setVisibility(View.GONE);
             viewMyInfo.setVisibility(View.VISIBLE);
 			viewMyImage.setVisibility(View.GONE);
+            viewSub.setVisibility(View.GONE);
 
         } else if (id == R.id.nav_logout) {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);

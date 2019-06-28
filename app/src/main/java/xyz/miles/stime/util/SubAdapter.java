@@ -20,7 +20,6 @@ public class SubAdapter extends RecyclerView.Adapter<SubViewHolder> {
 	private List<Bitmap> subheads;
 	private List<String> subname;
 	private int[] subNum;
-	private boolean[] isSubscribed;
 
 	public SubAdapter(Context context,List<Bitmap> subheads,List<String> subname,int[] subNum,boolean[] isSubscribed)
 	{
@@ -28,7 +27,6 @@ public class SubAdapter extends RecyclerView.Adapter<SubViewHolder> {
 		this.subheads=subheads;
 		this.subNum=subNum;
 		this.subNum=subNum;
-		this.isSubscribed=isSubscribed;
 		inflater= LayoutInflater.from(context);
 	}
 	
@@ -46,15 +44,6 @@ public class SubAdapter extends RecyclerView.Adapter<SubViewHolder> {
 		subViewHolder.authorHead.setImageBitmap(subheads.get(i));
 		subViewHolder.authorName.setText(subname.get(i));
 		subViewHolder.authorSubNum.setText("被关注数："+subNum[i]);
-		if (isSubscribed[i])
-		{
-			subViewHolder.subButton.setImageResource(R.drawable.ic_favorite_black_24dp);
-		}
-		else
-		{
-			subViewHolder.subButton.setImageResource(R.drawable.ic_favorite_border_24dp);
-		}
-		
 	}
 	
 	@Override
