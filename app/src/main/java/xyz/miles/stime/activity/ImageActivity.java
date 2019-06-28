@@ -1,17 +1,25 @@
 package xyz.miles.stime.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
@@ -40,6 +48,8 @@ public class ImageActivity extends AppCompatActivity {
 	private ImageView imageViewSub;
 	private ImageView imageViewCommentHead;
 	private RecyclerView recyclerViewComment;
+	private TextView textViewAddComment;
+	
 
 	private STimePicture picture;
 	private SetImageAsyncTask setImageContent;
@@ -115,6 +125,37 @@ public class ImageActivity extends AppCompatActivity {
 		
 		//设置为两行
 		recyclerViewComment.setLayoutManager(new GridLayoutManager(this,1));
+		
+		/*发表评论*/
+		textViewAddComment.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				AlertDialog.Builder builder=new AlertDialog.Builder(ImageActivity.this);
+				LayoutInflater inflater=LayoutInflater.from(ImageActivity.this);
+				View view=inflater.inflate(R.layout.add_comment,null);
+				final EditText editText=view.findViewById(R.id.et_add_comment);
+				builder.setCustomTitle(view);
+				builder.setPositiveButton("提交评论", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						String comment=editText.getText().toString();
+						Toast.makeText(ImageActivity.this,comment,Toast.LENGTH_SHORT).show();
+						//TODO 提交评论
+					}
+				});
+				builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					
+					}
+				});
+				AlertDialog dialog=builder.create();
+				dialog.show();
+				dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+				dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+			}
+		});
+		
 
 	}
 
@@ -131,6 +172,7 @@ public class ImageActivity extends AppCompatActivity {
 		textViewSubNum=findViewById(R.id.tv_watch_author_sub_num);						// 作者被关注数
 		imageViewSub=findViewById(R.id.iv_watch_author_sub);				// 作者被关注数图标
 		imageViewCommentHead=findViewById(R.id.iv_comment_head);			// 评论者头像
+		textViewAddComment=findViewById(R.id.tv_add_comment);
 	}
 
 	// 显示图片信息

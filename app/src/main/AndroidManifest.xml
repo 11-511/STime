@@ -32,7 +32,7 @@
         </receiver>
         <!-- 即时通讯模块、推送 END -->
         <activity android:name=".activity.UploadActivity"></activity>
-        <activity android:name=".activity.ImageActivity" />
+        <activity android:name=".activity.ImageActivity"/>
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
