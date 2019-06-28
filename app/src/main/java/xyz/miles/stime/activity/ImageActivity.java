@@ -36,6 +36,7 @@ import java.util.function.Predicate;
 
 import xyz.miles.stime.R;
 import xyz.miles.stime.bean.STimeFavoritePicture;
+import xyz.miles.stime.bean.STimeFollowUsers;
 import xyz.miles.stime.bean.STimePicture;
 import xyz.miles.stime.bean.STimeUser;
 import xyz.miles.stime.service.SetImageAsyncTask;
@@ -74,6 +75,7 @@ public class ImageActivity extends AppCompatActivity {
 	private String favoritePictureId = null;		// 收藏的图片ID
 	private boolean isFollowed;				// 图片作者是否被关注
 	private STimeUser pictureAuthor = null;		// 图片作者
+	private STimeFollowUsers followUser = null;		// 图片作者在关注表记录
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -215,8 +217,14 @@ public class ImageActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				if (pictureAuthor != null) {	// 预先需要查询的东西已经查询好
+					if (followUser == null) {	// 作者不存在于关注表中就创建
+						followUser = new STimeFollowUsers();
+						followUser.setUserName(pictureAuthor.getUsername());
+						followUser.setFollowNum(0);
+						followUser.saveInBackground();
+					}
 					List<String> followUsers = curUser.getFavoriteUser();	// 获取原来的关注列表
-					int followNum = pictureAuthor.getUserAmountOfAttention();
+					int followNum = followUser.getFollowNum();				// 获取作者的被关注数
 					if (!isFollowed) {	// 未关注作者，点击关注
 						++followNum;	// 关注数 + 1
 						followUsers.add(pictureAuthor.getUsername());			// 添加图片作者进入关注列表
@@ -237,11 +245,11 @@ public class ImageActivity extends AppCompatActivity {
 						isFollowed = false;
 						imageViewSub.setImageResource(R.drawable.ic_favorite_border_50dp);
 					}
-					curUser.setFavoriteUser(followUsers);					// 设置新的列表数据
-					curUser.saveInBackground();								// 提交到云端
 					textViewSubNum.setText("被关注数：" + followNum);		// UI更新关注数
-					pictureAuthor.setUserAmountOfAttention(followNum);		// 设置新的关注数
-					pictureAuthor.saveInBackground();						// 提交更改到云端
+					curUser.setFavoriteUser(followUsers);					// 设置新的关注列表数据
+					curUser.saveInBackground();								// 提交到云端
+					followUser.setFollowNum(followNum);						// 设置作者新的关注数
+					followUser.saveInBackground();							// 提交到云端
 				}
 			}
 		});
@@ -270,9 +278,8 @@ public class ImageActivity extends AppCompatActivity {
 		query.getFirstInBackground(new GetCallback<STimeUser>() {
 			@Override
 			public void done(STimeUser object, AVException e) {
-				pictureAuthor = object;		// 设置作者
-				// 设置作者被关注数
-				textViewSubNum.setText("被关注数：" + pictureAuthor.getUserAmountOfAttention());
+				// 设置作者
+				pictureAuthor = object;
 
 				// 设置作者头像
 				setImageContent = new SetImageAsyncTask(imageViewAuthorHead);
@@ -303,7 +310,7 @@ public class ImageActivity extends AppCompatActivity {
 			@Override
 			public void done(STimeFavoritePicture object, AVException e) {
 				if (object != null) {	// 图片被收藏了
-					// TODO 设置UI上被收藏的图标变化
+					// 设置UI上被收藏的图标变化
 					imageViewCollect.setImageResource(R.drawable.ic_star_50dp);
 					favoritePictureId = object.getObjectId();
 					isCollected = true;
@@ -316,21 +323,35 @@ public class ImageActivity extends AppCompatActivity {
 
 	// 查询作者的被关注情况
 	private void queryFollowAuthorStatus() {
+		// 先查作者在关注表中的记录
+		AVQuery<STimeFollowUsers> queryFollowUsers = AVQuery.getQuery(STimeFollowUsers.class);
+		queryFollowUsers.whereEqualTo("username", pictureAuthor.getUsername());
+		queryFollowUsers.getFirstInBackground(new GetCallback<STimeFollowUsers>() {
+			@Override
+			public void done(STimeFollowUsers object, AVException e) {
+				if (object != null) {
+					followUser = object;
+					// 设置作者被关注数
+					textViewSubNum.setText("被关注数：" + followUser.getFollowNum());
+				}
+			}
+		});
+
 		// 先查询登录用户的用户名
 		final AVQuery<STimeUser> queryCurUser = AVUser.getQuery(STimeUser.class);
 		queryCurUser.whereEqualTo("username", curUser.getUsername());
 
 		// 再查询关注的用户属性
-		final AVQuery<STimeUser> queryFollowUsers = AVUser.getQuery(STimeUser.class);
-		queryFollowUsers.whereEqualTo("favoriteUser", pictureAuthor.getUsername());
+		final AVQuery<STimeUser> queryFavoriteUsers = AVUser.getQuery(STimeUser.class);
+		queryFavoriteUsers.whereEqualTo("favoriteUser", pictureAuthor.getUsername());
 
 		// 之后组合查询登录用户是否关注了作者
-		AVQuery<STimeUser> query = AVQuery.and(Arrays.asList(queryCurUser, queryFollowUsers));
+		AVQuery<STimeUser> query = AVQuery.and(Arrays.asList(queryCurUser, queryFavoriteUsers));
 		query.countInBackground(new CountCallback() {
 			@Override
 			public void done(int count, AVException e) {
 				if (count > 0) {	// 该作者被用户关注了
-					// TODO 设置UI上被关注的图标变化
+					// 设置UI上被关注的图标变化
 					imageViewSub.setImageResource(R.drawable.ic_favorite_50dp);
 					isFollowed = true;
 				} else {
@@ -343,7 +364,7 @@ public class ImageActivity extends AppCompatActivity {
 	private void initAdapter()
 	{
 		recyclerViewComment = findViewById(R.id.rlv_comment);
-		adapter = new CommentAdapter(ImageActivity.this,heads,comments,times);
+		adapter = new CommentAdapter(ImageActivity.this,heads, comments, times);
 		wrapper = new LoadMoreWrapper(adapter);
 		recyclerViewComment.setLayoutManager(new GridLayoutManager(this,1));
 		recyclerViewComment.setAdapter(wrapper);

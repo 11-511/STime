@@ -47,13 +47,13 @@ public class STimeUser extends AVUser {
         this.put("nickname", nickname);
     }
 
-    public Integer getUserAmountOfAttention() {
-        return this.getInt("userAmountOfAttention");
-    }
-
-    public void setUserAmountOfAttention(Integer userAmountOfAttention) {
-        this.put("userAmountOfAttention", userAmountOfAttention);
-    }
+//    public Integer getUserAmountOfAttention() {
+//        return this.getInt("userAmountOfAttention");
+//    }
+//
+//    public void setUserAmountOfAttention(Integer userAmountOfAttention) {
+//        this.put("userAmountOfAttention", userAmountOfAttention);
+//    }
 
     public Boolean getUserGender() {
         return this.getBoolean("userGender");

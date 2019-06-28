@@ -125,7 +125,6 @@ public class SignUpActivity extends AppCompatActivity {
                                 user.setEmail(editTextEmail.getText().toString().trim());
                                 user.setUserIntro(new String());
                                 user.setFavoriteUser(new ArrayList<String>());
-                                user.setUserAmountOfAttention(0);
                                 user.setLocalPortraitPath(new String());
                                 user.setUserPortrait(new String());
 
