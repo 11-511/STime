@@ -108,14 +108,14 @@ public class ImageActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				//收藏图片
-				
+				imageViewCollect.setImageResource(R.drawable.ic_star_50dp);
 			}
 		});
 		imageViewSub.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				//关注作者
-				
+				imageViewSub.setImageResource(R.drawable.ic_favorite_50dp);
 			}
 		});
 		
