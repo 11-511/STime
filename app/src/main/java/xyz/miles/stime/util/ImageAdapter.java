@@ -17,6 +17,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageViewHolder> {
 	private LayoutInflater inflater;
 	private Context context;
 	private List<Bitmap> bmImage;
+	private ItemClickListener itemClickListener ;
+	
 	public ImageAdapter(Context context,List<Bitmap> bmImage)
 	{
 		this.context=context;
@@ -31,10 +33,30 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageViewHolder> {
 		return viewHolder;
 	}
 	@Override
-	public void onBindViewHolder(ImageViewHolder holder,int position)
+	public void onBindViewHolder(ImageViewHolder holder, final int position)
 	{
 		Log.d("onBindViewHolder current position", position + "");
 		holder.imageView.setImageBitmap(bmImage.get(position));
+		if(itemClickListener!=null)
+		{
+			holder.itemView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					itemClickListener.onItemClick(position);
+					
+				}
+			});
+		}
+		/*holder.imageView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(itemClickListener!=null)
+				{
+					itemClickListener.onItemClick(position);
+				}
+			}
+		});*/
+		
 	}
 	@Override
 	public int getItemCount()
@@ -42,6 +64,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageViewHolder> {
 		return bmImage.size();
 	}
 	
+	public interface ItemClickListener{
+		public void onItemClick(int position) ;
+	}
+	public void setOnItemClickListener(ItemClickListener itemClickListener){
+		this.itemClickListener = itemClickListener ;
+	}
 
 
 }

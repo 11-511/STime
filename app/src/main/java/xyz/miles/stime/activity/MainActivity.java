@@ -193,7 +193,9 @@ public class MainActivity extends AppCompatActivity
         /*-----------------------------------图片页（主页)--------------------------------------*/
         // 初始化主页
         initMainPage();
-
+        
+        
+        
         //分类页跳转
         ////最新
         layoutNew.setOnClickListener(new View.OnClickListener() {
@@ -636,6 +638,15 @@ public class MainActivity extends AppCompatActivity
 
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         recyclerView.setAdapter(wrapper);
+    
+        adapter.setOnItemClickListener(new ImageAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                //TODO click
+                Toast.makeText(MainActivity.this,""+position,Toast.LENGTH_SHORT).show();
+            }
+        });
+        
     }
 
     // 显示侧边栏用户简要信息
