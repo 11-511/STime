@@ -51,6 +51,7 @@ import com.avos.avoscloud.SaveCallback;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
@@ -335,7 +336,7 @@ public class MainActivity extends AppCompatActivity
         initDiffPage(STATUS.STATUS_NEW);
     }
 
-    // TODO 不同页面初始化数据
+    // 不同页面初始化数据
     private void initDiffPage(STATUS status) {
         this.curStatus = status;
         page = 0;
@@ -365,7 +366,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    // TODO 设置刷新、加载监听器
+    // 设置刷新、加载监听器
     private void setListener() {
         // 在最顶部向上滑动刷新
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -458,7 +459,7 @@ public class MainActivity extends AppCompatActivity
             viewImage.setVisibility(View.VISIBLE);
             viewMyInfo.setVisibility(View.GONE);
 			viewMyImage.setVisibility(View.GONE);
-
+            initDiffPage((STATUS.STATUS_NEW));
         } else if (id == R.id.nav_my_image) {
 			viewClassify.setVisibility(View.GONE);
 			viewImage.setVisibility(View.VISIBLE);
@@ -642,8 +643,21 @@ public class MainActivity extends AppCompatActivity
         adapter.setOnItemClickListener(new ImageAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //TODO click
-                Toast.makeText(MainActivity.this,""+position,Toast.LENGTH_SHORT).show();
+                // 适配器数据点击事件
+                String imageUrl = imagesUrl.get(position);
+                AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
+                query.whereEqualTo("pictureContent", imageUrl);
+                query.findInBackground(new FindCallback<STimePicture>() {
+                    @Override
+                    public void done(List<STimePicture> avObjects, AVException avException) {
+                        if (avObjects != null) {
+                            STimePicture image = avObjects.get(0);
+                            Intent itToImagePage = new Intent(getApplicationContext(), ImageActivity.class);
+                            itToImagePage.putExtra("imageData", (Serializable) image);
+                            startActivity(itToImagePage);
+                        }
+                    }
+                });
             }
         });
         
@@ -667,7 +681,7 @@ public class MainActivity extends AppCompatActivity
                 fileName += cloudFileUrl.substring(dotPos);
 
                 AVFile file = new AVFile(fileName, cloudFileUrl, new HashMap<String, Object>());
-                downloadPicture(file, localPortraitPath);       // 下载头像到本地头像路径
+                FileTools.downloadPicture(file, localPortraitPath);       // 下载头像到本地头像路径
             }
             // 头像存在本地，直接设置
             bmPortrait = BitmapFactory.decodeFile(localPortraitPath);   // 解码头像
@@ -772,6 +786,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+
     /***********************************************************************
      *						分割线
      * 	以下方法为dao方法
@@ -827,24 +842,5 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    // TODO 下载图片到指定位置（功能已完成，待完善）
-    private void downloadPicture(AVFile picture, final String absFilePath) {
-        picture.getDataInBackground(new GetDataCallback() {
-            @Override
-            public void done(byte[] data, AVException e) {
-                if (e == null) {
-                    FileTools.createFileWithByte(data, absFilePath);
-                } else {
-
-                }
-            }
-        }, new ProgressCallback() {
-            @Override
-            public void done(Integer percentDone) {
-
-            }
-        });
-
-    }
 
 }

@@ -41,7 +41,7 @@
                 android:layout_height="50dp" />
             <TextView
                 android:id="@+id/tv_watch_image_collect_num"
-                android:text="114"
+                android:text="0"
                 android:textSize="15dp"
                 android:gravity="center"
                 android:layout_alignParentRight="true"

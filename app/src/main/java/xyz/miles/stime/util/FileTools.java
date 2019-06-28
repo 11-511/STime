@@ -1,5 +1,10 @@
 package xyz.miles.stime.util;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.GetDataCallback;
+import com.avos.avoscloud.ProgressCallback;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -64,5 +69,24 @@ public class FileTools {
                 }
             }
         }
+    }
+
+    // 下载图片到绝对路径
+    public static void downloadPicture(AVFile picture, final String absFilePath) {
+        picture.getDataInBackground(new GetDataCallback() {
+            @Override
+            public void done(byte[] data, AVException e) {
+                if (e == null) {
+                    createFileWithByte(data, absFilePath);
+                } else {
+
+                }
+            }
+        }, new ProgressCallback() {
+            @Override
+            public void done(Integer percentDone) {
+
+            }
+        });
     }
 }

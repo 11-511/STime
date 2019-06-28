@@ -3,6 +3,7 @@ package xyz.miles.stime.bean;
 import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
 
+import java.io.Serializable;
 import java.util.List;
 
 /*
@@ -13,7 +14,8 @@ import java.util.List;
 * @version V1.0
 * */
 @AVClassName("STimePicture")
-public class STimePicture extends AVObject {
+public class STimePicture extends AVObject implements Serializable {
+
     // 图片标题
     public String getPictureTitle() {
         return this.getString("pictureTitle");
