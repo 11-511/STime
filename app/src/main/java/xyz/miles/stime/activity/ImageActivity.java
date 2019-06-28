@@ -11,8 +11,11 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +38,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import xyz.miles.stime.R;
+import xyz.miles.stime.bean.STimeComment;
 import xyz.miles.stime.bean.STimeFavoritePicture;
 import xyz.miles.stime.bean.STimeFollowUsers;
 import xyz.miles.stime.bean.STimePicture;
@@ -46,7 +50,8 @@ import xyz.miles.stime.util.FileTools;
 import xyz.miles.stime.util.LoadMoreWrapper;
 
 public class ImageActivity extends AppCompatActivity {
-	
+
+    private TextView textViewAddComment;
 	private ImageView imageViewBack;
 	private ImageView imageViewImage;
 	private TextView textViewTitle;
@@ -76,6 +81,7 @@ public class ImageActivity extends AppCompatActivity {
 	private boolean isFollowed;				// 图片作者是否被关注
 	private STimeUser pictureAuthor = null;		// 图片作者
 	private STimeFollowUsers followUser = null;		// 图片作者在关注表记录
+	private STimeComment commentObject = null;			// 图片评论
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -110,9 +116,12 @@ public class ImageActivity extends AppCompatActivity {
 		// 点击关注作者
 		setFollowAuthorEvent();
 		
-		/*-------------评论list------------*/
+		// 点击评论发表评论
 		recyclerViewComment=findViewById(R.id.rlv_comment);
-		//Adapter
+        textViewAddComment=findViewById(R.id.tv_add_comment);
+        setCommentsEvent();
+
+        //Adapter
 		
 		//设置为两行
 		recyclerViewComment.setLayoutManager(new GridLayoutManager(this,1));
@@ -133,6 +142,11 @@ public class ImageActivity extends AppCompatActivity {
 		imageViewSub=findViewById(R.id.iv_watch_author_sub);				// 作者被关注数图标
 		imageViewCommentHead=findViewById(R.id.iv_comment_head);			// 评论者头像
 	}
+
+	/* ----------------------------------------------------------------
+	 * 							设置监听器事件
+	 * ----------------------------------------------------------------
+	 */
 
 	// 设置收藏图片事件
 	private void setCollectEvent() {
@@ -255,6 +269,56 @@ public class ImageActivity extends AppCompatActivity {
 		});
 	}
 
+	// 设置发表评论事件
+	private void setCommentsEvent() {
+        textViewAddComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder=new AlertDialog.Builder(ImageActivity.this);
+                LayoutInflater inflater=LayoutInflater.from(ImageActivity.this);
+                View view=inflater.inflate(R.layout.add_comment,null);
+                final EditText editText=view.findViewById(R.id.et_add_comment);
+                builder.setCustomTitle(view);
+                builder.setPositiveButton("提交评论", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    	// 点击按钮提交评论
+                        String comment = editText.getText().toString();
+                        commentObject = new STimeComment();
+                        commentObject.setCommentUser(curUser.getUsername());
+                        commentObject.setCommentContent(comment);
+                        commentObject.setCommentPicture(picture);
+                        commentObject.saveInBackground(new SaveCallback() {
+							@Override
+							public void done(AVException e) {
+								if (e == null) {
+									Toast.makeText(getApplicationContext(), "评论成功",
+											Toast.LENGTH_SHORT).show();
+								} else {
+									Toast.makeText(getApplicationContext(), "评论失败",
+											Toast.LENGTH_SHORT).show();
+									Log.d("comment fail", e.toString());
+								}
+							}
+						});
+
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog dialog=builder.create();
+                dialog.show();
+                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            }
+        });
+
+    }
+
 	// 显示图片信息
 	private void showImageInfo() {
 		// 设置图片标题
@@ -290,7 +354,18 @@ public class ImageActivity extends AppCompatActivity {
 			}
 		});
 
-		// TODO 设置评论
+		// TODO 显示评论
+	}
+
+	/* ----------------------------------------------------------------
+	 * 							数据库查询
+	 * ----------------------------------------------------------------
+	 */
+
+	// 查询评论
+	private void queryComments() {
+		AVQuery<STimeComment> queryComment = AVObject.getQuery(STimeComment.class);
+
 	}
 
 	// 查询图片的收藏情况
@@ -360,7 +435,13 @@ public class ImageActivity extends AppCompatActivity {
 			}
 		});
 	}
-	
+
+	/* ----------------------------------------------------------------
+	 * 							适配器相关
+	 * ----------------------------------------------------------------
+	 */
+
+	// 初始化适配器
 	private void initAdapter()
 	{
 		recyclerViewComment = findViewById(R.id.rlv_comment);
@@ -369,6 +450,5 @@ public class ImageActivity extends AppCompatActivity {
 		recyclerViewComment.setLayoutManager(new GridLayoutManager(this,1));
 		recyclerViewComment.setAdapter(wrapper);
 	}
-	
-	
+
 }

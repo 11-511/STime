@@ -16,40 +16,27 @@ import java.util.Date;
 @AVClassName("STimeComment")
 public class STimeComment extends AVObject {
 
-    private STimePicture commentPicture;
-    private STimeUser commentUser;
-    private Date commentDate;
-    private String commentContent;
-
     public STimePicture getCommentPicture() {
-        return commentPicture;
+        return this.getAVObject("commentPicture");
     }
 
     public void setCommentPicture(STimePicture commentPicture) {
-        this.commentPicture = commentPicture;
+        this.put("commentPicture", commentPicture);
     }
 
-    public STimeUser getCommentUser() {
-        return commentUser;
+    public String getCommentUser() {
+        return this.getString("commentUser");
     }
 
-    public void setCommentUser(STimeUser commentUser) {
-        this.commentUser = commentUser;
-    }
-
-    public Date getCommentDate() {
-        return commentDate;
-    }
-
-    public void setCommentDate(Date commentDate) {
-        this.commentDate = commentDate;
+    public void setCommentUser(String commentUser) {
+        this.put("commentUser", commentUser);
     }
 
     public String getCommentContent() {
-        return commentContent;
+        return this.getString("commentContent");
     }
 
     public void setCommentContent(String commentContent) {
-        this.commentContent = commentContent;
+        this.put("commentContent", commentContent);
     }
 }
