@@ -231,14 +231,14 @@ public class ImageActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				if (pictureAuthor != null) {	// 预先需要查询的东西已经查询好
+				    int followNum = 0;
 					if (followUser == null) {	// 作者不存在于关注表中就创建
 						followUser = new STimeFollowUsers();
 						followUser.setUserName(pictureAuthor.getUsername());
-						followUser.setFollowNum(0);
-						followUser.saveInBackground();
-					}
+					} else {	// 否则直接获取作者被关注数
+					    followNum = followUser.getFollowNum();
+                    }
 					List<String> followUsers = curUser.getFavoriteUser();	// 获取原来的关注列表
-					int followNum = followUser.getFollowNum();				// 获取作者的被关注数
 					if (!isFollowed) {	// 未关注作者，点击关注
 						++followNum;	// 关注数 + 1
 						followUsers.add(pictureAuthor.getUsername());			// 添加图片作者进入关注列表
@@ -365,7 +365,15 @@ public class ImageActivity extends AppCompatActivity {
 	// 查询评论
 	private void queryComments() {
 		AVQuery<STimeComment> queryComment = AVObject.getQuery(STimeComment.class);
+		queryComment.whereEqualTo("commentPicture", picture);
+		queryComment.findInBackground(new FindCallback<STimeComment>() {
+            @Override
+            public void done(List<STimeComment> avObjects, AVException avException) {
+                if (avObjects != null) {
 
+                }
+            }
+        });
 	}
 
 	// 查询图片的收藏情况
