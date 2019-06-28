@@ -70,6 +70,7 @@ public class ImageActivity extends AppCompatActivity {
 	private List<Bitmap> heads;
 	private List<String> comments;
 	private List<String> times;
+	private List<String> names;
 	
 	
 	private STimePicture picture;
@@ -453,7 +454,7 @@ public class ImageActivity extends AppCompatActivity {
 	private void initAdapter()
 	{
 		recyclerViewComment = findViewById(R.id.rlv_comment);
-		adapter = new CommentAdapter(ImageActivity.this,heads, comments, times);
+		adapter = new CommentAdapter(ImageActivity.this,heads, comments,names, times);
 		wrapper = new LoadMoreWrapper(adapter);
 		recyclerViewComment.setLayoutManager(new GridLayoutManager(this,1));
 		recyclerViewComment.setAdapter(wrapper);

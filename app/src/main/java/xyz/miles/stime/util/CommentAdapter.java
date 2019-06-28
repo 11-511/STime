@@ -21,13 +21,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
 	private List<Bitmap> heads;
 	private List<String> comments;
 	private List<String> times;
+	private List<String> names;
 	
-	public CommentAdapter(Context context,List<Bitmap> heads,List<String> comments,List<String> times)
+	public CommentAdapter(Context context,List<Bitmap> heads,List<String> comments,List<String > names,List<String> times)
 	{
 		this.context=context;
 		this.heads=heads;
 		this.comments=comments;
 		this.times=times;
+		this.names=names;
 		inflater=LayoutInflater.from(context);
 	}
 	@Override
@@ -42,8 +44,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
 	public void onBindViewHolder(CommentViewHolder holder, int position)
 	{
 		holder.head.setImageBitmap(heads.get(position));
+		holder.name.setText(names.get(position));
 		holder.time.setText(times.get(position));
 		holder.textComment.setText(comments.get(position));
+		
 	}
 	
 	@Override
