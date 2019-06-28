@@ -137,6 +137,7 @@ public class ImageActivity extends AppCompatActivity {
 							Toast.LENGTH_SHORT).show();
 					++collectCNum;
 					isCollected = true;
+					imageViewCollect.setImageResource(R.drawable.ic_star_50dp);
 				} else {	// 取消收藏，删除数据库收藏记录
 					if (favoritePictureId != null) {
 						AVQuery<STimeFavoritePicture> queryDel = AVObject.getQuery(STimeFavoritePicture.class);
@@ -152,6 +153,7 @@ public class ImageActivity extends AppCompatActivity {
 								Toast.LENGTH_SHORT).show();
 						--collectCNum;
 						isCollected = false;
+						imageViewCollect.setImageResource(R.drawable.ic_star_border_50dp);
 					}
 
 				}
@@ -210,6 +212,7 @@ public class ImageActivity extends AppCompatActivity {
 						Toast.makeText(getApplicationContext(), "关注成功",
 								Toast.LENGTH_SHORT).show();
 						isFollowed = true;										// 更新关注状态
+						imageViewSub.setImageResource(R.drawable.ic_favorite_50dp);
 					} else {
 						--followNum;	// 关注数 - 1
 						followUsers.removeIf(new Predicate<String>() {			// 关注列表中删除该作者
@@ -221,6 +224,7 @@ public class ImageActivity extends AppCompatActivity {
 						Toast.makeText(getApplicationContext(), "已取消关注",
 								Toast.LENGTH_SHORT).show();
 						isFollowed = false;
+						imageViewSub.setImageResource(R.drawable.ic_favorite_border_50dp);
 					}
 					curUser.setFavoriteUser(followUsers);					// 设置新的列表数据
 					curUser.saveInBackground();								// 提交到云端
@@ -289,6 +293,7 @@ public class ImageActivity extends AppCompatActivity {
 			public void done(STimeFavoritePicture object, AVException e) {
 				if (object != null) {	// 图片被收藏了
 					// TODO 设置UI上被收藏的图标变化
+					imageViewCollect.setImageResource(R.drawable.ic_star_50dp);
 					favoritePictureId = object.getObjectId();
 					isCollected = true;
 				} else {
@@ -315,7 +320,7 @@ public class ImageActivity extends AppCompatActivity {
 			public void done(int count, AVException e) {
 				if (count > 0) {	// 该作者被用户关注了
 					// TODO 设置UI上被关注的图标变化
-
+					imageViewSub.setImageResource(R.drawable.ic_favorite_50dp);
 					isFollowed = true;
 				} else {
 					isFollowed = false;
