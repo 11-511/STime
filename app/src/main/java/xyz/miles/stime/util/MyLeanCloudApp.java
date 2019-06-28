@@ -6,6 +6,8 @@ import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
 
+import xyz.miles.stime.bean.STimeComment;
+import xyz.miles.stime.bean.STimeFavoritePicture;
 import xyz.miles.stime.bean.STimePicture;
 import xyz.miles.stime.bean.STimeUser;
 
@@ -25,6 +27,10 @@ public class MyLeanCloudApp extends Application {
         AVUser.alwaysUseSubUserClass(STimeUser.class);
         // 注册STimePicture子类
         AVObject.registerSubclass(STimePicture.class);
+        // 注册STimeFavoritePicture子类
+        AVObject.registerSubclass(STimeFavoritePicture.class);
+        // 注册STimeComment子类
+        AVObject.registerSubclass(STimeComment.class);
         // 初始化参数依次为 this, AppId, AppKey
         AVOSCloud.initialize(this,"iAOM8VMHrtUFuDuwX0ykyM23-gzGzoHsz","rxV1SQMxRpV2rkWfCwJk3yuN");
     }

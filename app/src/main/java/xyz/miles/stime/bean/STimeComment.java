@@ -1,6 +1,7 @@
 package xyz.miles.stime.bean;
 
 
+import com.avos.avoscloud.AVClassName;
 import com.avos.avoscloud.AVObject;
 
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.Date;
  * @date 2019-6-4
  * @version V1.0
  * */
+@AVClassName("STimeComment")
 public class STimeComment extends AVObject {
 
     private STimePicture commentPicture;

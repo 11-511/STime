@@ -1,6 +1,8 @@
 package xyz.miles.stime.bean;
 
 
+import com.avos.avoscloud.AVClassName;
+import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 
 import java.util.Date;
@@ -12,34 +14,23 @@ import java.util.Date;
  * @date 2019-6-4
  * @version V1.0
  * */
+@AVClassName("STimeFavoritePicture")
 public class STimeFavoritePicture extends AVObject {
 
-    private STimeUser ownUser;
-    private STimePicture favoritePicture;
-    private Date collectionDate;
+    private String ownUser;              // 收藏的用户
+    private STimePicture favoritePicture;   // 图片
 
 
-    public STimeUser getOwnUser() {
-        return ownUser;
+    public String getOwnUser() {
+        return this.getString("ownUser");
     }
 
-    public void setOwnUser(STimeUser ownUser) {
-        this.ownUser = ownUser;
-    }
+    public void setOwnUser(String ownUser) { this.put("ownUser", ownUser); }
 
-    public STimePicture getFavoritePicture() {
-        return favoritePicture;
-    }
+    public STimePicture getFavoritePicture() { return this.getAVObject("favoritePicture"); }
 
     public void setFavoritePicture(STimePicture favoritePicture) {
-        this.favoritePicture = favoritePicture;
+        this.put("favoritePicture", favoritePicture);
     }
 
-    public Date getCollectionDate() {
-        return collectionDate;
-    }
-
-    public void setCollectionDate(Date collectionDate) {
-        this.collectionDate = collectionDate;
-    }
 }

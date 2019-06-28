@@ -44,16 +44,10 @@ import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
-import com.avos.avoscloud.GetDataCallback;
-import com.avos.avoscloud.ProgressCallback;
 import com.avos.avoscloud.SaveCallback;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -329,7 +323,7 @@ public class MainActivity extends AppCompatActivity
         addTaskList = new ArrayList<>();
 
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setColorSchemeColors(R.color.colorPrimary);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
 
         initAdapter();
         setListener();
@@ -681,7 +675,8 @@ public class MainActivity extends AppCompatActivity
                 fileName += cloudFileUrl.substring(dotPos);
 
                 AVFile file = new AVFile(fileName, cloudFileUrl, new HashMap<String, Object>());
-                FileTools.downloadPicture(file, localPortraitPath);       // 下载头像到本地头像路径
+                FileTools.downloadPicture(getApplicationContext(),
+                        file, localPortraitPath);       // 下载头像到本地头像路径
             }
             // 头像存在本地，直接设置
             bmPortrait = BitmapFactory.decodeFile(localPortraitPath);   // 解码头像
