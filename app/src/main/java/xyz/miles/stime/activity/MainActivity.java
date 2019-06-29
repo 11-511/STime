@@ -833,7 +833,7 @@ public class MainActivity extends AppCompatActivity
                     tmpData.headUrl = followUser.getUserPortrait();
                     // 查询被关注数
                     AVQuery<STimeFollowUsers> queryFollowUser = AVObject.getQuery(STimeFollowUsers.class);
-                    queryFollowUser.whereEqualTo("username", followUser.getUsername());
+                    queryFollowUser.whereEqualTo("user", followUser);
                     queryFollowUser.getFirstInBackground(new GetCallback<STimeFollowUsers>() {
                         @Override
                         public void done(STimeFollowUsers object, AVException e) {
