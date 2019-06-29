@@ -24,11 +24,11 @@ public class STimeComment extends AVObject {
         this.put("commentPicture", commentPicture);
     }
 
-    public String getCommentUser() {
-        return this.getString("commentUser");
+    public STimeUser getCommentUser() {
+        return this.getAVUser("commentUser", STimeUser.class);
     }
 
-    public void setCommentUser(String commentUser) {
+    public void setCommentUser(STimeUser commentUser) {
         this.put("commentUser", commentUser);
     }
 

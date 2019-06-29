@@ -280,7 +280,7 @@ public class ImageActivity extends AppCompatActivity {
 				    int followNum = 0;
 					if (followUser == null) {	// 作者不存在于关注表中就创建
 						followUser = new STimeFollowUsers();
-						followUser.setUserName(pictureAuthor.getUsername());
+						followUser.setUser(pictureAuthor);
 					} else {	// 否则直接获取作者被关注数
 					    followNum = followUser.getFollowNum();
                     }
@@ -331,7 +331,7 @@ public class ImageActivity extends AppCompatActivity {
                     	// 点击按钮提交评论
                         String comment = editText.getText().toString();
                         commentObject = new STimeComment();
-                        commentObject.setCommentUser(curUser.getUsername());
+                        commentObject.setCommentUser(curUser);
                         commentObject.setCommentContent(comment);
                         commentObject.setCommentPicture(picture);
                         commentObject.saveInBackground(new SaveCallback() {
@@ -340,9 +340,7 @@ public class ImageActivity extends AppCompatActivity {
 								if (e == null) {
 									Toast.makeText(getApplicationContext(), "评论成功",
 											Toast.LENGTH_SHORT).show();
-									comments.clear();
-									commentCopies.clear();
-									item = 0;
+									clearData();
 									queryComments();
 								} else {
 									Toast.makeText(getApplicationContext(), "评论失败",
@@ -369,6 +367,13 @@ public class ImageActivity extends AppCompatActivity {
 
     }
 
+    // 清除数据
+	private void clearData() {
+		item = 0;
+		comments.clear();
+		commentCopies.clear();
+	}
+
 	// TODO 设置刷新、加载监听器
 	private void setListener(final int max) {
 		// 在最顶部向上滑动刷新
@@ -376,9 +381,7 @@ public class ImageActivity extends AppCompatActivity {
 			@Override
 			public void onRefresh() {
 				// 重新初始化评论
-				comments.clear();
-				commentCopies.clear();
-				item = 0;
+				clearData();
 				queryComments();
 
 				//延时
@@ -406,7 +409,7 @@ public class ImageActivity extends AppCompatActivity {
 							runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
-									initAdapterData(item);
+									initAdapterData(item, item += numPreItem);
 									wrapper.setLoadState(wrapper.LOADING_COMPLETE);
 								}
 							});
@@ -431,44 +434,36 @@ public class ImageActivity extends AppCompatActivity {
 	private void queryComments() {
 		final AVQuery<STimeComment> queryComment = AVObject.getQuery(STimeComment.class);
 		queryComment.whereEqualTo("commentPicture", picture);
-		queryComment.orderByDescending("createdAt");
+		queryComment.include("commentUser");
+		queryComment.orderByAscending("createdAt");
 		queryComment.findInBackground(new FindCallback<STimeComment>() {
-            @Override
-            public void done(final List<STimeComment> avObjects, AVException avException) {
-                if (avObjects != null) {
-                	setListener(avObjects.size());
-                	textViewCommentNum.setText("评论(" + avObjects.size() + ")");
-                	for (STimeComment commentObject : avObjects) {
-						Log.d("comment number", avObjects.size() + "");
-						final AdapterCommentCopy tmpData = new AdapterCommentCopy();
-						// 评论的作者与内容
-						tmpData.name = commentObject.getCommentUser();
-						tmpData.comment = commentObject.getCommentContent();
+			@Override
+			public void done(List<STimeComment> avObjects, AVException avException) {
+				int commentsNum = avObjects.size();
+				textViewCommentNum.setText("评论(" + commentsNum + ")");
+				Log.d("comment number", commentsNum + "");
+				for (STimeComment comment : avObjects) {
+					final AdapterCommentCopy tmpData = new AdapterCommentCopy();
 
-						// 评论时间
-						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-						String commentDateStr = formatter.format(commentObject.getCreatedAt());
-						tmpData.time = commentDateStr;
+					// 评论的作者与内容
+					tmpData.name = comment.getCommentUser().getUsername();
+					tmpData.comment = comment.getCommentContent();
 
-						// 作者的头像
-						AVQuery<STimeUser> queryCommentUser = AVUser.getQuery(STimeUser.class);
-						queryCommentUser.whereEqualTo("username", commentObject.getCommentUser());
-						queryCommentUser.getFirstInBackground(new GetCallback<STimeUser>() {
-							@Override
-							public void done(STimeUser object, AVException e) {
-								if (object != null) {
-									Log.d("query comment username", object.getUsername());
-									tmpData.headUrl = object.getUserPortrait();
-									commentCopies.add(tmpData);
-									initAdapterData(item++);
-									setListener(avObjects.size());
-								}
-							}
-						});
-					}
-                }
-            }
-        });
+					// 评论时间
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					String commentDateStr = formatter.format(comment.getCreatedAt());
+					tmpData.time = commentDateStr;
+
+					// 作者头像
+					tmpData.headUrl = comment.getCommentUser().getUserPortrait();
+
+					commentCopies.add(tmpData);
+				}
+				initAdapterData(item, item += numPreItem);
+				setListener(commentsNum);
+			}
+		});
+
 	}
 
 	// 查询图片的收藏情况
@@ -503,7 +498,7 @@ public class ImageActivity extends AppCompatActivity {
 	private void queryFollowAuthorStatus() {
 		// 先查作者在关注表中的记录
 		AVQuery<STimeFollowUsers> queryFollowUsers = AVQuery.getQuery(STimeFollowUsers.class);
-		queryFollowUsers.whereEqualTo("username", pictureAuthor.getUsername());
+		queryFollowUsers.whereEqualTo("username", pictureAuthor);
 		queryFollowUsers.getFirstInBackground(new GetCallback<STimeFollowUsers>() {
 			@Override
 			public void done(STimeFollowUsers object, AVException e) {
@@ -556,9 +551,14 @@ public class ImageActivity extends AppCompatActivity {
 	}
 
 	// 初始化适配器的数据
-	private void initAdapterData(int index) {
-
-		addCommentAsyncTask = new AddCommentAsyncTask(wrapper, comments);
-		addCommentAsyncTask.execute(commentCopies.get(index));
+	private void initAdapterData(final int low, int high) {
+		int highMax = commentCopies.size();
+		if (high > highMax) {
+			high = highMax;
+		}
+		for (int i = low; i < high; ++i) {
+			addCommentAsyncTask = new AddCommentAsyncTask(wrapper, comments);
+			addCommentAsyncTask.execute(commentCopies.get(i));
+		}
 	}
 }

@@ -840,7 +840,7 @@ public class MainActivity extends AppCompatActivity
                             if (object != null) {
                                 tmpData.followNum = object.getFollowNum();
                                 userCopies.add(tmpData);
-                                initFollowAdapterData(page++);
+                                initFollowAdapterData(page, page += numPerPage);
                                 setFollowListener(avObjects.size());
                             }
                         }
@@ -915,9 +915,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     // 初始化关注Adapter数据
-    private void initFollowAdapterData(int index) {
-        addFollowUsersAsyncTask = new AddFollowUsersAsyncTask(followWrapper, adapterFollowUsers);
-        addFollowUsersAsyncTask.execute(userCopies.get(index));
+    private void initFollowAdapterData(final int low, int high) {
+        int highMax = userCopies.size();
+        if (high > highMax) {
+            high = highMax;
+        }
+        for (int i = low; i < high; ++i) {
+            addFollowUsersAsyncTask = new AddFollowUsersAsyncTask(followWrapper, adapterFollowUsers);
+            addFollowUsersAsyncTask.execute(userCopies.get(i));
+        }
+
     }
 
     // 初始化关注适配器

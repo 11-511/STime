@@ -5,9 +5,9 @@ import com.avos.avoscloud.AVObject;
 
 @AVClassName("STimeFollowUsers")
 public class STimeFollowUsers extends AVObject {
-    public String getUserName() { return this.getString("username"); }
+    public STimeUser getUser() { return this.getAVUser("user", STimeUser.class); }
 
-    public void setUserName(String userName) { this.put("username", userName); }
+    public void setUser(STimeUser user) { this.put("user", user); }
 
     public Integer getFollowNum() { return this.getInt("followNum"); }
 
