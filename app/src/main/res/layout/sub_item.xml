@@ -5,7 +5,6 @@
     android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/iv_sub_author_head"
-        android:layout_below="@+id/tv_watch_image_intro"
         android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher"

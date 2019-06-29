@@ -46,6 +46,7 @@ import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.AVUserSignatureFactory;
 import com.avos.avoscloud.FindCallback;
+import com.avos.avoscloud.GetCallback;
 import com.avos.avoscloud.SaveCallback;
 
 import java.io.FileNotFoundException;
@@ -61,15 +62,20 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import xyz.miles.stime.R;
+import xyz.miles.stime.bean.AdapterFollowUser;
+import xyz.miles.stime.bean.AdapterFollowUserCopy;
 import xyz.miles.stime.bean.STimeFavoritePicture;
+import xyz.miles.stime.bean.STimeFollowUsers;
 import xyz.miles.stime.bean.STimePicture;
 import xyz.miles.stime.bean.STimeUser;
+import xyz.miles.stime.service.AddFollowUsersAsyncTask;
 import xyz.miles.stime.service.AddImagesAsyncTask;
 import xyz.miles.stime.util.ElementHolder;
 import xyz.miles.stime.util.EndlessRecyclerOnScrollListener;
 import xyz.miles.stime.util.FileTools;
 import xyz.miles.stime.util.ImageAdapter;
 import xyz.miles.stime.util.LoadMoreWrapper;
+import xyz.miles.stime.util.SubAdapter;
 
 
 public class MainActivity extends AppCompatActivity
@@ -134,7 +140,8 @@ public class MainActivity extends AppCompatActivity
     }
     private final int STATUSNUM = 7;
     public STATUS curStatus = STATUS.STATUS_NEW;    // 当前页面状态
-    
+
+    // 标签选择
     private final String[] multiChoiceItems = new String[]{"家具",
             "旅行",
             "阅读",
@@ -155,15 +162,28 @@ public class MainActivity extends AppCompatActivity
     private ImageView imageViewFavoriteCorner;
 
     // 适配器相关
-    private RecyclerView recyclerView;
     private List<String> imagesUrl;                         // 查询得到到图片Url List
     private ArrayList<ArrayList<Bitmap>> bmImagesListArr;   // 不同页面对应的图片数据List
-    private ImageAdapter adapter;
-
+    private ImageAdapter adapter;                           // 图片适配器
+    private AddImagesAsyncTask addTask;                     // 填充图片适配器异步任务
     private SwipeRefreshLayout swipeRefreshLayout;
     private LoadMoreWrapper wrapper;
-    private AddImagesAsyncTask addTask;
-    private List<AddImagesAsyncTask> addTaskList;
+    private RecyclerView recyclerView;
+
+    private List<AdapterFollowUserCopy> userCopies;         // 关注用户信息预加载
+    private List<AdapterFollowUser> adapterFollowUsers;     // 真正填充到适配器的数据
+    private SubAdapter subAdapter;                          // 关注用户适配器
+    private AddFollowUsersAsyncTask addFollowUsersAsyncTask;    // 填充关注用户适配器数据异步任务
+    private SwipeRefreshLayout followSwipeRefreshLayout;
+    private LoadMoreWrapper followWrapper;
+    private RecyclerView followRecyclerView;
+
+
+
+
+
+
+
 
     private int numPerPage = 6;
     private int page;
@@ -362,17 +382,26 @@ public class MainActivity extends AppCompatActivity
     // 初始化主页
     private void initMainPage() {
         page = 0;
+
+        // 图片相关
         imagesUrl = new ArrayList<>();
         bmImagesListArr = new ArrayList<>();
         for (int i = 0; i < STATUSNUM; ++i) {
             bmImagesListArr.add(new ArrayList<Bitmap>());
         }
-        addTaskList = new ArrayList<>();
+
+        // 关注相关
+        adapterFollowUsers = new ArrayList<>();
+        userCopies = new ArrayList<>();
 
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
 
+        followSwipeRefreshLayout = findViewById(R.id.swipe_refresh_layout_sub);
+        followSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+
         initAdapter();
+        initFollowAdapter();
         initDiffPage(STATUS.STATUS_NEW);
     }
 
@@ -405,6 +434,10 @@ public class MainActivity extends AppCompatActivity
                 queryImagesUrlByCol();
                 break;
             case STATUS_FOL:    // 关注的所有作者
+                adapterFollowUsers.clear();
+                userCopies.clear();
+                followWrapper.notifyDataSetChanged();
+                queryFollowUsers();
                 break;
             default:
                 break;
@@ -527,6 +560,7 @@ public class MainActivity extends AppCompatActivity
             viewMyImage.setVisibility(View.GONE);
             viewSub.setVisibility(View.VISIBLE);
             //TODO 关注列表
+            initDiffPage(STATUS.STATUS_FOL);
         } else if (id == R.id.nav_my_info) {
             editTextEmailC.setText(currentUser.getEmail());      // 显示原有email
             viewClassify.setVisibility(View.GONE);
@@ -741,12 +775,30 @@ public class MainActivity extends AppCompatActivity
         query.findInBackground(new FindCallback<STimeUser>() {
             @Override
             public void done(List<STimeUser> avObjects, AVException avException) {
-
+                for (STimeUser followUser : avObjects) {
+                    final AdapterFollowUserCopy tmpData = new AdapterFollowUserCopy();
+                    tmpData.username = followUser.getUsername();
+                    tmpData.headUrl = followUser.getUserPortrait();
+                    // 查询被关注数
+                    AVQuery<STimeFollowUsers> queryFollowUser = AVObject.getQuery(STimeFollowUsers.class);
+                    queryFollowUser.whereEqualTo("username", followUser.getUsername());
+                    queryFollowUser.getFirstInBackground(new GetCallback<STimeFollowUsers>() {
+                        @Override
+                        public void done(STimeFollowUsers object, AVException e) {
+                            if (object != null) {
+                                tmpData.followNum = object.getFollowNum();
+                                userCopies.add(tmpData);
+                                initFollowAdapterData(page, page += numPerPage);
+                                // TODO 设置关注的刷新、加载事件
+                            }
+                        }
+                    });
+                }
             }
         });
     }
 
-    // 初始化Adapter数据
+    // 初始化图片Adapter数据
     public void initAdapterData(final int low, int high) {
         int highMax = imagesUrl.size();
         if (high > highMax) {
@@ -759,7 +811,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    // 初始化适配器
+    // 初始化图片适配器
     private void initAdapter()
     {
         recyclerView = findViewById(R.id.rlv_image);
@@ -790,6 +842,28 @@ public class MainActivity extends AppCompatActivity
             }
         });
         
+    }
+
+    // 初始化关注Adapter数据
+    private void initFollowAdapterData(final int low, int high) {
+        int highMax = userCopies.size();
+        if (high > highMax) {
+            high = highMax;
+        }
+        for (int i = low; i < high; ++i) {
+            addFollowUsersAsyncTask = new AddFollowUsersAsyncTask(followWrapper, adapterFollowUsers);
+            addFollowUsersAsyncTask.execute(userCopies.get(i));
+        }
+    }
+
+    // 初始化关注适配器
+    private void initFollowAdapter() {
+        followRecyclerView = findViewById(R.id.rlv_sub);
+        subAdapter = new SubAdapter(this, adapterFollowUsers);
+        followWrapper = new LoadMoreWrapper(subAdapter);
+
+        followRecyclerView.setLayoutManager(new GridLayoutManager(this,1));
+        followRecyclerView.setAdapter(followWrapper);
     }
 
     // 显示侧边栏用户简要信息

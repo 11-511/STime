@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +13,18 @@ import java.util.List;
 import java.util.zip.Inflater;
 
 import xyz.miles.stime.R;
+import xyz.miles.stime.bean.AdapterFollowUser;
 
 public class SubAdapter extends RecyclerView.Adapter<SubViewHolder> {
 	
 	private LayoutInflater inflater;
 	private Context context;
-	private List<Bitmap> subheads;
-	private List<String> subname;
-	private int[] subNum;
+	private List<AdapterFollowUser> followUsers;
 
-	public SubAdapter(Context context,List<Bitmap> subheads,List<String> subname,int[] subNum,boolean[] isSubscribed)
+	public SubAdapter(Context context, List<AdapterFollowUser> followUsers)
 	{
 		this.context=context;
-		this.subheads=subheads;
-		this.subNum=subNum;
-		this.subNum=subNum;
+		this.followUsers = followUsers;
 		inflater= LayoutInflater.from(context);
 	}
 	
@@ -41,9 +39,10 @@ public class SubAdapter extends RecyclerView.Adapter<SubViewHolder> {
 	
 	@Override
 	public void onBindViewHolder(SubViewHolder subViewHolder, int i) {
-		subViewHolder.authorHead.setImageBitmap(subheads.get(i));
-		subViewHolder.authorName.setText(subname.get(i));
-		subViewHolder.authorSubNum.setText("被关注数："+subNum[i]);
+		Log.d("sub adapter view holder", "done" + i);
+		subViewHolder.authorHead.setImageBitmap(followUsers.get(i).bmHead);
+		subViewHolder.authorName.setText(followUsers.get(i).username);
+		subViewHolder.authorSubNum.setText("被关注数：" + followUsers.get(i).followNum);
 	}
 	
 	@Override
