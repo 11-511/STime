@@ -1,9 +1,6 @@
 package xyz.miles.stime.activity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Environment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -32,7 +28,6 @@ import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.GetCallback;
 import com.avos.avoscloud.SaveCallback;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,13 +38,15 @@ import java.util.TimerTask;
 import java.util.function.Predicate;
 
 import xyz.miles.stime.R;
+import xyz.miles.stime.bean.AdapterCommentCopy;
 import xyz.miles.stime.bean.STimeComment;
 import xyz.miles.stime.bean.STimeFavoritePicture;
 import xyz.miles.stime.bean.STimeFollowUsers;
 import xyz.miles.stime.bean.STimePicture;
 import xyz.miles.stime.bean.STimeUser;
+import xyz.miles.stime.service.AddCommentAsyncTask;
 import xyz.miles.stime.service.SetImageAsyncTask;
-import xyz.miles.stime.util.Comment;
+import xyz.miles.stime.bean.AdapterComment;
 import xyz.miles.stime.util.CommentAdapter;
 import xyz.miles.stime.util.ElementHolder;
 import xyz.miles.stime.util.EndlessRecyclerOnScrollListener;
@@ -71,12 +68,15 @@ public class ImageActivity extends AppCompatActivity {
 	private ImageView imageViewSub;
 	private ImageView imageViewCommentHead;
 	private TextView textViewCommentNum;
+
+	// 适配器相关
 	private RecyclerView recyclerViewComment;
-	private CommentAdapter adapter;
 	private SwipeRefreshLayout swipeRefreshLayout;
 	private LoadMoreWrapper wrapper;
-	private List<Comment> comments = new ArrayList<>();
-	private List<String> imagesUrl = new ArrayList<>();
+	private CommentAdapter adapter;											// 评论适配器
+	private List<AdapterComment> comments = new ArrayList<>();				// 真正填充到Adapter的数据
+	private List<AdapterCommentCopy> commentCopies = new ArrayList<>();		// 评论用户信息预加载
+	private AddCommentAsyncTask addCommentAsyncTask;						// 添加评论适配器数据的异步任务
 	private int item = 0;
 	private int numPreItem = 3;
 	
@@ -373,7 +373,7 @@ public class ImageActivity extends AppCompatActivity {
 
     }
 
-	// 设置刷新、加载监听器
+	// TODO 设置刷新、加载监听器
 	private void setListener(final int max) {
 		// 在最顶部向上滑动刷新
 		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -381,6 +381,7 @@ public class ImageActivity extends AppCompatActivity {
 			public void onRefresh() {
 				// 重新初始化评论
 				comments.clear();
+				commentCopies.clear();
 				queryComments();
 
 				//延时
@@ -430,29 +431,53 @@ public class ImageActivity extends AppCompatActivity {
 
 	// 查询评论
 	private void queryComments() {
-		AVQuery<STimeComment> queryComment = AVObject.getQuery(STimeComment.class);
+		final AVQuery<STimeComment> queryComment = AVObject.getQuery(STimeComment.class);
 		queryComment.whereEqualTo("commentPicture", picture);
 		queryComment.findInBackground(new FindCallback<STimeComment>() {
             @Override
-            public void done(List<STimeComment> avObjects, AVException avException) {
+            public void done(final List<STimeComment> avObjects, AVException avException) {
                 if (avObjects != null) {
                 	setListener(avObjects.size());
                 	textViewCommentNum.setText("评论(" + avObjects.size() + ")");
+                	final AdapterCommentCopy tmpData = new AdapterCommentCopy();
                 	for (STimeComment commentObject : avObjects) {
-                		Comment queryData = new Comment();
-                		queryData.name = commentObject.getCommentUser(); // 评论者用户名
-						queryData.comment = commentObject.getCommentContent();			// 评论内容
+//                		AdapterComment queryData = new AdapterComment();
+//                		queryData.name = commentObject.getCommentUser(); // 评论者用户名
+//						queryData.comment = commentObject.getCommentContent();			// 评论内容
+//
+//						// 评论时间添加
+//						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//						String commentDateStr = formatter.format(commentObject.getCreatedAt());
+//						queryData.time = commentDateStr;
+//
+//						// TODO 头像设置，先添加至图片Url List
+////						imagesUrl.add(commentObject.getCommentUser().getUserPortrait());
+////						initAdapterData(item, item += numPreItem);
+//						comments.add(queryData);		// 添加adapter数据
+//						++item;
+						// 评论的作者与内容
+						tmpData.name = commentObject.getCommentUser();
+						tmpData.comment = commentObject.getCommentContent();
 
-						// 评论时间添加
+						// 评论时间
 						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						String commentDateStr = formatter.format(commentObject.getCreatedAt());
-						queryData.time = commentDateStr;
+						tmpData.time = commentDateStr;
 
-						// TODO 头像设置，先添加至图片Url List
-//						imagesUrl.add(commentObject.getCommentUser().getUserPortrait());
-//						initAdapterData(item, item += numPreItem);
-						comments.add(queryData);		// 添加adapter数据
-						++item;
+						// 作者的头像
+						AVQuery<STimeUser> queryCommentUser = AVUser.getQuery(STimeUser.class);
+						queryCommentUser.whereEqualTo("username", commentObject.getCommentUser());
+						queryCommentUser.getFirstInBackground(new GetCallback<STimeUser>() {
+							@Override
+							public void done(STimeUser object, AVException e) {
+								if (object != null) {
+									tmpData.headUrl = object.getUserPortrait();
+									commentCopies.add(tmpData);
+									initAdapterData(item, item += numPreItem);
+									setListener(avObjects.size());
+								}
+							}
+						});
 					}
                 }
             }
@@ -544,7 +569,14 @@ public class ImageActivity extends AppCompatActivity {
 	}
 
 	// 初始化适配器的数据
-	private void initAdapterData() {
-
+	private void initAdapterData(final int low, int high) {
+		int highMax = commentCopies.size();
+		if (high > highMax) {
+			high = highMax;
+		}
+		for (int i = low, j = 0; i < high; ++i, ++j) {
+			addCommentAsyncTask = new AddCommentAsyncTask(wrapper, comments);
+			addCommentAsyncTask.execute(commentCopies.get(i));
+		}
 	}
 }

@@ -1,27 +1,24 @@
 package xyz.miles.stime.util;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Date;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import xyz.miles.stime.R;
+import xyz.miles.stime.bean.AdapterComment;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
 	
 	private LayoutInflater inflater;
 	private Context context;
-	private List<Comment> comments;
+	private List<AdapterComment> comments;
 	
-	public CommentAdapter(Context context,List<Comment> comments)
+	public CommentAdapter(Context context,List<AdapterComment> comments)
 	{
 		this.context=context;
 		this.comments=comments;
@@ -39,7 +36,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
 	public void onBindViewHolder(CommentViewHolder holder, int position)
 	{
 		Log.d("comment username", comments.get(position).name);
-		//holder.head.setImageBitmap(comments.get(position).head);
+		holder.head.setImageBitmap(comments.get(position).head);
 		holder.name.setText(comments.get(position).name);
 		holder.time.setText("第"+(position+1)+"楼 发布于"+comments.get(position).time);
 		holder.textComment.setText(comments.get(position).comment);
