@@ -129,14 +129,8 @@ public class ImageActivity extends AppCompatActivity {
 		setFollowAuthorEvent();
 		
 		// 点击评论发表评论
-		recyclerViewComment=findViewById(R.id.rlv_comment);
         textViewAddComment=findViewById(R.id.tv_add_comment);
         setCommentsEvent();
-
-        //Adapter
-		
-		//设置为两行
-		recyclerViewComment.setLayoutManager(new GridLayoutManager(this,1));
 
 	}
 
@@ -347,6 +341,8 @@ public class ImageActivity extends AppCompatActivity {
 									Toast.makeText(getApplicationContext(), "评论成功",
 											Toast.LENGTH_SHORT).show();
 									comments.clear();
+									commentCopies.clear();
+									item = 0;
 									queryComments();
 								} else {
 									Toast.makeText(getApplicationContext(), "评论失败",
@@ -382,6 +378,7 @@ public class ImageActivity extends AppCompatActivity {
 				// 重新初始化评论
 				comments.clear();
 				commentCopies.clear();
+				item = 0;
 				queryComments();
 
 				//延时
@@ -409,6 +406,7 @@ public class ImageActivity extends AppCompatActivity {
 							runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
+									initAdapterData(item);
 									wrapper.setLoadState(wrapper.LOADING_COMPLETE);
 								}
 							});
@@ -433,28 +431,16 @@ public class ImageActivity extends AppCompatActivity {
 	private void queryComments() {
 		final AVQuery<STimeComment> queryComment = AVObject.getQuery(STimeComment.class);
 		queryComment.whereEqualTo("commentPicture", picture);
+		queryComment.orderByDescending("createdAt");
 		queryComment.findInBackground(new FindCallback<STimeComment>() {
             @Override
             public void done(final List<STimeComment> avObjects, AVException avException) {
                 if (avObjects != null) {
                 	setListener(avObjects.size());
                 	textViewCommentNum.setText("评论(" + avObjects.size() + ")");
-                	final AdapterCommentCopy tmpData = new AdapterCommentCopy();
                 	for (STimeComment commentObject : avObjects) {
-//                		AdapterComment queryData = new AdapterComment();
-//                		queryData.name = commentObject.getCommentUser(); // 评论者用户名
-//						queryData.comment = commentObject.getCommentContent();			// 评论内容
-//
-//						// 评论时间添加
-//						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//						String commentDateStr = formatter.format(commentObject.getCreatedAt());
-//						queryData.time = commentDateStr;
-//
-//						// TODO 头像设置，先添加至图片Url List
-////						imagesUrl.add(commentObject.getCommentUser().getUserPortrait());
-////						initAdapterData(item, item += numPreItem);
-//						comments.add(queryData);		// 添加adapter数据
-//						++item;
+						Log.d("comment number", avObjects.size() + "");
+						final AdapterCommentCopy tmpData = new AdapterCommentCopy();
 						// 评论的作者与内容
 						tmpData.name = commentObject.getCommentUser();
 						tmpData.comment = commentObject.getCommentContent();
@@ -471,9 +457,10 @@ public class ImageActivity extends AppCompatActivity {
 							@Override
 							public void done(STimeUser object, AVException e) {
 								if (object != null) {
+									Log.d("query comment username", object.getUsername());
 									tmpData.headUrl = object.getUserPortrait();
 									commentCopies.add(tmpData);
-									initAdapterData(item, item += numPreItem);
+									initAdapterData(item++);
 									setListener(avObjects.size());
 								}
 							}
@@ -569,14 +556,9 @@ public class ImageActivity extends AppCompatActivity {
 	}
 
 	// 初始化适配器的数据
-	private void initAdapterData(final int low, int high) {
-		int highMax = commentCopies.size();
-		if (high > highMax) {
-			high = highMax;
-		}
-		for (int i = low, j = 0; i < high; ++i, ++j) {
-			addCommentAsyncTask = new AddCommentAsyncTask(wrapper, comments);
-			addCommentAsyncTask.execute(commentCopies.get(i));
-		}
+	private void initAdapterData(int index) {
+
+		addCommentAsyncTask = new AddCommentAsyncTask(wrapper, comments);
+		addCommentAsyncTask.execute(commentCopies.get(index));
 	}
 }
