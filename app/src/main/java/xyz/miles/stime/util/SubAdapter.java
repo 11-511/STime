@@ -20,6 +20,7 @@ public class SubAdapter extends RecyclerView.Adapter<SubViewHolder> {
 	private LayoutInflater inflater;
 	private Context context;
 	private List<AdapterFollowUser> followUsers;
+	private ImageAdapter.ItemClickListener itemClickListener ;
 
 	public SubAdapter(Context context, List<AdapterFollowUser> followUsers)
 	{
@@ -38,15 +39,31 @@ public class SubAdapter extends RecyclerView.Adapter<SubViewHolder> {
 	}
 	
 	@Override
-	public void onBindViewHolder(SubViewHolder subViewHolder, int i) {
+	public void onBindViewHolder(SubViewHolder subViewHolder, final int i) {
 		Log.d("sub adapter view holder", "done" + i);
 		subViewHolder.authorHead.setImageBitmap(followUsers.get(i).bmHead);
 		subViewHolder.authorName.setText(followUsers.get(i).username);
 		subViewHolder.authorSubNum.setText("被关注数：" + followUsers.get(i).followNum);
+		if(itemClickListener!=null)
+		{
+			subViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					itemClickListener.onItemClick(i);
+					
+				}
+			});
+		}
 	}
 	
+	public interface ItemClickListener{
+		public void onItemClick(int position) ;
+	}
+	public void setOnItemClickListener(ImageAdapter.ItemClickListener itemClickListener){
+		this.itemClickListener = itemClickListener ;
+	}
 	@Override
 	public int getItemCount() {
-		return 0;
+		return followUsers.size();
 	}
 }

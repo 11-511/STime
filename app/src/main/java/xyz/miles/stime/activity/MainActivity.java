@@ -864,6 +864,26 @@ public class MainActivity extends AppCompatActivity
 
         followRecyclerView.setLayoutManager(new GridLayoutManager(this,1));
         followRecyclerView.setAdapter(followWrapper);
+        subAdapter.setOnItemClickListener(new ImageAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                // TODO sub适配器数据点击事件
+                /*String imageUrl = imagesUrl.get(position);
+                AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
+                query.whereEqualTo("pictureContent", imageUrl);
+                query.findInBackground(new FindCallback<STimePicture>() {
+                    @Override
+                    public void done(List<STimePicture> avObjects, AVException avException) {
+                        if (avObjects != null) {
+                            STimePicture image = avObjects.get(0);
+                            Intent itToImagePage = new Intent(getApplicationContext(), ImageActivity.class);
+                            itToImagePage.putExtra("imageData", (Serializable) image);
+                            startActivity(itToImagePage);
+                        }
+                    }
+                });*/
+            }
+        });
     }
 
     // 显示侧边栏用户简要信息
