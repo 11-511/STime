@@ -7,13 +7,14 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/iv_comment_head"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/ic_person_outline_black_24dp"
             android:layout_width="50dp"
             android:layout_height="50dp" />
         <TextView
             android:id="@+id/tv_comment_username"
             android:layout_toRightOf="@+id/iv_comment_head"
             android:text="用户名"
+            android:layout_marginLeft="5dp"
             android:textColor="@color/colorPrimary"
             android:textSize="18dp"
             android:layout_width="wrap_content"
@@ -21,7 +22,7 @@
         <TextView
             android:id="@+id/tv_comment_time"
             android:layout_toRightOf="@+id/tv_comment_username"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:text="发布于"
             android:textSize="15dp"
             android:layout_width="wrap_content"
@@ -36,4 +37,10 @@
             android:textSize="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+    <View
+        android:layout_below="@+id/iv_comment_head"
+
+        android:background="@android:color/darker_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
     </RelativeLayout>
