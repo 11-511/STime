@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity
     private View viewImage ;
     private View viewMyImage;
     private View viewSub;
+    private View viewAuthor;
 
     // 个人信息修改组件
     private ImageView imageViewHeadC;   // 修改头像
@@ -371,6 +372,7 @@ public class MainActivity extends AppCompatActivity
         viewImage = findViewById(R.id.image_view);
         viewMyImage=findViewById(R.id.upload_view);
         viewSub=findViewById(R.id.sub_view);
+        viewAuthor=findViewById(R.id.author_view);
     }
 
     // 初始化主页
@@ -584,6 +586,7 @@ public class MainActivity extends AppCompatActivity
             viewMyInfo.setVisibility(View.GONE);
 			viewMyImage.setVisibility(View.GONE);
 			viewSub.setVisibility(View.GONE);
+			viewAuthor.setVisibility(View.GONE);
             initDiffPage((STATUS.STATUS_NEW));
         } else if (id == R.id.nav_my_image) {   // 我的作品
 			viewClassify.setVisibility(View.GONE);
@@ -591,6 +594,7 @@ public class MainActivity extends AppCompatActivity
 			viewMyInfo.setVisibility(View.GONE);
 			viewMyImage.setVisibility(View.VISIBLE);
             viewSub.setVisibility(View.GONE);
+            viewAuthor.setVisibility(View.GONE);
 			initDiffPage(STATUS.STATUS_MY);
         } else if (id == R.id.nav_collections) {    // 我的收藏
             viewClassify.setVisibility(View.GONE);
@@ -598,6 +602,7 @@ public class MainActivity extends AppCompatActivity
             viewMyInfo.setVisibility(View.GONE);
             viewMyImage.setVisibility(View.GONE);
             viewSub.setVisibility(View.GONE);
+            viewAuthor.setVisibility(View.GONE);
             initDiffPage(STATUS.STATUS_COL);
         } else if (id == R.id.nav_subscribe) {      // 我的关注
             viewClassify.setVisibility(View.GONE);
@@ -605,6 +610,7 @@ public class MainActivity extends AppCompatActivity
             viewMyInfo.setVisibility(View.GONE);
             viewMyImage.setVisibility(View.GONE);
             viewSub.setVisibility(View.VISIBLE);
+            viewAuthor.setVisibility(View.GONE);
             initDiffPage(STATUS.STATUS_FOL);
         } else if (id == R.id.nav_my_info) {
             editTextEmailC.setText(currentUser.getEmail());      // 显示原有email
@@ -613,6 +619,7 @@ public class MainActivity extends AppCompatActivity
             viewMyInfo.setVisibility(View.VISIBLE);
 			viewMyImage.setVisibility(View.GONE);
             viewSub.setVisibility(View.GONE);
+            viewAuthor.setVisibility(View.GONE);
 
         } else if (id == R.id.nav_logout) {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -931,8 +938,22 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(int position) {
                 // TODO sub适配器数据点击事件
-                singleFollowUserName = adapterFollowUsers.get(position).username;
+                AdapterFollowUser followUser = adapterFollowUsers.get(position);
+                ImageView authorHead=findViewById(R.id.iv_sub_author_head);
+                TextView authorName=findViewById(R.id.tv_sub_author_name);
+                TextView authorSubNum=findViewById(R.id.tv_sub_author_sub_num);
+                authorHead.setImageBitmap(followUser.bmHead);
+                authorName.setText(followUser.username);
+                authorSubNum.setText("被关注数：" + followUser.followNum);
+                viewClassify.setVisibility(View.GONE);
+                viewImage.setVisibility(View.VISIBLE);
+                viewMyInfo.setVisibility(View.GONE);
+                viewMyImage.setVisibility(View.GONE);
+                viewSub.setVisibility(View.GONE);
+                viewAuthor.setVisibility(View.VISIBLE);
+                singleFollowUserName = followUser.username;
                 initDiffPage(STATUS.STATUS_FOLIMG);
+                
             }
         });
     }

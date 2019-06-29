@@ -16,10 +16,14 @@
         <include
             android:id="@+id/classify_view"
             layout="@layout/classify_page" />
-       <include
+        <include
             android:id="@+id/upload_view"
             android:visibility="gone"
             layout="@layout/upload_button" />
+        <include
+        android:id="@+id/author_view"
+        android:visibility="gone"
+        layout="@layout/sub_item" />
         <include
             android:id="@+id/image_view"
             layout="@layout/image_list_view"/>
@@ -27,6 +31,7 @@
             android:id="@+id/sub_view"
             android:visibility="gone"
             layout="@layout/sub_view"/>
+
 
        <!--我的账户-->
         <include
