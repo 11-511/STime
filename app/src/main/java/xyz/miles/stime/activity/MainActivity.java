@@ -44,6 +44,7 @@ import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.AVUserSignatureFactory;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
 
@@ -728,6 +729,19 @@ public class MainActivity extends AppCompatActivity
                 Log.d("my collected images number", imagesUrl.size() + "");
                 initAdapterData(page, page += numPerPage);
                 setListener(avObjects.size());
+            }
+        });
+    }
+
+    // 查询登录用户关注的作者
+    private void queryFollowUsers() {
+        AVQuery<STimeUser> query = AVUser.getQuery(STimeUser.class);
+        query.whereContainedIn("username", currentUser.getFavoriteUser());
+        query.orderByDescending("createdAt");
+        query.findInBackground(new FindCallback<STimeUser>() {
+            @Override
+            public void done(List<STimeUser> avObjects, AVException avException) {
+
             }
         });
     }
