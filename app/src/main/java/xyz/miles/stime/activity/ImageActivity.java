@@ -166,24 +166,27 @@ public class ImageActivity extends AppCompatActivity {
 		queryPictureCollectionStatus();
 
 		// 设置图片作者
-		textViewAuthorName.setText(picture.getPictureAuthor().getUsername());
-		// 设置图片作者被关注数、头像
-		AVQuery<STimeUser> query = AVUser.getQuery(STimeUser.class);
-		query.whereEqualTo("username", picture.getPictureAuthor());
-		query.getFirstInBackground(new GetCallback<STimeUser>() {
-			@Override
-			public void done(STimeUser object, AVException e) {
-				// 设置作者
-				pictureAuthor = object;
+        STimeUser author = picture.getPictureAuthor();
+        AVQuery<STimeUser> queryAuthor = AVUser.getQuery(STimeUser.class);
+        queryAuthor.getInBackground(author.getObjectId(), new GetCallback<STimeUser>() {
+            @Override
+            public void done(STimeUser object, AVException e) {
+                if (object != null) {
+					// 设置作者
+					pictureAuthor = object;
 
-				// 设置作者头像
-				setImageContent = new SetImageAsyncTask(imageViewAuthorHead);
-				setImageContent.execute(pictureAuthor.getUserPortrait());
+					// 设置图片作者名字
+					textViewAuthorName.setText(pictureAuthor.getUsername());
 
-				// 查询作者是否被该登录用户关注
-				queryFollowAuthorStatus();
-			}
-		});
+					// 设置作者头像
+					setImageContent = new SetImageAsyncTask(imageViewAuthorHead);
+					setImageContent.execute(pictureAuthor.getUserPortrait());
+
+					// 查询作者是否被该登录用户关注
+					queryFollowAuthorStatus();
+                }
+            }
+        });
 
 		// TODO 显示评论
 		queryComments();

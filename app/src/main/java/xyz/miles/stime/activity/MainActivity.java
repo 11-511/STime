@@ -801,7 +801,7 @@ public class MainActivity extends AppCompatActivity
     // 按照我的收藏夹查询作品
     private void queryImagesUrlByCol() {
         AVQuery<STimeFavoritePicture> query = AVObject.getQuery(STimeFavoritePicture.class);
-        query.whereEqualTo("ownUser", currentUser.getUsername());
+        query.whereEqualTo("ownUser", currentUser);
         query.include("favoritePicture");
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<STimeFavoritePicture>() {
