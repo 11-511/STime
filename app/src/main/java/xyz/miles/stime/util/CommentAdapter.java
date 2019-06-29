@@ -39,9 +39,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
 	public void onBindViewHolder(CommentViewHolder holder, int position)
 	{
 		Log.d("comment username", comments.get(position).name);
-		holder.head.setImageBitmap(comments.get(position).head);
+		//holder.head.setImageBitmap(comments.get(position).head);
 		holder.name.setText(comments.get(position).name);
-		holder.time.setText(comments.get(position).time);
+		holder.time.setText("第"+(position+1)+"楼 发布于"+comments.get(position).time);
 		holder.textComment.setText(comments.get(position).comment);
 		
 	}

@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -537,7 +539,7 @@ public class ImageActivity extends AppCompatActivity {
 		swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
 		adapter = new CommentAdapter(ImageActivity.this, comments);
 		wrapper = new LoadMoreWrapper(adapter);
-		recyclerViewComment.setLayoutManager(new GridLayoutManager(this,1));
+		recyclerViewComment.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL,false));
 		recyclerViewComment.setAdapter(wrapper);
 	}
 
