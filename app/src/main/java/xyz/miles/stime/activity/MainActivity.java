@@ -135,10 +135,10 @@ public class MainActivity extends AppCompatActivity
     public enum STATUS {
         // 最新      // 最热     // 分类      // 所关注的所有作者作品
         STATUS_NEW, STATUS_HOT, STATUS_CLA, STATUS_SUB,
-        // 我的作品   // 收藏夹      // 所关注的作者
-        STATUS_MY,   STATUS_COL,    STATUS_FOL
+        // 我的作品   // 收藏夹      // 所关注的作者   // 所关注作者的作品页
+        STATUS_MY,   STATUS_COL,    STATUS_FOL,     STATUS_FOLIMG
     }
-    private final int STATUSNUM = 7;
+    private final int STATUSNUM = 8;
     public STATUS curStatus = STATUS.STATUS_NEW;    // 当前页面状态
 
     // 标签选择
@@ -178,12 +178,7 @@ public class MainActivity extends AppCompatActivity
     private LoadMoreWrapper followWrapper;
     private RecyclerView followRecyclerView;
 
-
-
-
-
-
-
+    private String singleFollowUserName;
 
     private int numPerPage = 6;
     private int page;
@@ -294,7 +289,6 @@ public class MainActivity extends AppCompatActivity
                 builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //TODO 分类选择
                         //checked[]保存筛选结果
                         initDiffPage(STATUS.STATUS_CLA);
                     }
@@ -439,12 +433,15 @@ public class MainActivity extends AppCompatActivity
                 followWrapper.notifyDataSetChanged();
                 queryFollowUsers();
                 break;
+            case STATUS_FOLIMG: // 所关注作者的作品页
+                queryFollowUsersImages(singleFollowUserName);
+                break;
             default:
                 break;
         }
     }
 
-    // 设置刷新、加载监听器
+    // 设置图片刷新、加载监听器
     private void setListener(final int max) {
         // 在最顶部向上滑动刷新
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -488,6 +485,55 @@ public class MainActivity extends AppCompatActivity
                 else
                 {
                     wrapper.setLoadState(wrapper.LOADING_END);
+                }
+            }
+        });
+    }
+
+    // 设置关注的用户刷新、加载监听器
+    private void setFollowListener(final int max) {
+        // 在最顶部向上滑动刷新
+        followSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // 重新初始化当前页
+                initDiffPage(curStatus);
+
+                //延时
+                followSwipeRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (followSwipeRefreshLayout != null && followSwipeRefreshLayout.isRefreshing()) {
+                            followSwipeRefreshLayout.setRefreshing(false);
+                        }
+                    }
+                }, 500);
+            }
+        });
+
+        // 底部向下滑动加载更多
+        followRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
+            @Override
+            public void onLoadMore() {
+                followWrapper.setLoadState(followWrapper.LOADING);
+                if (page < max)
+                {
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    initAdapterData(page, page += numPerPage);
+                                    followWrapper.setLoadState(followWrapper.LOADING_COMPLETE);
+                                }
+                            });
+                        }
+                    }, 500);
+                }
+                else
+                {
+                    followWrapper.setLoadState(followWrapper.LOADING_END);
                 }
             }
         });
@@ -559,7 +605,6 @@ public class MainActivity extends AppCompatActivity
             viewMyInfo.setVisibility(View.GONE);
             viewMyImage.setVisibility(View.GONE);
             viewSub.setVisibility(View.VISIBLE);
-            //TODO 关注列表
             initDiffPage(STATUS.STATUS_FOL);
         } else if (id == R.id.nav_my_info) {
             editTextEmailC.setText(currentUser.getEmail());      // 显示原有email
@@ -684,7 +729,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    // 按照关注的作者查询图片
+    // 按照所有关注的作者查询图片
     private void queryImagesUrlBySub() {
         AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
         query.whereContainedIn("pictureAuthor", currentUser.getFavoriteUser());
@@ -774,7 +819,7 @@ public class MainActivity extends AppCompatActivity
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<STimeUser>() {
             @Override
-            public void done(List<STimeUser> avObjects, AVException avException) {
+            public void done(final List<STimeUser> avObjects, AVException avException) {
                 for (STimeUser followUser : avObjects) {
                     final AdapterFollowUserCopy tmpData = new AdapterFollowUserCopy();
                     tmpData.username = followUser.getUsername();
@@ -789,11 +834,29 @@ public class MainActivity extends AppCompatActivity
                                 tmpData.followNum = object.getFollowNum();
                                 userCopies.add(tmpData);
                                 initFollowAdapterData(page, page += numPerPage);
-                                // TODO 设置关注的刷新、加载事件
+                                setFollowListener(avObjects.size());
                             }
                         }
                     });
                 }
+            }
+        });
+    }
+
+    // TODO 查询单个关注作者的作品
+    private void queryFollowUsersImages(String username) {
+        AVQuery<STimePicture> queryPictures = AVObject.getQuery(STimePicture.class);
+        queryPictures.whereEqualTo("pictureAuthor", username);
+        queryPictures.orderByDescending("createdAt");
+        queryPictures.findInBackground(new FindCallback<STimePicture>() {
+            @Override
+            public void done(List<STimePicture> avObjects, AVException avException) {
+                for (STimePicture image : avObjects) {
+                    imagesUrl.add(image.getPictureContent());
+                }
+                Log.d("my single follow user images number", imagesUrl.size() + "");
+                initAdapterData(page, page += numPerPage);
+                setListener(avObjects.size());
             }
         });
     }
@@ -868,20 +931,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(int position) {
                 // TODO sub适配器数据点击事件
-                /*String imageUrl = imagesUrl.get(position);
-                AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
-                query.whereEqualTo("pictureContent", imageUrl);
-                query.findInBackground(new FindCallback<STimePicture>() {
-                    @Override
-                    public void done(List<STimePicture> avObjects, AVException avException) {
-                        if (avObjects != null) {
-                            STimePicture image = avObjects.get(0);
-                            Intent itToImagePage = new Intent(getApplicationContext(), ImageActivity.class);
-                            itToImagePage.putExtra("imageData", (Serializable) image);
-                            startActivity(itToImagePage);
-                        }
-                    }
-                });*/
+                singleFollowUserName = adapterFollowUsers.get(position).username;
+                initDiffPage(STATUS.STATUS_FOLIMG);
             }
         });
     }
