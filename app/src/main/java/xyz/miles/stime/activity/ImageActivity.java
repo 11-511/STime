@@ -284,22 +284,22 @@ public class ImageActivity extends AppCompatActivity {
 					} else {	// 否则直接获取作者被关注数
 					    followNum = followUser.getFollowNum();
                     }
-					List<String> followUsers = curUser.getFavoriteUser();	// 获取原来的关注列表
+					List<STimeUser> followUsers = curUser.getFavoriteUser();	// 获取原来的关注列表
 					if (!isFollowed) {	// 未关注作者，点击关注
 						++followNum;	// 关注数 + 1
-						followUsers.add(pictureAuthor.getUsername());			// 添加图片作者进入关注列表
+						followUsers.add(pictureAuthor);			// 添加图片作者进入关注列表
 						Toast.makeText(getApplicationContext(), "关注成功",
 								Toast.LENGTH_SHORT).show();
 						isFollowed = true;										// 更新关注状态
 						imageViewSub.setImageResource(R.drawable.ic_favorite_50dp);
 					} else {
 						--followNum;	// 关注数 - 1
-						followUsers.removeIf(new Predicate<String>() {			// 关注列表中删除该作者
-							@Override
-							public boolean test(String s) {
-								return s.equals(pictureAuthor.getUsername());
-							}
-						});
+						followUsers.removeIf(new Predicate<STimeUser>() {
+                            @Override
+                            public boolean test(STimeUser sTimeUser) {
+                                return sTimeUser.equals(pictureAuthor);
+                            }
+                        });
 						Toast.makeText(getApplicationContext(), "已取消关注",
 								Toast.LENGTH_SHORT).show();
 						isFollowed = false;
@@ -498,7 +498,7 @@ public class ImageActivity extends AppCompatActivity {
 	private void queryFollowAuthorStatus() {
 		// 先查作者在关注表中的记录
 		AVQuery<STimeFollowUsers> queryFollowUsers = AVQuery.getQuery(STimeFollowUsers.class);
-		queryFollowUsers.whereEqualTo("username", pictureAuthor);
+		queryFollowUsers.whereEqualTo("user", pictureAuthor);
 		queryFollowUsers.getFirstInBackground(new GetCallback<STimeFollowUsers>() {
 			@Override
 			public void done(STimeFollowUsers object, AVException e) {
@@ -516,7 +516,7 @@ public class ImageActivity extends AppCompatActivity {
 
 		// 再查询关注的用户属性
 		final AVQuery<STimeUser> queryFavoriteUsers = AVUser.getQuery(STimeUser.class);
-		queryFavoriteUsers.whereEqualTo("favoriteUser", pictureAuthor.getUsername());
+		queryFavoriteUsers.whereEqualTo("favoriteUser", pictureAuthor);
 
 		// 之后组合查询登录用户是否关注了作者
 		AVQuery<STimeUser> query = AVQuery.and(Arrays.asList(queryCurUser, queryFavoriteUsers));

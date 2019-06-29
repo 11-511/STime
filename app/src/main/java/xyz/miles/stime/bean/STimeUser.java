@@ -17,11 +17,11 @@ import java.util.List;
 @AVClassName("STimeUser")
 public class STimeUser extends AVUser {
 
-    public List<String> getFavoriteUser() {
-        return (List<String>) this.getList("favoriteUser");
+    public List<STimeUser> getFavoriteUser() {
+        return this.getList("favoriteUser");
     }
 
-    public void setFavoriteUser(List<String> favoriteUser) {
+    public void setFavoriteUser(List<STimeUser> favoriteUser) {
         this.put("favoriteUser", favoriteUser);
     }
 
@@ -46,14 +46,6 @@ public class STimeUser extends AVUser {
     public void setNickname(String nickname) {
         this.put("nickname", nickname);
     }
-
-//    public Integer getUserAmountOfAttention() {
-//        return this.getInt("userAmountOfAttention");
-//    }
-//
-//    public void setUserAmountOfAttention(Integer userAmountOfAttention) {
-//        this.put("userAmountOfAttention", userAmountOfAttention);
-//    }
 
     public Boolean getUserGender() {
         return this.getBoolean("userGender");

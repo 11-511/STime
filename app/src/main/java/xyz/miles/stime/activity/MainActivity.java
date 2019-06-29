@@ -819,32 +819,25 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    // 查询登录用户关注的作者
+    // TODO 查询登录用户关注的作者
     private void queryFollowUsers() {
-        AVQuery<STimeUser> query = AVUser.getQuery(STimeUser.class);
-        query.whereContainedIn("username", currentUser.getFavoriteUser());
-        query.orderByDescending("createdAt");
-        query.findInBackground(new FindCallback<STimeUser>() {
+        final List<STimeUser> followUsers = currentUser.getFavoriteUser();    // 获取当前关注的所有作者
+        AVQuery<STimeFollowUsers> query = AVObject.getQuery(STimeFollowUsers.class);
+        query.whereContainedIn("user", followUsers);
+        query.include("user");
+        query.findInBackground(new FindCallback<STimeFollowUsers>() {
             @Override
-            public void done(final List<STimeUser> avObjects, AVException avException) {
-                for (STimeUser followUser : avObjects) {
-                    final AdapterFollowUserCopy tmpData = new AdapterFollowUserCopy();
-                    tmpData.username = followUser.getUsername();
-                    tmpData.headUrl = followUser.getUserPortrait();
-                    // 查询被关注数
-                    AVQuery<STimeFollowUsers> queryFollowUser = AVObject.getQuery(STimeFollowUsers.class);
-                    queryFollowUser.whereEqualTo("user", followUser);
-                    queryFollowUser.getFirstInBackground(new GetCallback<STimeFollowUsers>() {
-                        @Override
-                        public void done(STimeFollowUsers object, AVException e) {
-                            if (object != null) {
-                                tmpData.followNum = object.getFollowNum();
-                                userCopies.add(tmpData);
-                                initFollowAdapterData(page, page += numPerPage);
-                                setFollowListener(avObjects.size());
-                            }
-                        }
-                    });
+            public void done(List<STimeFollowUsers> avObjects, AVException avException) {
+                if (avObjects != null) {
+                    for (STimeFollowUsers followUser : avObjects) {
+                        AdapterFollowUserCopy tmpData = new AdapterFollowUserCopy();
+                        tmpData.username = followUser.getUser().getUsername();
+                        tmpData.headUrl = followUser.getUser().getUserPortrait();
+                        tmpData.followNum = followUser.getFollowNum();
+                        userCopies.add(tmpData);
+                    }
+                    initFollowAdapterData(page, page += numPerPage);
+                    setFollowListener(avObjects.size());
                 }
             }
         });
