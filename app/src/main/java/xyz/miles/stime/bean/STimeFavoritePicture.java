@@ -17,15 +17,15 @@ import java.util.Date;
 @AVClassName("STimeFavoritePicture")
 public class STimeFavoritePicture extends AVObject {
 
-    private String ownUser;              // 收藏的用户
+    private STimeUser ownUser;              // 收藏的用户
     private STimePicture favoritePicture;   // 图片
 
 
-    public String getOwnUser() {
-        return this.getString("ownUser");
+    public STimeUser getOwnUser() {
+        return this.getAVUser("ownUser", STimeUser.class);
     }
 
-    public void setOwnUser(String ownUser) { this.put("ownUser", ownUser); }
+    public void setOwnUser(STimeUser ownUser) { this.put("ownUser", ownUser); }
 
     public STimePicture getFavoritePicture() { return this.getAVObject("favoritePicture"); }
 

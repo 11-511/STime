@@ -166,7 +166,7 @@ public class ImageActivity extends AppCompatActivity {
 		queryPictureCollectionStatus();
 
 		// 设置图片作者
-		textViewAuthorName.setText(picture.getPictureAuthor());
+		textViewAuthorName.setText(picture.getPictureAuthor().getUsername());
 		// 设置图片作者被关注数、头像
 		AVQuery<STimeUser> query = AVUser.getQuery(STimeUser.class);
 		query.whereEqualTo("username", picture.getPictureAuthor());
@@ -200,7 +200,7 @@ public class ImageActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				STimeFavoritePicture favoritePicture = new STimeFavoritePicture();
-				favoritePicture.setOwnUser(curUser.getUsername());			// 设置收藏者
+				favoritePicture.setOwnUser(curUser);			// 设置收藏者
 				favoritePicture.setFavoritePicture(picture);				// 设置收藏的图片
 				int collectCNum = picture.getPictureAmountOfFavor();		// 图片当前被收藏数
 				if (!isCollected) {	// 收藏，添加数据库收藏记录

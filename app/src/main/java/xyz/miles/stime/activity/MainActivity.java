@@ -736,7 +736,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    // 按照所有关注的作者查询图片
+    // TODO 按照所有关注的作者查询图片
     private void queryImagesUrlBySub() {
         AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
         query.whereContainedIn("pictureAuthor", currentUser.getFavoriteUser());
@@ -783,7 +783,7 @@ public class MainActivity extends AppCompatActivity
     // 按照我的作品查询图片
     private void queryImagesUrlByMy() {
         AVQuery<STimePicture> query = AVObject.getQuery(STimePicture.class);
-        query.whereEqualTo("pictureAuthor", currentUser.getUsername());
+        query.whereEqualTo("pictureAuthor", currentUser);
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<STimePicture>() {
             @Override

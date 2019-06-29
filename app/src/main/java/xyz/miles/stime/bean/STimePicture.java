@@ -33,9 +33,9 @@ public class STimePicture extends AVObject implements Serializable {
     public void setPictureBrief(String pictureBrief) { this.put("pictureBrief", pictureBrief); }
 
     // 图片作者
-    public String getPictureAuthor() { return this.getString("pictureAuthor"); }
+    public STimeUser getPictureAuthor() { return this.getAVUser("pictureAuthor", STimeUser.class); }
 
-    public void setPictureAuthor(String pictureAuthor) {
+    public void setPictureAuthor(STimeUser pictureAuthor) {
         this.put("pictureAuthor", pictureAuthor);
     }
 
